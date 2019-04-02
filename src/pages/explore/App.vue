@@ -35,8 +35,8 @@
                 <b-card-text><span class="font-weight-bold">Creation date: </span>{{item.creation_date.slice(0,10)}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Limit date: </span>{{item.limit_time.slice(0,10)}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">State: </span>{{ item.finished ? 'Finished' : 'Not finished' }}</b-card-text>
-                <b-card-text><span class="font-weight-bold">Contract: {{item.contract}}</b-card-text>
-                <b-card-text><span class="font-weight-bold">File: {{item.files}}</b-card-text>
+                <b-card-text><span class="font-weight-bold">Contract: {{item.contract}}</span></b-card-text>
+                <b-card-text><span class="font-weight-bold">File: {{item.files}}</span></b-card-text>
                 <b-card-text></b-card-text>
                 <div v-if="user_type === 'ds'">
                   <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">Apply</b-link>
@@ -68,10 +68,7 @@
               Give your offer a price.
             </b-form-text>
             <br/>
-            <label for="currency">Currency</label>
-             <b-form-select id="currency" :options="currencys" required v-model="form.currency" />
-             <br/>
-             <br/>
+    
              <label for="limit_time">Limit date:</label>
             <b-input type="text" id="limit_time" v-model="form.limit_time" aria-describedby="descriptionHelpBlock" />
             <b-form-text id="descriptionHelpBlock">
@@ -152,11 +149,9 @@ export default {
           title: '',
           description: '',
           price_offered: null,
-          currency: null,
           files: '',
           contract: '',
         },
-        currencys: [{ text: 'Select One', value: null }, 'Euros', 'Dollars', 'Pounds'],
 
         formApply: {
             title: '',
@@ -170,7 +165,7 @@ export default {
 
   }, mounted: function () {
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get('https://api-datame.herokuapp.com/api/v1/offer',{ headers:
+    this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.items = result.data
@@ -187,7 +182,7 @@ export default {
        formApply.append("title", this.formApply.title);
        formApply.append("description", this.formApply.description);
        formApply.append("offerId", this.offerId);
-       this.$http.post('https://api-datame.herokuapp.com/api/v1/apply', formApply,{ headers:
+       this.$http.post('http://localhost:8000/api/v1/apply', formApply,{ headers:
       { Authorization: token }
       }).then((result) => {
           alert(result.data.message)
@@ -205,13 +200,12 @@ export default {
        formData.append("title", this.form.title);
        formData.append("description", this.form.description);
        formData.append("price_offered", this.form.price_offered);
-       formData.append("currency", "0");
        formData.append("limit_time", this.form.limit_time);
        formData.append("files", this.form.files);
        formData.append("contract", this.form.contract);
 
 
-      this.$http.post('https://api-datame.herokuapp.com/api/v1/offer', formData,{ headers:
+      this.$http.post('http://localhost:8000/api/v1/offer', formData,{ headers:
       { Authorization: token }
       }).then((result) => {
           alert(result.data.message)
@@ -221,7 +215,7 @@ export default {
      },
       onSubmit() {
         let token = `JWT ${this.$cookies.get('token')}`
-        this.$http.get(`https://api-datame.herokuapp.com/api/v1/offer?search=${this.form.search}`,{ headers:
+        this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
           { Authorization: token }}).then((result) => {
             this.items = result.data
           })

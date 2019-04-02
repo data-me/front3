@@ -48,7 +48,7 @@ export default {
       this.isCompany = false
     }
 
-    this.$http.get('https://api-datame.herokuapp.com/api/v1/apply',{ headers:
+    this.$http.get('http://localhost:8000/api/v1/apply',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.items = result.data
@@ -67,7 +67,7 @@ export default {
        var token = 'JWT ' + this.$cookies.get('token')
        var formAccept = new FormData()
        formAccept.append('idApply', id)
-       this.$http.post('https://api-datame.herokuapp.com/api/v1/accept', formAccept, { headers:
+       this.$http.post('http://localhost:8000/api/v1/accept', formAccept, { headers:
       { Authorization: token }
       }).then((result) => {
           alert("Successfully accepted apply")
