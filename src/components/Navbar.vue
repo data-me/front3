@@ -21,6 +21,7 @@
             <b-nav-item v-show="isDataScientist" href="/my_cv.html">Curriculum</b-nav-item>
 
             <b-nav-item href="/login.html" v-show="!isLoggedIn">Log In</b-nav-item>
+            <b-nav-item href="/register.html" v-show="!isLoggedIn">Sign Up</b-nav-item>
             <b-nav-item href="#" v-show="isLoggedIn" @click="logOut">Log Out</b-nav-item>
             <!-- <b-nav-item-dropdown text="Lang" right>
             <b-dropdown-item href="#">EN</b-dropdown-item>

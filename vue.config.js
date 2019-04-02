@@ -106,6 +106,18 @@ module.exports = {
         // chunks to include on this page, by default includes
         // extracted common chunks and vendor chunks.
         chunks: ['chunk-vendors', 'chunk-common', 'ds_profile']
-      }
+      },
+        'register': {
+        // entry for the page
+        entry: 'src/pages/register/main.js',
+        // the source template
+        template: 'public/index.html',
+        // when using title option,
+        // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
+        title: 'Register',
+        // chunks to include on this page, by default includes
+        // extracted common chunks and vendor chunks.
+        chunks: ['chunk-vendors', 'chunk-common', 'register']
+      },
     }
   }
