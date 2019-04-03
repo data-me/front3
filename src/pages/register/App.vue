@@ -2,7 +2,24 @@
   <div id="app">
     <Navbar/>
      <br/>
-        <b-form  @submit.prevent>
+
+
+<b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+    <template slot="modal-header"> Please check the errors below </template>
+    <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
+    <template slot="modal-footer"><button class="btn btn-primary">Save Changes</button></template>
+    <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">Close</b-button>
+</b-modal>
+
+<b-modal no-close-on-esc no-close-on-backdrop class='registered' v-model="registered" ref="registered" id="registered" hide-footer size="xl" title="registered">
+    <template slot="modal-header"> Congratulations! </template>
+                    {{this.registerMessage}}
+  <b-form  @submit="login">
+<b-button type=submit class="mt-2" variant="success" @click.stop.prevent="login()" >Let's Start!</b-button>
+</b-form>
+</b-modal>
+
+        <b-form  @submit = createUser>
             <label for="type">Type of account</label>
             <br/>
             <select v-model="selected">
@@ -11,13 +28,13 @@
             </select>
              <br/>
             <label for="username">Username</label>
-            <b-input type="text" v-model="form.username" id="username" :state="form.username.length > 0"  :maxlength="80" aria-describedby="usernameHelpBlock" />
+            <b-input type="text" v-model="form.username"  id="username" :state="form.username.length > 5"  :maxlength="80" aria-describedby="usernameHelpBlock" min=5 required/>
             <b-form-text id="usernameHelpBlock">
               Write your username
             </b-form-text>
             <br/>
             <label for="password">Password</label>
-            <b-input type="text" id="password" v-model="form.password" :state="form.password.length > 0" aria-describedby="passwordHelpBlock" />
+            <b-input type="password" id="password" v-model="form.password" :state="form.password.length > 8" aria-describedby="passwordHelpBlock" required/>
             <b-form-text id="passwordHelpBlock">
             Your password can't be too similar to your other personal information.
             Your password must contain at least 8 characters.
@@ -25,6 +42,14 @@
             Your password can't be entirely numeric.
             </b-form-text>
             <br/>
+
+            <label for="confirmPassword">Confirm password</label>
+            <b-input type="password" id="confirmPassword" v-model="form.confirmPassword" :state="form.confirmPassword.length > 0" :maxlength="80"  aria-describedby="confirmPasswordHelpBlock" />
+            <b-form-text id="confirmPasswordHelpBlock">
+            Type your password again please
+            </b-form-text>
+            <br/>
+
             <label for="name">Name</label>
             <b-input type="text" id="text" v-model="form.name" :state="form.name.length > 0"  :maxlength="80"  aria-describedby="nameHelpBlock" />
             <b-form-text id="nameHelpBlock">
@@ -38,53 +63,100 @@
             <b-form-text id="nameHelpBlock">
               Write your surname
             </b-form-text>
+              <br/>
             </div>
 
-            <br/>
+          
 
             <div id='photo' v-if="selected ==='DataScientist'">
             <label for="photo">Photo</label>
-            <b-input type="text" id="text" v-model="form.photo" aria-describedby="photoHelpBlock"  :maxlength="80" />
+            <b-input type="url" id="text" v-model="form.photo" aria-describedby="photoHelpBlock" :state="form.photo.length > 0"  :maxlength="80" />
             <b-form-text id="photoHelpBlock">
               Write a URL with a photo
             </b-form-text>
+             <br/>
             </div>
 
-            <br/>
+           
 
             <div id='email' v-if="selected ==='DataScientist'">
             <label for="email">Email</label>
-            <b-input type="text" id="text" v-model="form.email" aria-describedby="emailHelpBlock"  :maxlength="80" />
+            <b-input type="email" id="text" v-model="form.email" aria-describedby="emailHelpBlock" :state="form.email.length > 0" :maxlength="80" />
             <b-form-text id="emailHelpBlock">
               Write your email
             </b-form-text>
+              <br/>
             </div>
 
-            <br/>
+          
 
             <div id='address' v-if="selected ==='DataScientist'">
             <label for="address">Address</label>
-            <b-input type="text" id="text" v-model="form.address" aria-describedby="addressHelpBlock"  />
+            <b-input type="text" id="text" v-model="form.address" aria-describedby="addressHelpBlock" :state="form.address.length > 0" :maxlength="80"/>
             <b-form-text id="addressHelpBlock">
               Write your address
             </b-form-text>
+             <br/>
             </div>
 
             <div id='phone' v-if="selected ==='DataScientist'">
             <label for="phone">Phone</label>
-            <b-input type="text" id="text" v-model="form.phone" aria-describedby="phoneHelpBlock"   :maxlength="80" />
+            <b-input type="text" id="text" v-model="form.phone" aria-describedby="phoneHelpBlock" :state="form.phone.length > 0" :maxlength="80" />
             <b-form-text id="phoneHelpBlock">
               Write your phone
             </b-form-text>
+             <br/>
             </div>
 
-            <br/>
+           
             
+            <div id='description' v-if="selected ==='Company'">
+            <label for="description">Description</label>
+            <b-input type="text" id="text" v-model="form.description" aria-describedby="descriptionHelpBlock" :state="form.description.length > 0" :maxlength="80" />
+            <b-form-text id="descriptionHelpBlock">
+              Write a description from your company
+            </b-form-text>
+             <br/>
+            </div>
 
-             <b-button class="mt-2" variant="success" block @click="createOffer">Create new user</b-button>
+           
+
+            <div id='nif' v-if="selected ==='Company'">
+            <label for="nif">NIF</label>
+            <b-input type="text" id="text" v-model="form.nif" aria-describedby="nifHelpBlock" :state="form.nif.length > 0" :maxlength="80" />
+            <b-form-text id="nifHelpBlock">
+              Write the NIF from your company
+            </b-form-text>
+             <br/>
+            </div>
+
+           
+
+
+            <div id='logo' v-if="selected ==='Company'">
+            <label for="logo">Logo Url</label>
+            <b-input type="url" id="text" v-model="form.logo" aria-describedby="logoHelpBlock" :state="form.logo.length > 0" :maxlength="80" />
+            <b-form-text id="logoHelpBlock">
+              Write a URL referring to your company's logo
+            </b-form-text>
+             <br/>
+            </div>
+
+           
+
+             <b-button type="submit" class="mt-2" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='Company'">Create new company</b-button>
+            <b-button type="submit" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='DataScientist'">Create new DataScientist</b-button>
           </b-form>
 
+           
+
+        
+
 </div>
+
+             
+
+
 </template>
 
 <script>
@@ -109,11 +181,20 @@ export default {
           surname: '',
           phone: '',
           address: '',
+          email : '',
           photo: '',
           surname: '',
+          logo: '',
+          description: '',
+          nif: '',
+          confirmPassword: '',
         },
         selected:'DataScientist',
-        user_type: this.$cookies.get('user_type')
+        messages: [],
+        modalShow: 'false',
+        user_type: this.$cookies.get('user_type'),
+        registered : 'false',
+        registerMessage: ''
 
     }
 
@@ -125,55 +206,105 @@ export default {
         this.items = result.data
       })
   }, methods: {
+      checkErrors(){
 
-      toggleCreateApply() {
-       var token = 'JWT ' + this.$cookies.get('token')
-       const formApply = new FormData();
-       if (this.formApply.title.length < 5 || this.formApply.description.length < 10){
-        alert("Please correct the errors")
+      },
+      
 
-       } else{
-       formApply.append("title", this.formApply.title);
-       formApply.append("description", this.formApply.description);
-       formApply.append("offerId", this.offerId);
-       this.$http.post('http://localhost:8000/api/v1/apply', formApply,{ headers:
-      { Authorization: token }
-      }).then((result) => {
-          alert(result.data.message)
-          location.reload()
-      })
-      }
-
-     },
-    saveId: function(idOffer){
-    this.offerId = idOffer
-    },
-     createOffer() {
-       var token = 'JWT ' + this.$cookies.get('token')
+     createUser(event) { 
        const formData = new FormData();
-       formData.append("title", this.form.title);
-       formData.append("description", this.form.description);
-       formData.append("price_offered", this.form.price_offered);
-       formData.append("limit_time", this.form.limit_time);
-       formData.append("files", this.form.files);
-       formData.append("contract", this.form.contract);
+       formData.append("username", this.form.username);
+       formData.append("password", this.form.password);
+       formData.append("name", this.form.name);
+       this.messages = [] 
+       if (this.form.password != this.form.confirmPassword){
+          this.messages.push('Passwords dont match')
+        }
+        if (this.form.username.length < 5){
+            this.messages.push('Username must be at least 5 letters')
+        }
+        if (this.form.password.length < 8){
+            this.messages.push('Password must contain at least 8 characters')
+        }
+        var re = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/g);
+        if (! re.test(this.form.password)){
+            this.messages.push('Password must have at least one number and one capital letter')
+        }
+        if (this.form.name.length == 0){
+            this.messages.push('Name is required')
+        }
+        if (this.selected == 'DataScientist' && this.form.surname.length == 0){
+            this.messages.push('Password must contain at least 8 characters')
+        }
 
+        if (this.selected == 'DataScientist' && this.form.email.length == 0){
+            this.messages.push('Email is required')
+        }
 
-      this.$http.post('http://localhost:8000/api/v1/offer', formData,{ headers:
-      { Authorization: token }
-      }).then((result) => {
-          alert(result.data.message)
-          location.reload()
+        if (this.selected == 'DataScientist' && this.form.address.length == 0){
+            this.messages.push('Address is required')
+        }
+        if (this.selected == 'Company' && this.form.nif.length == 0){
+            this.messages.push('NIF is required')
+        }
+
+         if (this.selected == 'Company' && this.form.description.length == 0){
+            this.messages.push('Description is required')
+        }
+        if(this.messages.length > 0){ 
+          this.modalShow = true
+        }
+        else {
+            if(this.selected == 'Company'){
+                    formData.append("type", 'C');
+                    formData.append("nif", this.form.nif);
+                    formData.append("logo", this.form.logo);
+                    formData.append("description", this.form.description);
+            } else{
+                    formData.append("type", 'DS');
+                    formData.append("surname", this.form.surname);
+                    formData.append("phone", this.form.phone);
+                    formData.append("address", this.form.address);
+                    formData.append("email", this.form.email);
+                    formData.append("photo", this.form.photo);
+            }
+     
+      this.$http.post('http://localhost:8000/api/v1/register', formData).then((result) => {
+      this.registerMessage = result.data.message
+      this.registered = true;
       })
-
+      
+      
+       }
      },
-      onSubmit() {
-        let token = `JWT ${this.$cookies.get('token')}`
-        this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
-          { Authorization: token }}).then((result) => {
-            this.items = result.data
-          })
-      }
+     login(event){
+        const formLogin = new FormData();
+       formLogin.append("username", this.form.username);
+       formLogin.append("password", this.form.password);
+
+        const baseURI = 'http://localhost:8000/api/v1/login'
+      this.$http.post('http://localhost:8000/api/v1/login', formLogin).then((result) => {
+          this.$cookies.set('token',result.data.token)
+          let token = `JWT ${this.$cookies.get('token')}`
+          this.$http.get('http://localhost:8000/api/v1/whoami', { headers: { Authorization: token }
+        }).then((result) => {
+          this.$cookies.set('user_type', result.data.user_type)
+        })
+        
+      }).catch((err)=>{
+          alert("Oops, an error ocurred trying to sign in.")
+        })
+        if(this.selected == 'DataScientist'){
+        this.$router.push({path:'/my_cv'})
+        window.location.replace('../my_cv.html')
+        }
+        if(this.selected == 'Company'){
+        this.$router.push({path:'/helloworld.html'})
+        window.location.replace('../helloworld.html')    
+        }
+        }
+
+     
   }
 }
 
