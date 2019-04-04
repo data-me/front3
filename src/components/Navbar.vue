@@ -20,6 +20,8 @@
             <!--<div v-if="user_type === 'ds'">-->
             <b-nav-item v-show="isDataScientist" href="/my_cv.html">Curriculum</b-nav-item>
 
+            <b-nav-item v-show="(!isDataScientist && !isCompany) && isLoggedIn" href="/admin_offers.html">Manage Offers</b-nav-item>
+
             <b-nav-item href="/login.html" v-show="!isLoggedIn">Log In</b-nav-item>
             <b-nav-item href="/register.html" v-show="!isLoggedIn">Sign Up</b-nav-item>
             <b-nav-item href="#" v-show="isLoggedIn" @click="logOut">Log Out</b-nav-item>
@@ -56,7 +58,7 @@ export default {
 
     if (this.getCookie('user_type') == 'com') {
       this.isCompany = true
-    } else {
+    } else if (this.getCookie('user_type') == 'ds') {
       this.isDataScientist = true
     }
   }, created: function() {
