@@ -1,6 +1,21 @@
 <template>
   <div id="app">
     <Navbar/>
+            <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+    <template slot="modal-header"> Please check the errors below </template>
+    <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
+    <template slot="modal-footer"><button class="btn btn-primary">Save Changes</button></template>
+    <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">Close</b-button>
+</b-modal>
+
+<b-modal class='registered' v-model="submited" ref="submited" id="submited" hide-footer size="xl" title="submited">
+    <template slot="modal-header"> Congratulations! </template>
+                    Submited successfully!
+<b-button  class="mt-2" variant="success" block @click="reloadPage">Close</b-button>
+</b-modal>
+
+
+
 
             <Apply v-on:clicked="onClickChild" v-for="(item, index) in items" v-bind:item="item"  v-bind:isCompany="isCompany" v-bind:index="index" v-bind:key="item.id"> </Apply>
         
@@ -60,7 +75,10 @@ export default {
           file: ''
       },
       isCompany: null,
-      idOffer:''
+      idOffer:'',
+      messages: [],
+      modalShow: false,
+      submited : false
 
     }
   }, computed:{
@@ -80,24 +98,42 @@ export default {
         
       })
   }, methods: {
+
+      reloadPage(){
+    window.location.reload()
+  },
       onClickChild (value) {
       this.idOffer = value
     },
     createSubmit(){
         var token = 'JWT ' + this.$cookies.get('token')
        const formData = new FormData();
+       this.messages = [] 
+       var regex = new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi);
+       if (! (this.submitForm.file).match(regex)){
+          this.messages.push('That is not an URL');
+          }
+
+       if (! (this.submitForm.comments) > 0){
+          this.messages.push('Comments are required');
+          }
+
+       if(this.messages.length > 0){ 
+          this.modalShow = true
+       }
+        else {
        formData.append("comments", this.submitForm.comments);
        formData.append("file", this.submitForm.files);
        formData.append("offerId", this.idOffer);
       this.$http.post('http://localhost:8000/api/v1/submit', formData,{ headers:
       { Authorization: token }
       }).then((result) => {
-          alert(result.data.message)
-          location.reload()
+            this.submited = true
       })
-
     }
-  }
+    }
+    }
+  
 }
 
 </script>
