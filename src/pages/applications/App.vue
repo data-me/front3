@@ -84,7 +84,18 @@ export default {
       this.idOffer = value
     },
     createSubmit(){
-        return none
+        var token = 'JWT ' + this.$cookies.get('token')
+       const formData = new FormData();
+       formData.append("comments", this.submitForm.comments);
+       formData.append("file", this.submitForm.files);
+       formData.append("offerId", this.idOffer);
+      this.$http.post('http://localhost:8000/api/v1/submit', formData,{ headers:
+      { Authorization: token }
+      }).then((result) => {
+          alert(result.data.message)
+          location.reload()
+      })
+
     }
   }
 }
