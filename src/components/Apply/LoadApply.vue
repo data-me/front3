@@ -6,10 +6,11 @@
             <b-card-text>
               {{item.description}}   
               {{toggleMakeSubmition(item.id)}}
+              {{saveId(item.offer_id)}}
             </b-card-text>
             <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
-            <b-link v-show="this.permissions == 'true' && isCompany == false">Make submit</b-link>
-
+            <b-link href="#" v-b-modal.modalxl @click='onClickButton' v-show="this.permissions == 'true' && isCompany == false">Make submit</b-link>
+            
             <!--<div v-if="user_type === 'com'">
             <b-link href="#" @click="senderId(item.DS_User_id)" class="card-link">Data Scientist</b-link>
             <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
@@ -24,6 +25,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
 
 
   export default {
@@ -40,6 +45,8 @@
         },
       isCompany: null,
       permissions : '',
+      offerId: ''
+      
 
     }
   }, computed: {
@@ -47,6 +54,12 @@
   },
     props: ['item','index','key', 'isCompany'],
  methods: {
+     onClickButton (event) {
+      this.$emit('clicked', this.offerId)
+    },      
+    saveId (id) {
+      this.offerId = id
+    },
 
 
        toggleMakeSubmition(id){
@@ -82,6 +95,7 @@
       })
 
      },
+     
   },
   }
 

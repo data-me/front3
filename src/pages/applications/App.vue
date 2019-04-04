@@ -2,8 +2,34 @@
   <div id="app">
     <Navbar/>
 
-            <Apply v-for="(item, index) in items" v-bind:item="item"  v-bind:isCompany="isCompany" v-bind:index="index" v-bind:key="item.id"> </Apply>
+            <Apply v-on:clicked="onClickChild" v-for="(item, index) in items" v-bind:item="item"  v-bind:isCompany="isCompany" v-bind:index="index" v-bind:key="item.id"> </Apply>
         
+
+        <b-modal id="modalxl" hide-footer ref="newOffer" size="xl" title="Create an offer">
+      
+             <b-form  @submit.prevent>
+            <label for="title">File</label>
+            <b-input type="text" v-model="submitForm.file" id="file" :state="submitForm.file.length > 0"  :maxlength="200" aria-describedby="fileHelpBlock" />
+            <b-form-text id="titleHelpBlock">
+              The URL with your solution
+            </b-form-text>
+            <br/>
+
+            <label for="comments">Coments</label>
+            <b-input type="text" id="comments" v-model="submitForm.comments" :state="submitForm.comments.length > 0" aria-describedby="commentsHelpBlock" />
+            <b-form-text id="commentsHelpBlock">
+              The comments for your submition, here you can explain everything.
+            </b-form-text>
+            <br/>
+               <b-button class="mt-2" variant="success" block @click="createSubmit">Submit</b-button>
+   
+
+                </b-form>
+
+
+            </b-modal>
+
+
         </div>
 
 </template>
@@ -26,9 +52,15 @@ export default {
           title: '',
           description: '',
           status: '',
-          date: null
+          date: null,
+
         },
+      submitForm:{
+          comments: '',
+          file: ''
+      },
       isCompany: null,
+      idOffer:''
 
     }
   }, computed:{
@@ -47,7 +79,14 @@ export default {
         this.items = result.data
         
       })
-  }, 
+  }, methods: {
+      onClickChild (value) {
+      this.idOffer = value
+    },
+    createSubmit(){
+        return none
+    }
+  }
 }
 
 </script>
