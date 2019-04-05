@@ -14,14 +14,37 @@
 <b-button  class="mt-2" variant="success" block @click="reloadPage">Close</b-button>
 </b-modal>
 
+<!-- Show applications -->
+<div id="applications" v-for="(item, index) in items">
+  <b-card no-body>
+    <b-card-header header-tag="header" class="p-3" role="tab">
+      <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
+        {{item.title}}
+      </b-button>
+    </b-card-header>
+    <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
+      <b-card-body>
+        <b-card-text><span class="font-weight-bold">Description: </span> {{item.description}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">Status: </span> {{item.status}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">Date: </span>{{item.date.slice(0,10)}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">Offer: </span>{{item.offer_id}}</b-card-text>
+        <b-card-text></b-card-text>
+        <div v-if="user_type === 'ds'">
+          <b-link v-if= "item.status == 'AC'" class="card-link" variant="outline-primary" @click="downloadWithVueResource(item.offer_id)">Download file</b-link>
+        </div>
+      </b-card-body>
+    </b-collapse>
+  </b-card>
+</div>
 
 
 
+            <div id="applications">
             <Apply v-on:clicked="onClickChild" v-for="(item, index) in items" v-bind:item="item"  v-bind:isCompany="isCompany" v-bind:index="index" v-bind:key="item.id"> </Apply>
-        
+            </div>
 
         <b-modal id="modalxl" hide-footer ref="newOffer" size="xl" title="Create an offer">
-      
+
              <b-form  @submit.prevent>
             <label for="title">File</label>
             <b-input type="text" v-model="submitForm.file" id="file" :state="submitForm.file.length > 0"  :maxlength="200" aria-describedby="fileHelpBlock" />
@@ -37,7 +60,7 @@
             </b-form-text>
             <br/>
                <b-button class="mt-2" variant="success" block @click="createSubmit">Submit</b-button>
-   
+
 
                 </b-form>
 
@@ -78,7 +101,10 @@ export default {
       idOffer:'',
       messages: [],
       modalShow: false,
-      submited : false
+      submited : false,
+      user_type: this.$cookies.get('user_type'),
+      offertodl: [],
+      url: ''
 
     }
   }, computed:{
@@ -95,10 +121,40 @@ export default {
       { Authorization: token }
       }).then((result) => {
         this.items = result.data
-        
+
       })
   }, methods: {
 
+      getOffer(offerId){
+    var token = 'JWT ' + this.$cookies.get('token')
+    this.$http.get('http://localhost:8000/api/v1/offer?offerId=' + offerId,{ headers:
+      { Authorization: token }
+      }).then((result) => {
+        this.offertodl = result.data,
+        this.url = this.offertodl[0].file
+      })
+  },
+      forceFileDownload(response){
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'file.csv') //or any other extension
+    document.body.appendChild(link)
+    link.click()
+  },
+      downloadWithVueResource(offerId) {
+    this.getOffer(offerId)
+    this.$http({
+      method: 'get',
+      url: this.url,
+      responseType: 'arraybuffer'
+    })
+    .then(response => {
+      this.forceFileDownload(response)
+    })
+    .catch(() => console.log('error occured'))
+
+  },
       reloadPage(){
     window.location.reload()
   },
@@ -108,7 +164,7 @@ export default {
     createSubmit(){
         var token = 'JWT ' + this.$cookies.get('token')
        const formData = new FormData();
-       this.messages = [] 
+       this.messages = []
        var regex = new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi);
        if (! (this.submitForm.file).match(regex)){
           this.messages.push('That is not an URL');
@@ -118,7 +174,7 @@ export default {
           this.messages.push('Comments are required');
           }
 
-       if(this.messages.length > 0){ 
+       if(this.messages.length > 0){
           this.modalShow = true
        }
         else {
@@ -133,7 +189,7 @@ export default {
     }
     }
     }
-  
+
 }
 
 </script>
