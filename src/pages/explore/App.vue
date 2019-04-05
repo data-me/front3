@@ -21,7 +21,7 @@
         <!-- ////// -->
 
         <!-- Show offers -->
-        <div id="offers" v-for="(item, index) in items">
+        <div id="offers" v-bind:key="item.id" v-for="(item, index) in items">
           <b-card no-body>
             <b-card-header header-tag="header" class="p-3" role="tab">
               <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
@@ -30,6 +30,7 @@
             </b-card-header>
             <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
               <b-card-body>
+                 <b-card-text><span class="font-weight-bold">id: </span> {{item.id}}</b-card-text>              
                 <b-card-text><span class="font-weight-bold">Description: </span> {{item.description}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Price offered: </span>{{item.price_offered + '€'}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Creation date: </span>{{item.creation_date.slice(0,10)}}</b-card-text>
@@ -40,6 +41,9 @@
                 <b-card-text></b-card-text>
                 <div v-if="user_type === 'ds'">
                   <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">Apply</b-link>
+                </div>
+                <div id="deleteoffer">
+                  <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">Delete offer</b-button>
                 </div>
               </b-card-body>
             </b-collapse>
@@ -213,6 +217,25 @@ export default {
       })
 
      },
+     deleteOffer(offer_id) {
+      var token = "JWT " + this.$cookies.get("token");
+      var confirm = window.confirm(
+        "Are you sure you want to delete this offer?"
+      );
+
+      if (confirm) {
+        this.$http.delete(
+          "http://localhost:8000/api/v1/company/offer/" + offer_id,
+          {
+            headers: {
+                Authorization: token
+                }
+              }
+            );
+            window.location.href = "/explore.html";
+          }
+        }
+      },
       onSubmit() {
         let token = `JWT ${this.$cookies.get('token')}`
         this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
@@ -220,7 +243,7 @@ export default {
             this.items = result.data
           })
       }
-  }
+  
 }
 
 
