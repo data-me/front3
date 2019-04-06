@@ -19,7 +19,7 @@
             <b-nav-item href="/mail.html">Mail</b-nav-item>
             <!--<div v-if="user_type === 'ds'">-->
             <b-nav-item v-show="isDataScientist" href="/my_cv.html">Curriculum</b-nav-item>
-
+            <b-nav-item v-show="isAdmin" href="/dashboard.html">Dashboard</b-nav-item>
             <b-nav-item v-show="(!isDataScientist && !isCompany) && isLoggedIn" href="/admin_offers.html">Manage Offers</b-nav-item>
 
             <b-nav-item href="/login.html" v-show="!isLoggedIn">Log In</b-nav-item>
@@ -51,6 +51,7 @@ export default {
         },
       isCompany: null,
       isDataScientist: null,
+      isAdmin: null,
       isLoggedIn: null
     }
   }, mounted: function () {
@@ -60,6 +61,8 @@ export default {
       this.isCompany = true
     } else if (this.getCookie('user_type') == 'ds') {
       this.isDataScientist = true
+    } else if (this.getCookie('user_type') == 'admin'){
+      this.isAdmin = true
     }
   }, created: function() {
       if (this.getCookie('token')) {
