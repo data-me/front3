@@ -22,6 +22,7 @@
             <b-nav-item v-show="isAdmin" href="/dashboard.html">Dashboard</b-nav-item>
             <b-nav-item v-show="(!isDataScientist && !isCompany) && isLoggedIn" href="/admin_offers.html">Manage Offers</b-nav-item>
 
+            <b-nav-item href="/submition.html" v-show="isLoggedIn">My submitions</b-nav-item>
             <b-nav-item href="/login.html" v-show="!isLoggedIn">Log In</b-nav-item>
             <b-nav-item href="/register.html" v-show="!isLoggedIn">Sign Up</b-nav-item>
             <b-nav-item href="#" v-show="isLoggedIn" @click="logOut">Log Out</b-nav-item>
