@@ -1,22 +1,40 @@
 <template>
     <div>
         
-          <b-card :title="item.title" :sub-title="item.status">
-              
-            <b-card-text>
-              {{item.description}}   
-              {{toggleMakeSubmition(item.id)}}
-              {{saveId(item.offer_id)}}
-            </b-card-text>
-            <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
-            <b-link href="#" v-b-modal.modalxl @click='onClickButton' v-show="this.permissions == 'true' && isCompany == false">Make submit</b-link>
-            
-            <!--<div v-if="user_type === 'com'">
-            <b-link href="#" @click="senderId(item.DS_User_id)" class="card-link">Data Scientist</b-link>
-            <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
-          </div>-->
 
-          </b-card>
+          {{toggleMakeSubmition(item.id)}}
+              {{saveId(item.offer_id)}}
+
+
+            <div id="applications">
+  <b-card no-body>
+    <b-card-header header-tag="header" class="p-3" role="tab">
+      <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
+        {{item.title}}
+      </b-button>
+    </b-card-header>
+    <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
+      <b-card-body>
+        <b-card-text><span class="font-weight-bold">Description: </span> {{item.description}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">Status: </span> {{item.status}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">Date: </span>{{item.date.slice(0,10)}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">Offer: </span>{{item.offer_id}}</b-card-text>
+        <b-card-text></b-card-text>
+        <div v-if="user_type === 'ds'">
+          <b-link v-if= "item.status == 'AC'" class="card-link" variant="outline-primary" @click="downloadWithVueResource(item.offer_id)">Download file</b-link>
+          <br/>
+          <b-link href="#" v-b-modal.modalxl @click='onClickButton' v-show="this.permissions == 'true'">Make submit</b-link>
+        </div>
+        <div v-if="user_type === 'com'">
+        <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
+        </div>
+
+      </b-card-body>
+    </b-collapse>
+  </b-card>
+</div>
+
+
 
 
 </div>
@@ -45,7 +63,8 @@ Vue.use(VueRouter)
         },
       isCompany: null,
       permissions : '',
-      offerId: ''
+      offerId: '',
+      user_type: this.$cookies.get('user_type'),
       
 
     }

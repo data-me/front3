@@ -14,7 +14,7 @@
   <b-card no-body>
     <b-card-header header-tag="header" class="p-3" role="tab">
       <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
-        Submition from offer "{{item.offer__title}}"
+        Submition to offer "{{item.offer__title}}"
       </b-button>
     </b-card-header>
     <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
@@ -116,7 +116,6 @@ export default {
   },
       downloadWithVueResource(url) {
     this.url = url
-          alert("hola")
     this.$http({
       method: 'get',
       url: this.url,

@@ -268,7 +268,7 @@ export default {
                     formData.append("email", this.form.email);
                     formData.append("photo", this.form.photo);
             }
-     
+     alert("hola")
       this.$http.post('http://localhost:8000/api/v1/register', formData).then((result) => {
       this.registerMessage = result.data.message
       this.registered = true;

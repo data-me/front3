@@ -15,27 +15,7 @@
 </b-modal>
 
 <!-- Show applications -->
-<div id="applications" v-for="(item, index) in items">
-  <b-card no-body>
-    <b-card-header header-tag="header" class="p-3" role="tab">
-      <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
-        {{item.title}}
-      </b-button>
-    </b-card-header>
-    <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
-      <b-card-body>
-        <b-card-text><span class="font-weight-bold">Description: </span> {{item.description}}</b-card-text>
-        <b-card-text><span class="font-weight-bold">Status: </span> {{item.status}}</b-card-text>
-        <b-card-text><span class="font-weight-bold">Date: </span>{{item.date.slice(0,10)}}</b-card-text>
-        <b-card-text><span class="font-weight-bold">Offer: </span>{{item.offer_id}}</b-card-text>
-        <b-card-text></b-card-text>
-        <div v-if="user_type === 'ds'">
-          <b-link v-if= "item.status == 'AC'" class="card-link" variant="outline-primary" @click="downloadWithVueResource(item.offer_id)">Download file</b-link>
-        </div>
-      </b-card-body>
-    </b-collapse>
-  </b-card>
-</div>
+
 
 
 
@@ -179,7 +159,7 @@ export default {
        }
         else {
        formData.append("comments", this.submitForm.comments);
-       formData.append("file", this.submitForm.files);
+       formData.append("file", this.submitForm.file);
        formData.append("offerId", this.idOffer);
       this.$http.post('http://localhost:8000/api/v1/submit', formData,{ headers:
       { Authorization: token }
