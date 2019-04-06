@@ -212,8 +212,13 @@ export default {
       this.$http.post('http://localhost:8000/api/v1/offer', formData,{ headers:
       { Authorization: token }
       }).then((result) => {
-          alert(result.data.message)
-          location.reload()
+          // alert(result.data.message)
+          var offer_created = result.data.offer_id
+          this.$http.get(`http://localhost:8000/api/v1/pagos/create_papyal_payment/${offer_created}/`, { headers:{ Authorization: token }
+          }).then((result) => {
+            window.location.href = result.data.url_pago
+          })
+          
       })
 
      },
