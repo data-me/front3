@@ -131,6 +131,18 @@ module.exports = {
       // extracted common chunks and vendor chunks.
       chunks: ['chunk-vendors', 'chunk-common', 'admin_offers']
     },
+      'submition': {
+      // entry for the page
+      entry: 'src/pages/submition/main.js',
+      // the source template
+      template: 'public/index.html',
+      // when using title option,
+      // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
+      title: 'My submitions',
+      // chunks to include on this page, by default includes
+      // extracted common chunks and vendor chunks.
+      chunks: ['chunk-vendors', 'chunk-common', 'submition']
+    },
     }
   }
 
