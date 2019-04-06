@@ -9,9 +9,21 @@
         <h1>Received Messages</h1>
         </div>
         <div id="messages" v-for="item in items">
-          <b-card :title="item.title" >
-            <b-card-text>{{item.body}}</b-card-text>
-          </b-card>
+          <div v-if="item.isAlert">
+            <b-card bg-variant="warning" border :title="item.title" >
+                <b-card-text>{{item.body}}</b-card-text>
+                <b-card-text style="color:white" class="small text-muted">{{item.moment.slice(0,10)}} {{item.moment.slice(11, 16)}}</b-card-text>
+                <font-awesome-icon style="color:white" pull="right" :icon="['fas','bell']"/>
+            </b-card>
+          </div>
+
+          <div v-else>
+            <b-card border bg-variant="info" :title="item.title" >
+              <b-card-text>{{item.body}}</b-card-text>
+              <b-card-text  class="small text-muted">{{item.moment.slice(0,10)}} {{item.moment.slice(11, 16)}}</b-card-text>
+              <font-awesome-icon style="color:white" pull="right" :icon="['fas','comments']"/>
+            </b-card>
+          </div>
         </div>
 
       <div>
