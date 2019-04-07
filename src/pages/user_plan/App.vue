@@ -30,28 +30,16 @@ export default {
   }, 
 }
 
-
-
-
-
-/*{
-          'title': this.form.title,
-          'description': this.form.description,
-          'price_offered': this.form.price_offered,
-          'currency': '0',
-          'limit_time': '2019,12,12,10,40,0,0'
-      },{ headers: {
-       'Content-Type': 'multipart/form-data'
-      }*/
 </script>
 
 <style>
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-
+  
 }
 
 html {

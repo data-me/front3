@@ -166,7 +166,8 @@ module.exports = {
       // chunks to include on this page, by default includes
       // extracted common chunks and vendor chunks.
       chunks: ['chunk-vendors', 'chunk-common', 'explore']
-    },'user_plan': {
+    },
+    'user_plan': {
       // entry for the page
       entry: 'src/pages/user_plan/main.js',
       // the source template
@@ -177,6 +178,6 @@ module.exports = {
       // chunks to include on this page, by default includes
       // extracted common chunks and vendor chunks.
       chunks: ['chunk-vendors', 'chunk-common', 'user_plan']
-    },
+    }
   }
 }

@@ -1,7 +1,8 @@
 <template>
     <div>
-        <b-card :title="userPlan.currentUserPlan" :sub-title="userPlan.expirationDate">
-          <b-card-text>
+        <h2>Current User Plan</h2>
+        <b-card class="display-current-user-plan" :title="userPlan.currentUserPlan" :sub-title="userPlan.expirationDate.slice(0,10)">
+          <b-card-text >
           </b-card-text>
         </b-card>
     </div>
@@ -26,3 +27,11 @@ export default {
     }  
 }
 </script>
+
+<style>
+.display-current-user-plan{
+    margin: 2em;
+}
+
+</style>
+

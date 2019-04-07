@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h4>Extend or Upgrade your PRO plan</h4>
-    <b-form id="item" @submit.prevent @submit="onSubmit" @reset="onReset">
+  <div class="user-plan-form">
+    <h4>Upgrade to PRO plan</h4>
+    <b-form  @submit.prevent @submit="onSubmit" @reset="onReset">
       <b-col sm="3">
           <label for="nMonths">Number of months:</label>
       </b-col>
@@ -14,7 +14,7 @@
         ></b-form-input>
         <br/>
         <b-col sm="9">
-        <b-button type="submit" variant="primary">Send</b-button>
+        <b-button class="send-button" type="submit" variant="primary">Send</b-button>
         </b-col>
       </b-col>
     </b-form>
@@ -47,3 +47,14 @@
   }
 
 </script>
+
+<style>
+.send-button {
+  text-align: center;
+}
+
+.user-plan-form{
+    margin: 2em;
+}
+</style>
+
