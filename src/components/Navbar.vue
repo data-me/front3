@@ -51,9 +51,9 @@ export default {
           status: '',
           date: null
         },
-      isCompany: null,
-      isDataScientist: null,
-      isAdmin: null,
+      isCompany: this.$cookies.get('user_type') === 'com',
+      isDataScientist: this.$cookies.get('user_type') === 'ds',
+      isAdmin: this.$cookies.get('user_type') === 'admin',
       isLoggedIn: null
     }
   }, mounted: function () {

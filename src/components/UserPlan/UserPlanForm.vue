@@ -40,6 +40,7 @@
         formData.append('nMonths', this.userPlanForm.nMonths);
         this.$http.post(baseURI, formData, { headers: { Authorization: token }})
         .then((result) => {
+            alert(result.data.message)
             location.reload()
         })
       } 
