@@ -41,6 +41,7 @@
                 <b-card-text></b-card-text>
                 <div v-if="user_type === 'ds'">
                   <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">{{$t('apply')}}</b-link>
+                  <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.showCompany variant="outline-primary" @click="showCompany(item.company_id)">Show Company</b-link>
                 </div>
                 <div id="deleteoffer">
                   <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">{{$t('delete_offer')}}</b-button>
@@ -125,6 +126,19 @@
         </b-modal>
       </div>
 
+      <!-- Modal Pop up showCompany -->
+     <div>
+       <b-modal id="showCompany" hide-footer ref="detailedCompany" size="xl" title="Company's details">
+         <div id="company" v-for="item in comp">
+               <b-card :title="item.name" :sub-title="item.nif ">
+                 <b-card-text>
+                   {{item.description}}
+                 </b-card-text>
+               </b-card>
+         </div>
+       </b-modal>
+     </div>
+
   </div>
 </template>
 
@@ -160,6 +174,8 @@ export default {
             offerId: null,
         },
         offerId: '',
+        companyId: '',
+        comp: [],
         user_type: this.$cookies.get('user_type')
     }
   }, mounted: function () {
@@ -216,6 +232,16 @@ export default {
       }
     }
   }, methods: {
+      showCompany: function(idCompany) {
+        this.companyId = idCompany
+        var token = 'JWT ' + this.$cookies.get('token')
+        this.$http.get('http://localhost:8000/api/v1/company?companyId=' + idCompany,{ headers:
+          { Authorization: token }
+        }).then((result) => {
+          this.comp = result.data
+        })
+
+      },
       toggleCreateApply() {
        var token = 'JWT ' + this.$cookies.get('token')
        const formApply = new FormData();
