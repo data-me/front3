@@ -18,14 +18,14 @@
             <!-- <b-nav-item href="#">Pricing</b-nav-item> -->
             <b-nav-item href="/mail.html">{{ $t('mail') }}</b-nav-item>
             <!--<div v-if="user_type === 'ds'">-->
-            <b-nav-item v-show="isDataScientist" href="/my_cv.html">Curriculum</b-nav-item>
-            <b-nav-item v-show="isAdmin" href="/dashboard.html">Dashboard</b-nav-item>
-            <b-nav-item v-show="(!isDataScientist && !isCompany) && isLoggedIn" href="/admin_offers.html">Manage Offers</b-nav-item>
+            <b-nav-item v-show="isDataScientist" href="/my_cv.html">{{ $t('cv') }}</b-nav-item>
+            <b-nav-item v-show="isAdmin" href="/dashboard.html">{{ $t('dashboard') }}</b-nav-item>
+            <b-nav-item v-show="(!isDataScientist && !isCompany) && isLoggedIn" href="/admin_offers.html">{{ $t('manage_offers') }}</b-nav-item>
 
-            <b-nav-item href="/submition.html" v-show="isLoggedIn">My submitions</b-nav-item>
+            <b-nav-item href="/submition.html" v-show="isLoggedIn">{{ $t('my_submitions') }}</b-nav-item>
             <b-nav-item href="/login.html" v-show="!isLoggedIn">{{ $t('login') }}</b-nav-item>
-            <b-nav-item href="/register.html" v-show="!isLoggedIn">{{ $t('Sign up') }}</b-nav-item>
-            <b-nav-item href="#" v-show="isLoggedIn" @click="logOut">Log Out</b-nav-item>
+            <b-nav-item href="/register.html" v-show="!isLoggedIn">{{ $t('signup') }}</b-nav-item>
+            <b-nav-item href="#" v-show="isLoggedIn" @click="logOut">{{ $t('logout') }}</b-nav-item>
             <b-nav-item-dropdown :text="$t('lang')" v-model="$i18n.locale" right>
                 <b-dropdown-item v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang" @click="changeLanguage(lang)">{{ lang }}</b-dropdown-item>
             </b-nav-item-dropdown>

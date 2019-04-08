@@ -2,16 +2,16 @@
   <div id="app">
     <Navbar/>
             <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
-    <template slot="modal-header"> Please check the errors below </template>
+    <template slot="modal-header"> {{$t('error_msg')}} </template>
     <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
-    <template slot="modal-footer"><button class="btn btn-primary">Save Changes</button></template>
-    <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">Close</b-button>
+    <template slot="modal-footer"><button class="btn btn-primary">{{$t('save_changes')}}</button></template>
+    <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">{{$t('close')}}</b-button>
 </b-modal>
 
 <b-modal class='registered' v-model="submited" ref="submited" id="submited" hide-footer size="xl" title="submited">
-    <template slot="modal-header"> Congratulations! </template>
-                    Submited successfully!
-<b-button  class="mt-2" variant="success" block @click="reloadPage">Close</b-button>
+    <template slot="modal-header"> {{$t('congrats')}} </template>
+                    {{$t('submited_success')}}
+<b-button  class="mt-2" variant="success" block @click="reloadPage">{{$t('close')}}</b-button>
 </b-modal>
 
 <!-- Show applications -->
@@ -23,23 +23,23 @@
             <Apply v-on:clicked="onClickChild" v-for="(item, index) in items" v-bind:item="item"  v-bind:isCompany="isCompany" v-bind:index="index" v-bind:key="item.id"> </Apply>
             </div>
 
-        <b-modal id="modalxl" hide-footer ref="newOffer" size="xl" title="Create an offer">
+        <b-modal id="modalxl" hide-footer ref="newOffer" size="xl" :title="$t('create_offer')">
 
              <b-form  @submit.prevent>
-            <label for="title">File</label>
+            <label for="title">{{$t('file')}}</label>
             <b-input type="text" v-model="submitForm.file" id="file" :state="submitForm.file.length > 0"  :maxlength="200" aria-describedby="fileHelpBlock" />
             <b-form-text id="titleHelpBlock">
-              The URL with your solution
+              {{$t('solution_input_placeholder')}}
             </b-form-text>
             <br/>
 
-            <label for="comments">Coments</label>
+            <label for="comments">{{$t('comments')}}</label>
             <b-input type="text" id="comments" v-model="submitForm.comments" :state="submitForm.comments.length > 0" aria-describedby="commentsHelpBlock" />
             <b-form-text id="commentsHelpBlock">
-              The comments for your submition, here you can explain everything.
+              {{$t('comment_input_placeholder')}}
             </b-form-text>
             <br/>
-               <b-button class="mt-2" variant="success" block @click="createSubmit">Submit</b-button>
+               <b-button class="mt-2" variant="success" block @click="createSubmit">{{$t('submit')}}</b-button>
 
 
                 </b-form>

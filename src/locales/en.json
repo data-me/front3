@@ -6,6 +6,22 @@
   "offers": "Offers",
   "mail": "Mail",
   "login": "Log in",
+  "logout": "Log out",
   "signup": "Sign up",
-  "lang": "Language"
+  "lang": "Language",
+  "cv": "Curriculum",
+  "dashboard": "Dashboard",
+  "manage_offers": "Manage offers",
+  "my_submitions": "My submitions",
+  "error_msg": "Please check the errors below",
+  "save_changes": "Save Changes",
+  "close": "Close",
+  "congrats": "Congratulations!",
+  "submited_success": "Submited successfully!",
+  "create_offer": "Create an offer",
+  "solution_input_placeholder":"The URL with your solution",
+  "comment_input_placeholder": "The comments for your submition, here you can explain everything.",
+  "submit": "Submit",
+  "comments": "Coments",
+  "file": "File"
 }

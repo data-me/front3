@@ -6,7 +6,24 @@
     "offers": "Ofertas",
     "mail": "Correo",
     "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
     "signup": "Registrarse",
-    "lang": "Idioma"
+    "lang": "Idioma",
+    "cv": "Currículum",
+    "dashboard": "Cuadro de mandos",
+    "manage_offers": "Gestionar ofertas",
+    "my_submitions": "Mis propuestas",
+    "error_msg": "Por favor, solucione los errores de abajo",
+    "save_changes": "Save Changes",
+    "close": "Cerrar",
+    "congrats": "Felicidades!",
+    "submited_success": "Se ha entregado correctamente!",
+    "create_offer": "Crear oferta",
+    "solution_input_placeholder":"La URL con tu solución",
+    "comment_input_placeholder": "Los comentarios sobre tu propuesta, explíca todo que quieras aclarar.",
+    "submit": "Entregar",
+    "comments": "Comentarios",
+    "file": "Ficheros"
+
 
   }
