@@ -52,7 +52,7 @@ export default {
       isCompany: this.$cookies.get('user_type') === 'com',
       isDataScientist: this.$cookies.get('user_type') === 'ds',
       isAdmin: this.$cookies.get('user_type') === 'admin',
-      isLoggedIn: null
+      isLoggedIn: null,
       langs: ['en', 'es'],
       language: this.$t.lang
     }
