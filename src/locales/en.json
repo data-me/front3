@@ -23,5 +23,14 @@
   "comment_input_placeholder": "The comments for your submition, here you can explain everything.",
   "submit": "Submit",
   "comments": "Coments",
-  "file": "File"
+  "file": "File",
+  "description": "Description",
+  "price_offered": "Price offered",
+  "creation_date": "Creation date",
+  "limit_date": "Limit date",
+  "state": "State",
+  "finished": "Finished",
+  "not_finished": "Not finished",
+  "contract": "Contract",
+  "delete_offer": "Delete offer"
 }

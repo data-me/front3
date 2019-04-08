@@ -23,7 +23,16 @@
     "comment_input_placeholder": "Los comentarios sobre tu propuesta, explíca todo que quieras aclarar.",
     "submit": "Entregar",
     "comments": "Comentarios",
-    "file": "Ficheros"
+    "file": "Ficheros",
+    "description": "Description",
+    "price_offered": "Precio propuesto",
+    "creation_date": "Fecha de creación",
+    "limit_date": "Fecha límite",
+    "state": "Estado",
+    "finished": "Terminado",
+    "not_finished": "No terminado",
+    "contract": "Contrato",
+    "delete_offer": "Borrar oferta"
 
 
   }
