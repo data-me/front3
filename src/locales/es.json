@@ -32,7 +32,8 @@
     "finished": "Terminado",
     "not_finished": "No terminado",
     "contract": "Contrato",
-    "delete_offer": "Borrar oferta"
+    "delete_offer": "Borrar oferta",
+    "details": "Ver detalle"
 
 
   }

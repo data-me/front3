@@ -6,7 +6,7 @@
             <b-card-text>
               {{item.description}}
             </b-card-text>
-            <a href="#" class="card-link">View detail</a>
+            <a href="#" class="card-link">{{$t('details')}}</a>
           </b-card>
         </div>
   </div>

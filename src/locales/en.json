@@ -32,5 +32,6 @@
   "finished": "Finished",
   "not_finished": "Not finished",
   "contract": "Contract",
-  "delete_offer": "Delete offer"
+  "delete_offer": "Delete offer",
+  "details": "View detail"
 }
