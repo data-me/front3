@@ -18,7 +18,6 @@
     "close": "Cerrar",
     "congrats": "Felicidades!",
     "submited_success": "Se ha entregado correctamente!",
-    "create_offer": "Crear oferta",
     "solution_input_placeholder":"La URL con tu solución",
     "comment_input_placeholder": "Los comentarios sobre tu propuesta, explíca todo que quieras aclarar.",
     "submit": "Entregar",
@@ -33,7 +32,22 @@
     "not_finished": "No terminado",
     "contract": "Contrato",
     "delete_offer": "Borrar oferta",
-    "details": "Ver detalle"
-
-
+    "details": "Ver detalle",
+    "create_offer": "Crear nueva oferta",
+    "search": "Buscar",
+    "search_placeholder": "Título o descripción",
+    "apply":"Aplicar",
+    "title": "Título",
+    "title_offer_placeholder": "El título principal de tu oferta, máximo 80 caracteres.",
+    "description_offer_placeholder": "La descripción de tu oferta, aquí puedes detallar ampliamente.",
+    "price_offered_placeholder": "Dale un precio a tu oferta.",
+    "limit_date_offer_placeholder": "La fecha límite para tu oferta. (aaaa-MM-dd HH:mm)",
+    "files": "Ficheros",
+    "file_offer_placeholder": "Ficheros necesarios para tu oferta, escribe sus URLs.",
+    "contract_offer_placeholder": "Los términos y condiciones de tu oferta.",
+    "title_apply_placeholder": "El título principal de tu propuesta, sé breve.",
+    "title_apply_feedback": "Introduce al menos 5 letras",
+    "description_apply_placeholder": "La descripción de tu propuesta, aquí puedes detallar ampliamente.",
+    "description_apply_feedback": "Introduce al menos 10 letras",
+    "create_apply": "Crear propuesta"
   }
