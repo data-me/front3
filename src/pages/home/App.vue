@@ -4,9 +4,9 @@
       <header class="masthead">
       <div class="container">
         <div class="intro-text">
-          <div class="intro-lead-in">A new way of conceiving Big Data</div>
-            <div class="intro-heading text-uppercase">We match data scientists and projects</div>
-            <div class="intro-lead-in">DataMe - Version 1.0 (Sprint 1)</div>
+          <div class="intro-lead-in">{{$t('message')}}</div>
+            <div class="intro-heading text-uppercase">{{$t('home_message')}}</div>
+            <div class="intro-lead-in">DataMe - {{$t('version')}} 1.0 (Sprint 1) </div>
           </div>
         </div>
   </header>
@@ -24,6 +24,15 @@ export default {
   components: {
     Navbar,
     Footer
+  }, mounted: function () {
+    var lang
+
+    if (this.$cookies.get('lang')) {
+      lang = this.$cookies.get('lang')
+    } else {
+      lang = 'en'
+    }
+    this.$i18n.locale = lang
   }
 }
 </script>

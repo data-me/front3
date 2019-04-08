@@ -5,15 +5,15 @@
         <!-- Create an offer -->
         <div v-if="user_type === 'com'">
           <div class="create-offer">
-            <b-button id="create-offer" v-b-modal.modalxl variant="outline-primary"  >Create new offer</b-button>
+            <b-button id="create-offer" v-b-modal.modalxl variant="outline-primary">{{$t('create_offer')}}</b-button>
           </div>
         </div>
         <div v-else-if="user_type === 'ds'">
         <!-- Search bar -->
           <div id="search-group">
             <b-form @submit="onSubmit">
-              <b-input-group prepend="Search" class="mt-3">
-              <b-form-input v-on:keyup="onSubmit" id="search" v-model="form.search" placeholder="title or description"></b-form-input>
+              <b-input-group :prepend="$t('search')" class="mt-3">
+              <b-form-input v-on:keyup="onSubmit" id="search" v-model="form.search" :placeholder="$t('search_placeholder')"></b-form-input>
               </b-input-group>
             </b-form>
           </div>
@@ -30,18 +30,20 @@
             </b-card-header>
             <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
               <b-card-body>
-                <b-card-text><span class="font-weight-bold">Description: </span> {{item.description}}</b-card-text>
-                <b-card-text><span class="font-weight-bold">Price offered: </span>{{item.price_offered + '€'}}</b-card-text>
-                <b-card-text><span class="font-weight-bold">Creation date: </span>{{item.creation_date.slice(0,10)}}</b-card-text>
-                <b-card-text><span class="font-weight-bold">Limit date: </span>{{item.limit_time.slice(0,10)}}</b-card-text>
-                <b-card-text><span class="font-weight-bold">State: </span>{{ item.finished ? 'Finished' : 'Not finished' }}</b-card-text>
-                <b-card-text><span class="font-weight-bold">Contract: {{item.contract}}</span></b-card-text>
+                 <b-card-text><span class="font-weight-bold">id: </span> {{item.id}}</b-card-text>              
+                <b-card-text><span class="font-weight-bold">{{$t('description')}}: </span> {{item.description}}</b-card-text>
+                <b-card-text><span class="font-weight-bold">{{$t('price_offered')}}: </span>{{item.price_offered + '€'}}</b-card-text>
+                <b-card-text><span class="font-weight-bold">{{$t('creation_date')}}: </span>{{item.creation_date.slice(0,10)}}</b-card-text>
+                <b-card-text><span class="font-weight-bold">{{$t('limit_date')}}: </span>{{item.limit_time.slice(0,10)}}</b-card-text>
+                <b-card-text><span class="font-weight-bold">{{$t('state')}}: </span>{{ item.finished ? $t('finished') : $t('not_finished') }}</b-card-text>
+                <b-card-text><span class="font-weight-bold">{{$t('contract')}}: {{item.contract}}</span></b-card-text>
+                <b-card-text><span class="font-weight-bold">{{$t('file')}}: {{item.files}}</span></b-card-text>
                 <b-card-text></b-card-text>
                 <div v-if="user_type === 'ds'">
-                  <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">Apply</b-link>
+                  <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">{{$t('apply')}}</b-link>
                 </div>
-                <div id="deleteoffer" v-if="user_type !== 'ds'">
-                  <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">Delete offer</b-button>
+                <div id="deleteoffer">
+                  <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">{{$t('delete_offer')}}</b-button>
                 </div>
               </b-card-body>
             </b-collapse>
@@ -50,46 +52,46 @@
       <!-- ////// -->
       <!-- Modal Pop up -->
       <div>
-        <b-modal id="modalxl" hide-footer ref="newOffer" size="xl" title="Create an offer">
+        <b-modal id="modalxl" hide-footer ref="newOffer" size="xl" :title="$t('create_offer')">
           <b-form  @submit.prevent>
-            <label for="title">Title</label>
+            <label for="title">{{$t('title')}}</label>
             <b-input type="text" v-model="form.title" id="title" :state="form.title.length > 0"  :maxlength="80" aria-describedby="titleHelpBlock" />
             <b-form-text id="titleHelpBlock">
-              The main title for your offer, max 80 characters.
+              {{$t('title_offer_placeholder')}}
             </b-form-text>
             <br/>
-            <label for="description">Description</label>
+            <label for="description">{{$t('description')}}</label>
             <b-input type="text" id="description" v-model="form.description" :state="form.description.length > 0" aria-describedby="descriptionHelpBlock" />
             <b-form-text id="descriptionHelpBlock">
-              The description for your offer, here you can explain everything.
+              {{$t('description_offer_placeholder')}}
             </b-form-text>
             <br/>
-            <label for="price">Price offered</label>
+            <label for="price">{{$t('price_offered')}}</label>
             <b-input type="number" id="price" v-model="form.price_offered" aria-describedby="priceHelpBlock" />
             <b-form-text id="priceHelpBlock">
-              Give your offer a price.
+              {{$t('price_offered_placeholder')}}
             </b-form-text>
             <br/>
-
-             <label for="limit_time">Limit date:</label>
+    
+             <label for="limit_time">{{$t('limit_date')}}:</label>
             <b-input type="text" id="limit_time" v-model="form.limit_time" aria-describedby="descriptionHelpBlock" />
             <b-form-text id="descriptionHelpBlock">
-              Limit date for being offered. (yyyy-MM-dd HH:mm)
+              {{$t('limit_date_offer_placeholder')}}
             </b-form-text>
-             <label for="files">Files</label>
+             <label for="files">{{$t('files')}}</label>
             <b-input type="text" id="files" v-model="form.files" aria-describedby="descriptionHelpBlock" />
             <b-form-text id="descriptionHelpBlock">
-              The files for your offer, write your URLs.
+              {{$t('file_offer_placeholder')}}
             </b-form-text>
              <br/>
-             <label for="contract">Contract</label>
+             <label for="contract">{{$t('contract')}}</label>
             <b-input type="text" id="contract" v-model="form.contract" aria-describedby="descriptionHelpBlock" />
             <b-form-text id="descriptionHelpBlock">
-              Terms and conditions of your contract
+              {{$t('contract_offer_placeholder')}}
             </b-form-text>
              <br/>
 
-             <b-button class="mt-2" variant="success" block @click="createOffer">Create offer</b-button>
+             <b-button class="mt-2" variant="success" block @click="createOffer">{{$t('create_offer')}}</b-button>
           </b-form>
         </b-modal>
       </div>
@@ -99,26 +101,26 @@
       <div>
         <b-modal id="createApply" hide-footer ref="newApply" size="xl" title="Create an apply">
           <b-form  @submit.prevent>
-            <label for="title">Title</label>
+            <label for="title">{{$t('title')}}</label>
 
             <b-input type="text" v-model="formApply.title" :state="tittleApply" id="title" aria-describedby="titleHelpBlock" />
             <b-form-text id="titleHelpBlock">
-              The main title for your apply, please keep it short.
+              {{$t('title_apply_placeholder')}}
             </b-form-text>
              <b-form-invalid-feedback id="apply-tittle-feedback">
-            Enter at least 5 letters
+            {{$t('title_apply_feedback')}}
             </b-form-invalid-feedback>
             <br/>
-            <label for="description">Description</label>
+            <label for="description">{{$t('description')}}</label>
             <b-input type="text" id="description" v-model="formApply.description" :state="descriptionApply" aria-describedby="descriptionHelpBlock" />
             <b-form-text id="descriptionHelpBlock">
-              The description for your apply, here you can explain everything.
+              {{$t('description_apply_placeholder')}}
             </b-form-text>
             <b-form-invalid-feedback id="apply-description-feedback">
-            Enter at least 10 letters
+            {{$t('description_apply_feedback')}}
             </b-form-invalid-feedback>
             <br/>
-             <b-button class="mt-2" variant="success" block @click="toggleCreateApply">Create apply</b-button>
+             <b-button class="mt-2" variant="success" block @click="toggleCreateApply">{{$t('create_apply')}}</b-button>
           </b-form>
         </b-modal>
       </div>
@@ -162,6 +164,34 @@ export default {
     }
   }, mounted: function () {
     var token = 'JWT ' + this.$cookies.get('token')
+
+    var lang
+
+    if (this.$cookies.get('lang')) {
+      lang = this.$cookies.get('lang')
+    } else {
+      lang = 'en'
+    }
+    this.$i18n.locale = lang
+
+    // Para los pagos
+    try{ 
+      if (window.location.search.split("?")[1].split("&")){
+        var respuesta_paypal = window.location.search.split("?")[1].split("&");
+        var paymentId = respuesta_paypal[0].split("=")[1];
+        var token_paypal = respuesta_paypal[1].split("=")[1];
+        var payerID = respuesta_paypal[2].split("=")[1];
+        var url_guarda_pagos = `http://localhost:8000/api/v1/pagos/accept_paypal_payment/${paymentId}/${token_paypal}/${payerID}/`;
+
+        this.$http.get(url_guarda_pagos, { headers:{ Authorization: token }
+        }).then((result) => {
+            alert(result.data.message)
+        })
+      }
+    }
+    catch(error){}
+
+
     this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
       { Authorization: token }
       }).then((result) => {
