@@ -168,7 +168,16 @@ export default {
     }
 
   }, mounted: function () {
-  var token = 'JWT ' + this.$cookies.get('token')
+    var token = 'JWT ' + this.$cookies.get('token')
+
+    var lang
+
+    if (this.$cookies.get('lang')) {
+      lang = this.$cookies.get('lang')
+    } else {
+      lang = 'en'
+    }
+    this.$i18n.locale = lang
 
     // Para los pagos
     try{ 
