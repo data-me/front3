@@ -1,14 +1,13 @@
 <template>
   <div id="app">
     <Navbar/>
-          <div id="offers" v-for="item in items">
+    <div id="company" v-for="item in items">
           <b-card :title="item.name" :sub-title="item.nif ">
             <b-card-text>
               {{item.description}}
             </b-card-text>
-            <a href="#" class="card-link">View detail</a>
           </b-card>
-        </div>
+    </div>
   </div>
 </template>
 
@@ -26,11 +25,10 @@ export default {
     }
   }, mounted: function () {
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get('http://localhost:8000/api/v1/company',{ headers: 
+    this.$http.get('http://localhost:8000/api/v1/company',{ headers:
       { Authorization: token }
       }).then((result) => {
-        console.log(result.data.companies)
-        this.items = result.data.companies
+        this.items = result.data
       })
   }, methods: {
 
@@ -47,7 +45,7 @@ export default {
 
 }
 
-#offers {
+#company {
   margin: 2em;
 }
 
