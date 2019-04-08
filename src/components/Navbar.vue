@@ -14,7 +14,7 @@
         <b-navbar-nav class="ml-auto">
             <b-nav-item href="/applications.html">{{ $t('applications') }}</b-nav-item>
             <b-nav-item href="/explore.html">{{ $t('offers') }}</b-nav-item>
-            <!-- <b-nav-item href="/companies.html">Companies</b-nav-item> -->
+            <b-nav-item href="/companies.html">Companies</b-nav-item>
             <!-- <b-nav-item href="#">Pricing</b-nav-item> -->
             <b-nav-item href="/mail.html">{{ $t('mail') }}</b-nav-item>
             <!--<div v-if="user_type === 'ds'">-->
@@ -49,10 +49,10 @@ export default {
           status: '',
           date: null
         },
-      isCompany: null,
-      isDataScientist: null,
-      isAdmin: null,
-      isLoggedIn: null,
+      isCompany: this.$cookies.get('user_type') === 'com',
+      isDataScientist: this.$cookies.get('user_type') === 'ds',
+      isAdmin: this.$cookies.get('user_type') === 'admin',
+      isLoggedIn: null
       langs: ['en', 'es'],
       language: this.$t.lang
     }

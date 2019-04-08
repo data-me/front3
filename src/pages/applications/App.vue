@@ -105,36 +105,7 @@ export default {
       })
   }, methods: {
 
-      getOffer(offerId){
-    var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get('http://localhost:8000/api/v1/offer?offerId=' + offerId,{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.offertodl = result.data,
-        this.url = this.offertodl[0].file
-      })
-  },
-      forceFileDownload(response){
-    const url = window.URL.createObjectURL(new Blob([response.data]))
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('download', 'file.csv') //or any other extension
-    document.body.appendChild(link)
-    link.click()
-  },
-      downloadWithVueResource(offerId) {
-    this.getOffer(offerId)
-    this.$http({
-      method: 'get',
-      url: this.url,
-      responseType: 'arraybuffer'
-    })
-    .then(response => {
-      this.forceFileDownload(response)
-    })
-    .catch(() => console.log('error occured'))
-
-  },
+    
       reloadPage(){
     window.location.reload()
   },

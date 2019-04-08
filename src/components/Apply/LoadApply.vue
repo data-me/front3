@@ -9,7 +9,7 @@
             <div id="applications">
   <b-card no-body>
     <b-card-header header-tag="header" class="p-3" role="tab">
-      <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
+      <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary" @click='onClickButton'>
         {{item.title}}
       </b-button>
     </b-card-header>
@@ -23,9 +23,10 @@
         <div v-if="user_type === 'ds'">
           <b-link v-if= "item.status == 'AC'" class="card-link" variant="outline-primary" @click="downloadWithVueResource(item.offer_id)">Download file</b-link>
           <br/>
-          <b-link href="#" v-b-modal.modalxl @click='onClickButton' v-show="this.permissions == 'true'">Make submit</b-link>
+          <b-link href="#" v-b-modal.modalxl v-show="this.permissions == 'true'">Make submit</b-link>
         </div>
         <div v-if="user_type === 'com'">
+        <b-link href="#" @click="senderId(item.DS_User_id)" class="card-link">Data Scientist</b-link>
         <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
         </div>
 
@@ -65,6 +66,8 @@ Vue.use(VueRouter)
       permissions : '',
       offerId: '',
       user_type: this.$cookies.get('user_type'),
+      offertodl: [],
+      url: ''
       
 
     }
@@ -101,6 +104,36 @@ Vue.use(VueRouter)
 
 
     },
+      getOffer(offerId){
+    var token = 'JWT ' + this.$cookies.get('token')
+    this.$http.get('http://localhost:8000/api/v1/offer?offerId=' + offerId,{ headers:
+      { Authorization: token }
+      }).then((result) => {
+        this.offertodl = result.data,
+        this.url = this.offertodl[0].file
+      })
+  },
+      forceFileDownload(response){
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'file.csv') //or any other extension
+    document.body.appendChild(link)
+    link.click()
+  },
+      downloadWithVueResource(offerId) {
+    this.getOffer(offerId)
+    this.$http({
+      method: 'get',
+      url: this.url,
+      responseType: 'arraybuffer'
+    })
+    .then(response => {
+      this.forceFileDownload(response)
+    })
+    .catch(() => console.log('error occured'))
+
+  },
 
       toggleAcceptApply(id) {
        var token = 'JWT ' + this.$cookies.get('token')

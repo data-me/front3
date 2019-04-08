@@ -101,7 +101,7 @@
 
             <div id='phone' v-if="selected ==='DataScientist'">
             <label for="phone">Phone</label>
-            <b-input type="text" id="text" v-model="form.phone" aria-describedby="phoneHelpBlock" :state="form.phone.length > 0" :maxlength="80" />
+            <b-input type="text" id="text" v-model="form.phone" aria-describedby="phoneHelpBlock" :state="form.phone.length > 0" :maxlength="9" />
             <b-form-text id="phoneHelpBlock">
               Write your phone
             </b-form-text>
@@ -123,7 +123,7 @@
 
             <div id='nif' v-if="selected ==='Company'">
             <label for="nif">NIF</label>
-            <b-input type="text" id="text" v-model="form.nif" aria-describedby="nifHelpBlock" :state="form.nif.length > 0" :maxlength="80" />
+            <b-input type="text" id="text" v-model="form.nif" aria-describedby="nifHelpBlock" :state="form.nif.length > 0" :maxlength="9" />
             <b-form-text id="nifHelpBlock">
               Write the NIF from your company
             </b-form-text>
@@ -234,7 +234,7 @@ export default {
             this.messages.push('Name is required')
         }
         if (this.selected == 'DataScientist' && this.form.surname.length == 0){
-            this.messages.push('Password must contain at least 8 characters')
+            this.messages.push('Surname is required')
         }
 
         if (this.selected == 'DataScientist' && this.form.email.length == 0){
@@ -268,7 +268,6 @@ export default {
                     formData.append("email", this.form.email);
                     formData.append("photo", this.form.photo);
             }
-     alert("hola")
       this.$http.post('http://localhost:8000/api/v1/register', formData).then((result) => {
       this.registerMessage = result.data.message
       this.registered = true;

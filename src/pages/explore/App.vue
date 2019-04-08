@@ -41,6 +41,7 @@
                 <b-card-text></b-card-text>
                 <div v-if="user_type === 'ds'">
                   <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">{{$t('apply')}}</b-link>
+                  <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.showCompany variant="outline-primary" @click="showCompany(item.company_id)">Show Company</b-link>
                 </div>
                 <div id="deleteoffer">
                   <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">{{$t('delete_offer')}}</b-button>
@@ -125,14 +126,25 @@
         </b-modal>
       </div>
 
+      <!-- Modal Pop up showCompany -->
+     <div>
+       <b-modal id="showCompany" hide-footer ref="detailedCompany" size="xl" title="Company's details">
+         <div id="company" v-for="item in comp">
+               <b-card :title="item.name" :sub-title="item.nif ">
+                 <b-card-text>
+                   {{item.description}}
+                 </b-card-text>
+               </b-card>
+         </div>
+       </b-modal>
+     </div>
+
   </div>
 </template>
 
 <script>
 import Navbar from '../../components/Navbar.vue'
 import Footer from '../../components/Footer.vue'
-
-
 export default {
   name: 'app',
   components: {
@@ -156,17 +168,16 @@ export default {
           files: '',
           contract: '',
         },
-
         formApply: {
             title: '',
             description: '',
             offerId: null,
         },
         offerId: '',
+        companyId: '',
+        comp: [],
         user_type: this.$cookies.get('user_type')
-
     }
-
   }, mounted: function () {
     var token = 'JWT ' + this.$cookies.get('token')
 
@@ -201,15 +212,41 @@ export default {
       { Authorization: token }
       }).then((result) => {
         this.items = result.data
-      })
+    })
+    // Para los pagos
+    if(this.$cookies.get('user_type') == 'com'){
+      try{
+        if (window.location.search.split("?")[1].split("&")){
+          var respuesta_paypal = window.location.search.split("?")[1].split("&");
+          var paymentId = respuesta_paypal[0].split("=")[1];
+          var token_paypal = respuesta_paypal[1].split("=")[1];
+          var payerID = respuesta_paypal[2].split("=")[1];
+          var url_guarda_pagos = `http://localhost:8000/api/v1/pagos/accept_paypal_payment/${paymentId}/${token_paypal}/${payerID}/`;
+          this.$http.get(url_guarda_pagos, { headers:{ Authorization: token }
+          }).then((result) => {
+              alert(result.data.message)
+          })
+        }
+      }
+      catch(error){
+      }
+    }
   }, methods: {
+      showCompany: function(idCompany) {
+        this.companyId = idCompany
+        var token = 'JWT ' + this.$cookies.get('token')
+        this.$http.get('http://localhost:8000/api/v1/company?companyId=' + idCompany,{ headers:
+          { Authorization: token }
+        }).then((result) => {
+          this.comp = result.data
+        })
 
+      },
       toggleCreateApply() {
        var token = 'JWT ' + this.$cookies.get('token')
        const formApply = new FormData();
        if (this.formApply.title.length < 5 || this.formApply.description.length < 10){
         alert("Please correct the errors")
-
        } else{
        formApply.append("title", this.formApply.title);
        formApply.append("description", this.formApply.description);
@@ -221,7 +258,6 @@ export default {
           location.reload()
       })
       }
-
      },
     saveId: function(idOffer){
     this.offerId = idOffer
@@ -235,8 +271,6 @@ export default {
        formData.append("limit_time", this.form.limit_time);
        formData.append("files", this.form.files);
        formData.append("contract", this.form.contract);
-
-
       this.$http.post('http://localhost:8000/api/v1/offer', formData,{ headers:
       { Authorization: token }
       }).then((result) => {
@@ -246,16 +280,14 @@ export default {
           }).then((result) => {
             window.location.href = result.data.url_pago
           })
-          
-      })
 
+      })
      },
      deleteOffer(offer_id) {
       var token = "JWT " + this.$cookies.get("token");
       var confirm = window.confirm(
         "Are you sure you want to delete this offer?"
       );
-
       if (confirm) {
         this.$http.delete(
           "http://localhost:8000/api/v1/company/offer/" + offer_id,
@@ -267,23 +299,17 @@ export default {
             );
             window.location.href = "/explore.html";
           }
+        },
+        onSubmit() {
+          let token = `JWT ${this.$cookies.get('token')}`
+          this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
+            { Authorization: token }}).then((result) => {
+              this.items = result.data
+            })
         }
       },
-      onSubmit() {
-        let token = `JWT ${this.$cookies.get('token')}`
-        this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
-          { Authorization: token }}).then((result) => {
-            this.items = result.data
-          })
-      }
-  
+
 }
-
-
-
-
-
-
 /*{
           'title': this.form.title,
           'description': this.form.description,
@@ -301,29 +327,22 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-
 }
-
 #offers {
   margin: 2em;
 }
-
 .create-offer {
   text-align: right;
 }
-
 #create-offer {
   margin-top: 2em;
   margin-right: 2em;
 }
-
 html {
   background-color: #ffffff;
 }
-
 #search-group{
   margin-left: 15%;
   margin-right: 15%;
 }
-
 </style>
