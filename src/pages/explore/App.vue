@@ -30,19 +30,17 @@
             </b-card-header>
             <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
               <b-card-body>
-                 <b-card-text><span class="font-weight-bold">id: </span> {{item.id}}</b-card-text>              
                 <b-card-text><span class="font-weight-bold">Description: </span> {{item.description}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Price offered: </span>{{item.price_offered + '€'}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Creation date: </span>{{item.creation_date.slice(0,10)}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Limit date: </span>{{item.limit_time.slice(0,10)}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">State: </span>{{ item.finished ? 'Finished' : 'Not finished' }}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Contract: {{item.contract}}</span></b-card-text>
-                <b-card-text><span class="font-weight-bold">File: {{item.files}}</span></b-card-text>
                 <b-card-text></b-card-text>
                 <div v-if="user_type === 'ds'">
                   <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">Apply</b-link>
                 </div>
-                <div id="deleteoffer">
+                <div id="deleteoffer" v-if="user_type !== 'ds'">
                   <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">Delete offer</b-button>
                 </div>
               </b-card-body>
@@ -72,7 +70,7 @@
               Give your offer a price.
             </b-form-text>
             <br/>
-    
+
              <label for="limit_time">Limit date:</label>
             <b-input type="text" id="limit_time" v-model="form.limit_time" aria-describedby="descriptionHelpBlock" />
             <b-form-text id="descriptionHelpBlock">
@@ -131,8 +129,6 @@
 <script>
 import Navbar from '../../components/Navbar.vue'
 import Footer from '../../components/Footer.vue'
-
-
 export default {
   name: 'app',
   components: {
@@ -156,7 +152,6 @@ export default {
           files: '',
           contract: '',
         },
-
         formApply: {
             title: '',
             description: '',
@@ -164,43 +159,38 @@ export default {
         },
         offerId: '',
         user_type: this.$cookies.get('user_type')
-
     }
-
   }, mounted: function () {
-  var token = 'JWT ' + this.$cookies.get('token')
-
-    // Para los pagos
-    try{ 
-      if (window.location.search.split("?")[1].split("&")){
-        var respuesta_paypal = window.location.search.split("?")[1].split("&");
-        var paymentId = respuesta_paypal[0].split("=")[1];
-        var token_paypal = respuesta_paypal[1].split("=")[1];
-        var payerID = respuesta_paypal[2].split("=")[1];
-        var url_guarda_pagos = `http://localhost:8000/api/v1/pagos/accept_paypal_payment/${paymentId}/${token_paypal}/${payerID}/`;
-
-        this.$http.get(url_guarda_pagos, { headers:{ Authorization: token }
-        }).then((result) => {
-            alert(result.data.message)
-        })
-      }
-    }
-    catch(error){}
-
-
+    var token = 'JWT ' + this.$cookies.get('token')
     this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.items = result.data
-      })
+    })
+    // Para los pagos
+    if(this.$cookies.get('user_type') == 'com'){
+      try{
+        if (window.location.search.split("?")[1].split("&")){
+          var respuesta_paypal = window.location.search.split("?")[1].split("&");
+          var paymentId = respuesta_paypal[0].split("=")[1];
+          var token_paypal = respuesta_paypal[1].split("=")[1];
+          var payerID = respuesta_paypal[2].split("=")[1];
+          var url_guarda_pagos = `http://localhost:8000/api/v1/pagos/accept_paypal_payment/${paymentId}/${token_paypal}/${payerID}/`;
+          this.$http.get(url_guarda_pagos, { headers:{ Authorization: token }
+          }).then((result) => {
+              alert(result.data.message)
+          })
+        }
+      }
+      catch(error){
+      }
+    }
   }, methods: {
-
       toggleCreateApply() {
        var token = 'JWT ' + this.$cookies.get('token')
        const formApply = new FormData();
        if (this.formApply.title.length < 5 || this.formApply.description.length < 10){
         alert("Please correct the errors")
-
        } else{
        formApply.append("title", this.formApply.title);
        formApply.append("description", this.formApply.description);
@@ -212,7 +202,6 @@ export default {
           location.reload()
       })
       }
-
      },
     saveId: function(idOffer){
     this.offerId = idOffer
@@ -226,8 +215,6 @@ export default {
        formData.append("limit_time", this.form.limit_time);
        formData.append("files", this.form.files);
        formData.append("contract", this.form.contract);
-
-
       this.$http.post('http://localhost:8000/api/v1/offer', formData,{ headers:
       { Authorization: token }
       }).then((result) => {
@@ -237,16 +224,14 @@ export default {
           }).then((result) => {
             window.location.href = result.data.url_pago
           })
-          
-      })
 
+      })
      },
      deleteOffer(offer_id) {
       var token = "JWT " + this.$cookies.get("token");
       var confirm = window.confirm(
         "Are you sure you want to delete this offer?"
       );
-
       if (confirm) {
         this.$http.delete(
           "http://localhost:8000/api/v1/company/offer/" + offer_id,
@@ -258,23 +243,17 @@ export default {
             );
             window.location.href = "/explore.html";
           }
+        },
+        onSubmit() {
+          let token = `JWT ${this.$cookies.get('token')}`
+          this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
+            { Authorization: token }}).then((result) => {
+              this.items = result.data
+            })
         }
       },
-      onSubmit() {
-        let token = `JWT ${this.$cookies.get('token')}`
-        this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
-          { Authorization: token }}).then((result) => {
-            this.items = result.data
-          })
-      }
-  
+
 }
-
-
-
-
-
-
 /*{
           'title': this.form.title,
           'description': this.form.description,
@@ -292,29 +271,22 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-
 }
-
 #offers {
   margin: 2em;
 }
-
 .create-offer {
   text-align: right;
 }
-
 #create-offer {
   margin-top: 2em;
   margin-right: 2em;
 }
-
 html {
   background-color: #ffffff;
 }
-
 #search-group{
   margin-left: 15%;
   margin-right: 15%;
 }
-
 </style>
