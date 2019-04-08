@@ -14,7 +14,7 @@
         <b-navbar-nav class="ml-auto">
             <b-nav-item href="/applications.html">Applications</b-nav-item>
             <b-nav-item href="/explore.html">Offers</b-nav-item>
-            <!-- <b-nav-item href="/companies.html">Companies</b-nav-item> -->
+            <b-nav-item href="/companies.html">Companies</b-nav-item>
             <!-- <b-nav-item href="#">Pricing</b-nav-item> -->
             <b-nav-item href="/mail.html">Mail</b-nav-item>
             <!--<div v-if="user_type === 'ds'">-->
