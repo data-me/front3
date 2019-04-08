@@ -234,7 +234,7 @@ export default {
             this.messages.push('Name is required')
         }
         if (this.selected == 'DataScientist' && this.form.surname.length == 0){
-            this.messages.push('Password must contain at least 8 characters')
+            this.messages.push('Surname is required')
         }
 
         if (this.selected == 'DataScientist' && this.form.email.length == 0){
