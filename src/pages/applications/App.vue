@@ -27,7 +27,7 @@
 
              <b-form  @submit.prevent>
             <label for="title">{{$t('file')}}</label>
-            <b-input type="text" v-model="submitForm.file" id="file" :state="submitForm.file.length > 0"  :maxlength="200" aria-describedby="fileHelpBlock" />
+            <b-input type="text" v-model="submitForm.file" id="file" :state="(new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi).test(submitForm.file))"  :maxlength="200" aria-describedby="fileHelpBlock" />
             <b-form-text id="titleHelpBlock">
               {{$t('solution_input_placeholder')}}
             </b-form-text>

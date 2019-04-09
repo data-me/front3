@@ -26,7 +26,6 @@
           <b-link href="#" v-b-modal.modalxl v-show="this.permissions == 'true'">Make submit</b-link>
         </div>
         <div v-if="user_type === 'com'">
-        <b-link href="#" @click="senderId(item.DS_User_id)" class="card-link">Data Scientist</b-link>
         <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
         </div>
 
