@@ -19,7 +19,7 @@
 </b-form>
 </b-modal>
 
-        <b-form  @submit = createUser>
+        <b-form id="register"  @submit = createUser>
             <label for="type">Type of account</label>
             <br/>
             <select v-model="selected">
@@ -34,17 +34,17 @@
             </b-form-text>
             <br/>
             <label for="password">Password</label>
-            <b-input type="password" id="password" v-model="form.password" :state="form.password.length > 8" aria-describedby="passwordHelpBlock" required/>
+            <b-input type="password" id="password" v-model="form.password" :state="form.password.length >= 8 && (new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/g).test(this.form.password))" aria-describedby="passwordHelpBlock" required/>
             <b-form-text id="passwordHelpBlock">
-            Your password can't be too similar to your other personal information.
-            Your password must contain at least 8 characters.
-            Your password can't be a commonly used password.
-            Your password can't be entirely numeric.
+            Your password can't be too similar to your other personal information. <br/>
+            Your password must contain at least 8 characters. </br>
+            Your password can't be a commonly used password. <br/>
+            Your password can't be entirely numeric. 
             </b-form-text>
             <br/>
 
             <label for="confirmPassword">Confirm password</label>
-            <b-input type="password" id="confirmPassword" v-model="form.confirmPassword" :state="form.confirmPassword.length > 0" :maxlength="80"  aria-describedby="confirmPasswordHelpBlock" />
+            <b-input type="password" id="confirmPassword" v-model="form.confirmPassword" :state="form.confirmPassword == form.password && form.confirmPassword.length != 0" :maxlength="80"  aria-describedby="confirmPasswordHelpBlock" />
             <b-form-text id="confirmPasswordHelpBlock">
             Type your password again please
             </b-form-text>
@@ -70,7 +70,7 @@
 
             <div id='photo' v-if="selected ==='DataScientist'">
             <label for="photo">Photo</label>
-            <b-input type="url" id="text" v-model="form.photo" aria-describedby="photoHelpBlock" :state="form.photo.length > 0"  :maxlength="80" />
+            <b-input type="url" id="text" v-model="form.photo" aria-describedby="photoHelpBlock" :state="form.photo.length > 0 && new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi).test(this.form.photo)"  :maxlength="80" />
             <b-form-text id="photoHelpBlock">
               Write a URL with a photo
             </b-form-text>
@@ -135,7 +135,7 @@
 
             <div id='logo' v-if="selected ==='Company'">
             <label for="logo">Logo Url</label>
-            <b-input type="url" id="text" v-model="form.logo" aria-describedby="logoHelpBlock" :state="form.logo.length > 0" :maxlength="80" />
+            <b-input type="url" id="text" v-model="form.logo" aria-describedby="logoHelpBlock" :state="form.logo.length > 0 && new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi).test(this.form.logo)" :maxlength="80" />
             <b-form-text id="logoHelpBlock">
               Write a URL referring to your company's logo
             </b-form-text>
@@ -151,7 +151,7 @@
            
 
         
-
+<Footer/>
 </div>
 
              
@@ -167,7 +167,8 @@ import Footer from '../../components/Footer.vue'
 export default {
   name: 'app',
   components: {
-    Navbar
+    Navbar,
+    Footer
   },
   computed:{
   },
@@ -247,9 +248,16 @@ export default {
         if (this.selected == 'Company' && this.form.nif.length == 0){
             this.messages.push('NIF is required')
         }
+       var regex = new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi);
+       if (this.selected == 'DataScientist' && (! (this.form.photo).match(regex))){
+          this.messages.push('Photo must be an URL');
+          }
 
          if (this.selected == 'Company' && this.form.description.length == 0){
             this.messages.push('Description is required')
+        }
+        if (this.selected == 'Company' && (! (this.form.logo).match(regex))){
+          this.messages.push('Logo must be an URL');
         }
         if(this.messages.length > 0){ 
           this.modalShow = true
@@ -353,5 +361,16 @@ html {
   margin-left: 15%;
   margin-right: 15%;
 }
+
+#register{
+    margin-left:1%;
+    max-width: 99%;
+    margin-bottom: 5%
+}
+
+#register input{
+    max-width: 90%;
+}
+
 
 </style>
