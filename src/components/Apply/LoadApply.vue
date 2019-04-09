@@ -1,6 +1,6 @@
 <template>
     <div>
-        
+
 
           {{toggleMakeSubmition(item.id)}}
               {{saveId(item.offer_id)}}
@@ -27,11 +27,28 @@
         </div>
         <div v-if="user_type === 'com'">
         <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
+        <b-link href="#" class="card-link" v-b-modal.showDataScientist variant="outline-primary" @click="showDataScientist(item.dataScientist_id)">Show Data Scientist</b-link>
         </div>
 
       </b-card-body>
     </b-collapse>
   </b-card>
+</div>
+
+<!-- Modal Pop up showCompany -->
+<div>
+ <b-modal id="showDataScientist" hide-footer ref="detailedDataScientist" size="xl" title="Data Scientist's details">
+   <div id="cv_items_5" v-for="cvitem in dss">
+     <p class="display-3">{{cvitem.Section}}<p>
+     <div id="cv_items_sub" v-for="item2 in cvitem.Items">
+       <b-card :title="item2.name" :sub-title="item2.description">
+         <b-card-text>
+           {{item2.date_start}} - {{item2.date_finish}}
+         </b-card-text>
+       </b-card>
+     </div>
+   </div>
+ </b-modal>
 </div>
 
 
@@ -66,8 +83,10 @@ Vue.use(VueRouter)
       offerId: '',
       user_type: this.$cookies.get('user_type'),
       offertodl: [],
-      url: ''
-      
+      url: '',
+      dsId: '',
+      dss: []
+
 
     }
   }, computed: {
@@ -75,9 +94,19 @@ Vue.use(VueRouter)
   },
     props: ['item','index','key', 'isCompany'],
  methods: {
+    showDataScientist: function(idDataScientist) {
+      this.dsId = idDataScientist
+      var token = 'JWT ' + this.$cookies.get('token')
+      this.$http.get('http://localhost:8000/api/v1/cv?dataScientistId=' + idDataScientist,{ headers:
+        { Authorization: token }
+      }).then((result) => {
+        this.dss = result.data
+      })
+
+    },
      onClickButton (event) {
       this.$emit('clicked', this.offerId)
-    },      
+    },
     saveId (id) {
       this.offerId = id
     },
@@ -93,7 +122,7 @@ Vue.use(VueRouter)
       }).then((result) => {
           this.permissions = String (result.data.message)
       })
-          
+
      },
 
     senderId: function(id){
@@ -146,12 +175,22 @@ Vue.use(VueRouter)
       })
 
      },
-     
+
   },
   }
 
-  
+
 
 
 
 </script>
+
+<style>
+#cv_items_5 {
+  margin: 2em;
+}
+
+#cv_items_sub {
+  margin: 2em;
+}
+</style>
