@@ -73,101 +73,130 @@
           </b-form>
     </b-modal> 
 
-      <!-- Modal Pop up -->
-      <div>
-        <b-modal id="modalxl" hide-footer ref="newOffer" size="xl" title="Create an offer">
-          <b-form  @submit.prevent>
-            <label for="title">Title</label>
-            <b-input type="text" v-model="form.title" id="title" :state="form.title.length > 0"  :maxlength="80" aria-describedby="titleHelpBlock" />
-            <b-form-text id="titleHelpBlock">
-              The main title for your offer, max 80 characters.
-            </b-form-text>
-            <br/>
-            <label for="description">Description</label>
-            <b-input type="text" id="description" v-model="form.description" :state="form.description.length > 0" aria-describedby="descriptionHelpBlock" />
-            <b-form-text id="descriptionHelpBlock">
-              The description for your offer, here you can explain everything.
-            </b-form-text>
-            <br/>
-            <label for="price">Price offered</label>
-            <b-input type="number" id="price" v-model="form.price_offered" aria-describedby="priceHelpBlock" />
-            <b-form-text id="priceHelpBlock">
-              Give your offer a price.
-            </b-form-text>
-            <br/>
+    <!-- Modal Pop up -->
+    <div>
+      <b-modal id="modalxl" hide-footer ref="newOffer" size="xl" title="Create an offer">
+        <b-form @submit.prevent>
+          <label for="title">Title</label>
+          <b-input
+            type="text"
+            v-model="form.title"
+            id="title"
+            :state="form.title.length > 0"
+            :maxlength="80"
+            aria-describedby="titleHelpBlock"
+          />
+          <b-form-text id="titleHelpBlock">The main title for your offer, max 80 characters.</b-form-text>
+          <br>
+          <label for="description">Description</label>
+          <b-input
+            type="text"
+            id="description"
+            v-model="form.description"
+            :state="form.description.length > 0"
+            aria-describedby="descriptionHelpBlock"
+          />
+          <b-form-text
+            id="descriptionHelpBlock"
+          >The description for your offer, here you can explain everything.</b-form-text>
+          <br>
+          <label for="price">Price offered</label>
+          <b-input
+            type="number"
+            id="price"
+            v-model="form.price_offered"
+            aria-describedby="priceHelpBlock"
+          />
+          <b-form-text id="priceHelpBlock">Give your offer a price.</b-form-text>
+          <br>
 
-             <label for="limit_time">Limit date:</label>
-            <b-input type="text" id="limit_time" v-model="form.limit_time" aria-describedby="descriptionHelpBlock" />
-            <b-form-text id="descriptionHelpBlock">
-              Limit date for being offered. (yyyy-MM-dd HH:mm)
-            </b-form-text>
-             <label for="files">Files</label>
-            <b-input type="text" id="files" v-model="form.files" aria-describedby="descriptionHelpBlock" />
-            <b-form-text id="descriptionHelpBlock">
-              The files for your offer, write your URLs.
-            </b-form-text>
-             <br/>
-             <label for="contract">Contract</label>
-            <b-input type="text" id="contract" v-model="form.contract" aria-describedby="descriptionHelpBlock" />
-            <b-form-text id="descriptionHelpBlock">
-              Terms and conditions of your contract
-            </b-form-text>
-             <br/>
+          <label for="limit_time">Limit date:</label>
+          <b-input
+            type="text"
+            id="limit_time"
+            v-model="form.limit_time"
+            aria-describedby="descriptionHelpBlock"
+          />
+          <b-form-text id="descriptionHelpBlock">Limit date for being offered. (yyyy-MM-dd HH:mm)</b-form-text>
+          <label for="files">Files</label>
+          <b-input
+            type="text"
+            id="files"
+            v-model="form.files"
+            aria-describedby="descriptionHelpBlock"
+          />
+          <b-form-text id="descriptionHelpBlock">The files for your offer, write your URLs.</b-form-text>
+          <br>
+          <label for="contract">Contract</label>
+          <b-input
+            type="text"
+            id="contract"
+            v-model="form.contract"
+            aria-describedby="descriptionHelpBlock"
+          />
+          <b-form-text id="descriptionHelpBlock">Terms and conditions of your contract</b-form-text>
+          <br>
 
-             <b-button class="mt-2" variant="success" block @click="createOffer">Create offer</b-button>
-          </b-form>
-        </b-modal>
-      </div>
+          <b-button class="mt-2" variant="success" block @click="createOffer">Create offer</b-button>
+        </b-form>
+      </b-modal>
+    </div>
 
+    <!-- Modal Pop up CreateApply -->
+    <div>
+      <b-modal id="createApply" hide-footer ref="newApply" size="xl" title="Create an apply">
+        <b-form @submit.prevent>
+          <label for="title">Title</label>
 
-      <!-- Modal Pop up CreateApply -->
-      <div>
-        <b-modal id="createApply" hide-footer ref="newApply" size="xl" title="Create an apply">
-          <b-form  @submit.prevent>
-            <label for="title">Title</label>
-
-            <b-input type="text" v-model="formApply.title" :state="tittleApply" id="title" aria-describedby="titleHelpBlock" />
-            <b-form-text id="titleHelpBlock">
-              The main title for your apply, please keep it short.
-            </b-form-text>
-             <b-form-invalid-feedback id="apply-tittle-feedback">
-            Enter at least 5 letters
-            </b-form-invalid-feedback>
-            <br/>
-            <label for="description">Description</label>
-            <b-input type="text" id="description" v-model="formApply.description" :state="descriptionApply" aria-describedby="descriptionHelpBlock" />
-            <b-form-text id="descriptionHelpBlock">
-              The description for your apply, here you can explain everything.
-            </b-form-text>
-            <b-form-invalid-feedback id="apply-description-feedback">
-            Enter at least 10 letters
-            </b-form-invalid-feedback>
-            <br/>
-             <b-button class="mt-2" variant="success" block @click="toggleCreateApply">Create apply</b-button>
-          </b-form>
-        </b-modal>
-      </div>
-
+          <b-input
+            type="text"
+            v-model="formApply.title"
+            :state="tittleApply"
+            id="title"
+            aria-describedby="titleHelpBlock"
+          />
+          <b-form-text id="titleHelpBlock">The main title for your apply, please keep it short.</b-form-text>
+          <b-form-invalid-feedback id="apply-tittle-feedback">Enter at least 5 letters</b-form-invalid-feedback>
+          <br>
+          <label for="description">Description</label>
+          <b-input
+            type="text"
+            id="description"
+            v-model="formApply.description"
+            :state="descriptionApply"
+            aria-describedby="descriptionHelpBlock"
+          />
+          <b-form-text
+            id="descriptionHelpBlock"
+          >The description for your apply, here you can explain everything.</b-form-text>
+          <b-form-invalid-feedback id="apply-description-feedback">Enter at least 10 letters</b-form-invalid-feedback>
+          <br>
+          <b-button class="mt-2" variant="success" block @click="toggleCreateApply">Create apply</b-button>
+        </b-form>
+      </b-modal>
+    </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
-import Navbar from '../../components/Navbar.vue'
-import Footer from '../../components/Footer.vue'
+import Navbar from "../../components/Navbar.vue";
+import Footer from "../../components/Footer.vue";
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    Navbar
+    Navbar,
+    Footer
   },
-  computed:{
-    tittleApply(){
-        return this.formApply.title.length > 5 ? true : false
+  computed: {
+    tittleApply() {
+      return this.formApply.title.length > 5 ? true : false;
     },
-     descriptionApply(){
-        return this.formApply.description.length > 10 ? true : false
+    descriptionApply() {
+      return this.formApply.description.length > 10 ? true : false;
     }
   },
-  data () {
+  data() {
     return {
       items: [],
       applications:[],
@@ -194,23 +223,25 @@ export default {
         this.items = result.data
     })
     
+
     // Para los pagos
-    if(this.$cookies.get('user_type') == 'com'){
-      try{
-        if (window.location.search.split("?")[1].split("&")){
-          var respuesta_paypal = window.location.search.split("?")[1].split("&");
+    if (this.$cookies.get("user_type") == "com") {
+      try {
+        if (window.location.search.split("?")[1].split("&")) {
+          var respuesta_paypal = window.location.search
+            .split("?")[1]
+            .split("&");
           var paymentId = respuesta_paypal[0].split("=")[1];
           var token_paypal = respuesta_paypal[1].split("=")[1];
           var payerID = respuesta_paypal[2].split("=")[1];
           var url_guarda_pagos = `http://localhost:8000/api/v1/pagos/accept_paypal_payment/${paymentId}/${token_paypal}/${payerID}/`;
-          this.$http.get(url_guarda_pagos, { headers:{ Authorization: token }
-          }).then((result) => {
-              alert(result.data.message)
-          })
+          this.$http
+            .get(url_guarda_pagos, { headers: { Authorization: token } })
+            .then(result => {
+              alert(result.data.message);
+            });
         }
-      }
-      catch(error){
-      }
+      } catch (error) {}
     }
 
     //este es el endpoint que devuelve las applications que tiene una oferta pero tengo el mismo problema
@@ -241,38 +272,41 @@ export default {
      },
     saveId: function(idOffer){
     this.offerId = idOffer
-
     },
-     createOffer() {
-       var token = 'JWT ' + this.$cookies.get('token')
-       const formData = new FormData();
-       formData.append("title", this.form.title);
-       formData.append("description", this.form.description);
-       formData.append("price_offered", this.form.price_offered);
-       formData.append("limit_time", this.form.limit_time);
-       formData.append("files", this.form.files);
-       formData.append("contract", this.form.contract);
-      this.$http.post('http://localhost:8000/api/v1/offer', formData,{ headers:
-      { Authorization: token }
-      }).then((result) => {
+    createOffer() {
+      var token = "JWT " + this.$cookies.get("token");
+      const formData = new FormData();
+      formData.append("title", this.form.title);
+      formData.append("description", this.form.description);
+      formData.append("price_offered", this.form.price_offered);
+      formData.append("limit_time", this.form.limit_time);
+      formData.append("files", this.form.files);
+      formData.append("contract", this.form.contract);
+      this.$http
+        .post("http://localhost:8000/api/v1/offer", formData, {
+          headers: { Authorization: token }
+        })
+        .then(result => {
           // alert(result.data.message)
-          var offer_created = result.data.offer_id
-          this.$http.get(`http://localhost:8000/api/v1/pagos/create_papyal_payment/${offer_created}/`, { headers:{ Authorization: token }
-          }).then((result) => {
-            window.location.href = result.data.url_pago
-          })
-
-      })
-     },
-     deleteOffer(id) {
+          var offer_created = result.data.offer_id;
+          this.$http
+            .get(
+              `http://localhost:8000/api/v1/pagos/create_papyal_payment/${offer_created}/`,
+              { headers: { Authorization: token } }
+            )
+            .then(result => {
+              window.location.href = result.data.url_pago;
+            });
+        });
+    },
+    deleteOffer(id) {
       var token = "JWT " + this.$cookies.get("token");
       var confirm = window.confirm(
         "Are you sure you want to delete this offer?"
       );
       if (confirm) {
-        this.$http.delete(
-          "http://localhost:8000/api/v1/company/offer/" + id,
-          {
+        this.$http
+          .delete("http://localhost:8000/api/v1/company/offer/" + id, {
             headers: {
                 Authorization: token
                 }
@@ -303,6 +337,7 @@ export default {
       }
 
 }
+
 /*{
           'title': this.form.title,
           'description': this.form.description,
@@ -316,7 +351,7 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -334,7 +369,7 @@ export default {
 html {
   background-color: #ffffff;
 }
-#search-group{
+#search-group {
   margin-left: 15%;
   margin-right: 15%;
 }
