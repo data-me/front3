@@ -54,5 +54,8 @@
   "name": "Name",
   "logo": "Logo",
   "edit": "Edit",
-  "modal_edit_profile":"Edit profile"
+  "modal_edit_profile":"Edit profile",
+  "delete_item" : "Delete item",
+  "add_section" : "Add section",
+  "recieved_submitions" : "Recieved submissions"
 }

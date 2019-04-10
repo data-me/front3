@@ -50,6 +50,12 @@
           {{this.form.address}}
         </b-card-text>
         <b-button class="mt-1" variant="success" block @click="toffleEditProfile">Edit</b-button>
+        <b-button
+          class="mt-1"
+          variant="success"
+          block
+          v-b-modal.new-new-section
+        >{{$t("add_section")}}</b-button>
       </div>
     </div>
 
@@ -69,7 +75,6 @@
               aria-describedby="fileHelpBlock"
             />
           </b-card-text>
-          {{this.form.name}}
           <b-card-text class="card-text">
             <label for="surname">Surname:</label>
             <b-input
@@ -134,8 +139,8 @@
       <p></p>
       <div v-bind:key="item2.id" id="cv_items_sub" v-for="item2 in item.Items">
         <b-card :title="item2.name" :sub-title="item2.description">
-          <b-card-text>{{item2.entity}}</b-card-text>
-          <div id="deleteoffer">
+          <b-card-text style="float: left;">{{item2.entity}}</b-card-text>
+          <div style="float: right;" id="deleteoffer">
             <b-button
               variant="danger"
               class="mt-2"
@@ -149,9 +154,13 @@
         <CreateItemSection :secid="item.Section_Id"></CreateItemSection>
       </div>
     </div>
-    <div id="create_section">
-      <create-section></create-section>
-    </div>
+
+    <b-modal id="new-new-section" hide-footer="true" centered :title="$t('add_section')">
+      <div id="create_section">
+        <create-section></create-section>
+      </div>
+    </b-modal>
+    <Footer />
   </div>
 </template>
 
@@ -165,6 +174,7 @@ export default {
   name: "app",
   components: {
     Navbar,
+    Footer,
     CreateItemSection,
     CreateSection
   },
@@ -263,7 +273,7 @@ export default {
       var confirm = window.confirm(
         "Are you sure you want to delete this item?"
       );
-      
+
       if (confirm) {
         this.$http.delete(
           "http://localhost:8000/api/v2/data/delete_item/" + item_id,

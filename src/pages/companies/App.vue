@@ -13,9 +13,23 @@
       </b-card>
     </div>
 
-    <b-button class="mt-1" variant="success" block @click="toggleEditProfile" v-b-modal.EditProfile>{{$t("edit")}}</b-button>
+    <b-button
+      v-if="isCompany"
+      class="mt-1"
+      variant="success"
+      block
+      @click="toggleEditProfile"
+      v-b-modal.EditProfile
+    >{{$t("edit")}}</b-button>
 
-    <b-modal id="EditProfile" v-if="!ViewEdit" ok-disabled hide-footer="true" centered :title="$t('modal_edit_profile')">
+    <b-modal
+      id="EditProfile"
+      v-if="!ViewEdit"
+      ok-disabled
+      hide-footer="true"
+      centered
+      :title="$t('modal_edit_profile')"
+    >
       <!-- Editing company info -->
       <div id="info">
         <b-form @submit.prevent>
@@ -68,6 +82,7 @@ export default {
     return {
       items: [],
       ViewEdit: true,
+      isCompany: this.$cookies.get('user_type') === 'com',
       form: {
         name: "",
         description: "",
