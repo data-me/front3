@@ -30,7 +30,6 @@
               aria-describedby="fileHelpBlock"
             />
           </b-card-text>
-          {{this.form.name}}
           <b-card-text class="card-text">
             <label for="description">{{$t('description')}}</label>
             <b-input
