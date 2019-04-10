@@ -2,21 +2,72 @@
   <div id="app">
     <Navbar/>
     
-    <h1>Numero Total de ofertas</h1>
-    <h2>{{ offers.length }}</h2>
     <br>
-    <h1>Número total de usuarios</h1>
-    <h2>{{ users.length }}</h2>
     <br>
-    <h1>Número de empresas registradas</h1>
-    <h2>{{ companies.length }}</h2>
-    <br>
-    <h1>Media de ofertas por empresa</h1>
-    <h2>{{ offers.length /companies.length }}</h2>
-    <br>
-    <h1>Número total de applications</h1>
-    <h2>{{applications.length}}</h2>
-   
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
+          <h1 class="card-header" >Numero Total de ofertas</h1>
+          <h2 class="card-body">{{ offers.length }}</h2>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="col-sm-4">
+        <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
+          <h1 class="card-header">Número total de usuarios</h1>
+          <h2 class="card-body">{{ users.length }}</h2>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="col-sm-4">
+        <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
+          <h1 class="card-header">Número de empresas registradas</h1>
+          <h2 class="card-body">{{ companies.length }}</h2>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="col-sm-4">
+        <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
+          <h1 class="card-header">Media de ofertas por empresa</h1>
+          <h2 class="card-body">{{ offers.length /companies.length }}</h2>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="col-sm-4">
+        <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
+          <h1 class="card-header">Número total de aplicaciones</h1>
+          <h2 class="card-body">{{applications.length}}</h2>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="col-sm-4">
+        <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
+          <h1 class="card-header">Número de aplicaciones aceptadas</h1>
+          <h2 class="card-body">{{applicationsAccepted.length}}</h2>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="col-sm-4">
+        <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
+          <h1 class="card-header">Número de envíos realizados</h1>
+          <h2 class="card-body">{{submitions.length}}</h2>
+        </div>
+      </div>
+       <br>
+      <br>
+      <div class="col-sm-4">
+        <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
+          <h1 class="card-header">Número de mensajes intercambiados</h1>
+          <h2 class="card-body">{{messages.length}}</h2>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,7 +90,9 @@ export default {
       users:[],
       companies:[],
       applications:[],
-      
+      applicationsAccepted:[],
+      submitions:[],
+      messages:[],
 
        
         user_type: this.$cookies.get('user_type')
@@ -71,7 +124,21 @@ export default {
       }).then((result) => {
         this.applications = result.data
       })
-    
+    this.$http.get('http://localhost:8000/api/v1/applicationsAccepted',{ headers:
+      { Authorization: token }
+      }).then((result) => {
+        this.applicationsAccepted = result.data
+      })
+    this.$http.get('http://localhost:8000/api/v1/submitions',{ headers:
+      { Authorization: token }
+      }).then((result) => {
+        this.submitions = result.data
+      })
+    this.$http.get('http://localhost:8000/api/v1/messages',{ headers:
+      { Authorization: token }
+      }).then((result) => {
+        this.messages = result.data
+      })
     
   }
 
@@ -87,6 +154,19 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 
+}
+.card-header{
+  text-align: center;
+}
+
+.card-body{
+  text-align: center;
+}
+
+.card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 25px; /* Added */
 }
 
 #offers {

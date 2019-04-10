@@ -14,40 +14,40 @@
         <b-collapse :id="'accordion-'+offer.offer_id" accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <b-card-text>
-              <span class="font-weight-bold">Description:</span>
+              <span class="font-weight-bold">{{$t('description')}}:</span>
               {{ offer.description }}
             </b-card-text>
 
             <b-card-text>
-              <span class="font-weight-bold">Price offered:</span>
+              <span class="font-weight-bold">{{$t('price_offered')}}:</span>
               {{ offer.price_offered + '€' }}
             </b-card-text>
 
             <b-card-text>
-              <span class="font-weight-bold">Creation date:</span>
+              <span class="font-weight-bold">{{$t('creation_date')}}:</span>
               {{ offer.creation_date.slice(0,10) }}
             </b-card-text>
 
             <b-card-text>
-              <span class="font-weight-bold">Limit date:</span>
+              <span class="font-weight-bold">{{$t('limit_date')}}:</span>
               {{ offer.limit_time === None ? 'No limit time' : offer.limit_time.slice(0,10) }}
             </b-card-text>
 
             <b-card-text>
-              <span class="font-weight-bold">State:</span>
-              {{ offer.finished ? 'Finished' : 'Not finished' }}
+              <span class="font-weight-bold">{{$t('state')}}:</span>
+              {{ offer.finished ? $t('finished') : $t('not_finished') }}
             </b-card-text>
 
             <b-card-text>
-              <span class="font-weight-bold">Contract: {{offer.contract}}</span>
+              <span class="font-weight-bold">{{$t('contract')}}: {{offer.contract}}</span>
             </b-card-text>
 
             <b-card-text>
-              <span class="font-weight-bold">File: {{offer.files}}</span>
+              <span class="font-weight-bold">{{$t('file')}}: {{offer.files}}</span>
             </b-card-text>
 
             <div id="deleteoffer">
-              <b-button variant="danger" class="mt-2" block @click="deleteOffer(offer.offer_id)">Delete offer</b-button>
+              <b-button variant="danger" class="mt-2" block @click="deleteOffer(offer.offer_id)">{{$t('delete_offer')}}</b-button>
             </div>
           </b-card-body>
         </b-collapse>
