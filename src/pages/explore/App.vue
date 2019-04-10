@@ -30,7 +30,6 @@
             </b-card-header>
             <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
               <b-card-body>
-                <b-card-text><span class="font-weight-bold">id: </span> {{item.id}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Description: </span> {{item.description}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Price offered: </span>{{item.price_offered + '€'}}</b-card-text>
                 <b-card-text><span class="font-weight-bold">Creation date: </span>{{item.creation_date.slice(0,10)}}</b-card-text>
@@ -41,11 +40,12 @@
                 <div v-if="user_type === 'ds'">
                   <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">Apply</b-link>
                 </div>
-                <div id="deleteoffer" v-if="user_type !== 'ds'">
+                
+                <div id="deleteoffer" v-if="user_type !== 'ds' && applications.length == 0">
                   <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">Delete offer</b-button>
                 </div>
                 <div>
-                <b-button v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">Edit Offer</b-button>
+                <b-button href="#" v-if="(user_type === 'com' && applications.length == 0)" class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">Edit Offer</b-button>
                 </div>
               </b-card-body>
             </b-collapse>
@@ -68,8 +68,8 @@
               The description for your offer, here you can explain everything.
             </b-form-text>
             <br/>
-
-             <b-button class="mt-2" variant="success" block @click="updateOffer()">Edit Offer</b-button>
+            <!--No sé como pasarle la oferta a la funcion updateOffer porque offerId está vacío -->
+             <b-button class="mt-2" variant="success" block @click="updateOffer(offerId)">Edit Offer</b-button>
           </b-form>
     </b-modal> 
 
@@ -170,6 +170,7 @@ export default {
   data () {
     return {
       items: [],
+      applications:[],
       form: {
           title: '',
           description: '',
@@ -182,10 +183,6 @@ export default {
             description: '',
             offerId: null,
         },
-        formEdit:{
-          title: '',
-          description: '',
-        },
         offerId: '',
         user_type: this.$cookies.get('user_type')
     }
@@ -196,6 +193,7 @@ export default {
       }).then((result) => {
         this.items = result.data
     })
+    
     // Para los pagos
     if(this.$cookies.get('user_type') == 'com'){
       try{
@@ -214,6 +212,15 @@ export default {
       catch(error){
       }
     }
+
+    //este es el endpoint que devuelve las applications que tiene una oferta pero tengo el mismo problema
+    //que para el edit, que no consigo pasarle la oferta. offerId está vacía
+    this.$http.get('http://localhost:8000/api/v2/applicationsOfOffer/'+ offerId,{ headers:
+      { Authorization: token }
+      }).then((result) => {
+        this.applications = result.data
+      })
+
   }, methods: {
       toggleCreateApply() {
        var token = 'JWT ' + this.$cookies.get('token')
@@ -234,6 +241,7 @@ export default {
      },
     saveId: function(idOffer){
     this.offerId = idOffer
+
     },
      createOffer() {
        var token = 'JWT ' + this.$cookies.get('token')
@@ -281,18 +289,17 @@ export default {
             { Authorization: token }}).then((result) => {
               this.items = result.data
             })
-        }
-      },updateOffer(id){
+        },updateOffer(offerId){
         var token = 'JWT' + this.$cookies.get('token')
-        const formUpdate = new FormData();
-        formUpdate.append("title", this.formEdit.title);
-        formUpdate.append("description", this.formEdit.description);
-        print("hola");
-          this.$http.post('http://localhost:8000/api/v2/change_offer/'+id, formUpdate,{ headers:
+        const formData = new FormData();
+        formData.append("title", this.form.title);
+        formData.append("description", this.form.description);
+          this.$http.post('http://localhost:8000/api/v2/change_offer/'+offerId, formData,{ headers:
             { Authorization: token }}).then((result) => {
               this.items = result.data
             })
       
+      }
       }
 
 }
