@@ -57,5 +57,9 @@
   "modal_edit_profile": "Editar perfil",
   "delete_item": "Eliminar item",
   "add_section": "Añadir sección",
-  "recieved_submitions" : "Propuestas recibidas"
+  "recieved_submitions" : "Propuestas recibidas",
+  "date_finish": "Terminado el",
+  "date_start": "Empezado el",
+  "entity":"Entidad",
+  "edit_item":"Editar item"
 }

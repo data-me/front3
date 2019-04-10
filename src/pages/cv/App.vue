@@ -13,7 +13,7 @@
     >
       <template slot="modal-header">DataMe says:</template>
       {{updatedMessage}}
-      <b-button class="mt-2" variant="success" block @click="submited = false">Close</b-button>
+      <b-button class="mt-2" variant="success" block @click="moreFunctions">Close</b-button>
     </b-modal>
 
     <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
@@ -141,12 +141,21 @@
         <b-card :title="item2.name" :sub-title="item2.description">
           <b-card-text style="float: left;">{{item2.entity}}</b-card-text>
           <div style="float: right;" id="deleteoffer">
-            <b-button
+            <div style="float: left; margin-right: 10px">
+            <b-button 
+              variant="success"
+              class="mt-2"
+              block
+              @click="saveIds(item2)"
+              v-b-modal.edit-wryyyy
+            >{{$t('edit_item')}}</b-button></div>
+            <div style="float: right;">
+            <b-button 
               variant="danger"
               class="mt-2"
               block
               @click="deleteItem(item2.id)"
-            >{{$t('delete_item')}}</b-button>
+            >{{$t('delete_item')}}</b-button></div>
           </div>
         </b-card>
       </div>
@@ -155,12 +164,99 @@
       </div>
     </div>
 
+    <b-modal id="edit-wryyyy" hide-footer centered :title="$t('edit_item')">
+      <div id="formDiobrando">
+        <b-form @submit.prevent>
+          <b-card-text class="card-text">
+            <label for="name">{{$t('name')}}:</label>
+            <b-input
+              type="text"
+              v-model="formDiobrando.name"
+              id="name"
+              :state="this.formDiobrando.name.length > 0"
+              :maxlength="200"
+              aria-describedby="fileHelpBlock"
+            />
+          </b-card-text>
+          <b-card-text class="card-text">
+            <label for="description">{{$t('description')}}:</label>
+            <b-input
+              type="text"
+              v-model="formDiobrando.description"
+              id="description"
+              :state="this.formDiobrando.description.length > 0"
+              :maxlength="500"
+              aria-describedby="fileHelpBlock"
+            />
+          </b-card-text>
+          <b-card-text class="card-text">
+            <label for="entity">{{$t('entity')}}:</label>
+            <b-input
+              type="text"
+              v-model="formDiobrando.entity"
+              id="entity"
+              :state="this.formDiobrando.entity.length > 0"
+              :maxlength="200"
+              aria-describedby="fileHelpBlock"
+            />
+          </b-card-text>
+          <b-card-text class="card-text">
+            <label for="date_start">{{$t('date_start')}}:</label>
+            <b-input
+              type="text"
+              v-model="formDiobrando.date_start"
+              id="date_start"
+              :state="this.formDiobrando.date_start.length > 0"
+              :maxlength="200"
+              aria-describedby="fileHelpBlock"
+            />
+          </b-card-text>
+          <b-card-text class="card-text">
+            <label for="date_finish">{{$t('date_finish')}}:</label>
+            <b-input
+              type="text"
+              v-model="formDiobrando.date_finish"
+              id="date_finish"
+              :maxlength="200"
+              aria-describedby="fileHelpBlock"
+            />
+          </b-card-text>
+
+          <b-button
+            class="mt-1"
+            variant="success"
+            block
+            @click="saveItem"
+            v-b-modal.errrrrors
+          >{{$t('save')}}</b-button>
+        </b-form>
+      </div>
+    </b-modal>
+
+    <b-modal
+      v-if="messages.length > 0"
+      id="errrrrors"
+      hide-footer="true"
+      centered
+      :title="$t('errors')"
+    >
+      <template>
+        Please check the errors
+        <li
+          variant="danger"
+          v-bind:key="message.id"
+          id="messagesError"
+          v-for="message in this.messages"
+        >{{message}}</li>
+      </template>
+    </b-modal>
+
     <b-modal id="new-new-section" hide-footer="true" centered :title="$t('add_section')">
       <div id="create_section">
         <create-section></create-section>
       </div>
     </b-modal>
-    <Footer />
+    <Footer/>
   </div>
 </template>
 
@@ -191,14 +287,25 @@ export default {
         photo: "",
         address: ""
       },
+      formDiobrando: {
+        itemid: "",
+        secid: "",
+        name: "",
+        description: "",
+        entity: "",
+        date_start: "",
+        date_finish: ""
+      },
       submited: false,
       messages: [],
       updatedMessage: "",
+      language: this.$cookies.get("lang"),
       modalShow: false
     };
   },
   mounted: function() {
     var token = "JWT " + this.$cookies.get("token");
+
     this.$http
       .get("http://localhost:8000/api/v2/get_user_logged", {
         headers: { Authorization: token }
@@ -268,6 +375,72 @@ export default {
           });
       }
     },
+    saveItem() {
+      var token = "JWT " + this.$cookies.get("token");
+      const formData = new FormData();
+      this.messages = [];
+      if (this.formDiobrando.name.length == 0) {
+        if (this.language == "en") {
+          this.messages.push("Name is required");
+        } else {
+          this.messages.push("El nombre es requerido");
+        }
+      }
+      if (this.formDiobrando.description.length == 0) {
+        if (this.language == "en") {
+          this.messages.push("Description is required");
+        } else {
+          this.messages.push("La descripción es requerida");
+        }
+      }
+      if (this.formDiobrando.entity.length == 0) {
+        if (this.language == "en") {
+          this.messages.push("Entity is required");
+        } else {
+          this.messages.push("La entidad es requerida");
+        }
+      }
+      if (this.formDiobrando.date_start.length == 0) {
+        if (this.language == "en") {
+          this.messages.push("Starting date is required");
+        } else {
+          this.messages.push("la fecha de inicio es requerida");
+        }
+      }
+      if (
+        !/^\d{4}[-]\d{2}[-]\d{2}[T ]\d{2}[:]\d{2}(:\d{2})?/.test(
+          this.formDiobrando.date_start
+        )
+      ) {
+        if (this.language == "en") {
+          this.messages.push(
+            "Starting date is does not follow the pattern yyyy-MM-dd HH:mm"
+          );
+        } else {
+          this.messages.push(
+            "la fecha de inicio no sigue el patrón yyyy-MM-dd HH:mm"
+          );
+        }
+      }
+      if (this.messages.length <= 0) {
+        formData.append("name", this.formDiobrando.name);
+        formData.append("description", this.formDiobrando.description);
+        formData.append("entity", this.formDiobrando.entity);
+        formData.append("datestart", this.formDiobrando.date_start);
+        formData.append("datefinish", this.formDiobrando.date_finish);
+        formData.append("secid", this.formDiobrando.secid);
+        formData.append("itemid", this.formDiobrando.itemid);
+        this.$http
+          .post("http://localhost:8000/api/v1/item", formData, {
+            headers: { Authorization: token }
+          })
+          .then(result => {
+            this.ViewEdit = true;
+            this.updatedMessage = result.data.message;
+            this.submited = true;
+          });
+      }
+    },
     deleteItem(item_id) {
       var token = "JWT " + this.$cookies.get("token");
       var confirm = window.confirm(
@@ -285,6 +458,19 @@ export default {
         );
         window.location.href = "/my_cv.html";
       }
+    },
+    saveIds: function(item) {
+      this.formDiobrando.itemid = item.id;
+      this.formDiobrando.secid = item.section_id;
+      this.formDiobrando.name = item.name;
+      this.formDiobrando.description = item.description;
+      this.formDiobrando.entity = item.entity;
+      this.formDiobrando.date_start = item.date_start;
+      this.formDiobrando.date_finish = item.date_finish;
+    },
+    moreFunctions() {
+      this.submited = false;
+      window.location.href = "/my_cv.html";
     }
   }
 };
@@ -310,6 +496,7 @@ export default {
 
 #cv_items {
   margin: 2em;
+  margin-right: 25%
 }
 
 #cv_items_sub {
