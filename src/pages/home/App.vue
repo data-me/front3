@@ -6,7 +6,7 @@
         <div class="intro-text">
           <div class="intro-lead-in">{{$t('message')}}</div>
             <div class="intro-heading text-uppercase">{{$t('home_message')}}</div>
-            <div class="intro-lead-in">DataMe - {{$t('version')}} 1.0 (Sprint 1) </div>
+            <div class="intro-lead-in">DataMe - {{$t('version')}} 1.1 (Sprint 2) </div>
           </div>
         </div>
   </header>

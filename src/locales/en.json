@@ -61,5 +61,8 @@
   "date_finish": "Finished on",
   "date_start": "Started on",
   "entity":"Entity",
-  "edit_item":"Edit item"
+  "edit_item":"Edit item",
+  "delete":"Delete",
+  "delete_app_success": "Application deleted successfully",
+  "delete_app_not_allowed": "Application could not be deleted because it was not yours or it is not pending"
 }
