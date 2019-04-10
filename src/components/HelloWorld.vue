@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <Navbar/>
     <br/>
     <h1>{{msg}}</h1>
   </div>
