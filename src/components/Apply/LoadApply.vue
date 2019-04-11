@@ -19,12 +19,13 @@
         <b-card-text><span class="font-weight-bold">Status: </span> {{item.status}}</b-card-text>
         <b-card-text><span class="font-weight-bold">Date: </span>{{item.date.slice(0,10)}}</b-card-text>
         <b-card-text><span class="font-weight-bold">Offer: </span>{{item.offer_id}}</b-card-text>
-        <b-card-text></b-card-text>
-        <div v-if="user_type === 'ds'">
-          <b-link v-if= "item.status == 'AC'" class="card-link" variant="outline-primary" @click="downloadWithVueResource(item.offer_id)">Download file</b-link>
+        <div v-if="(user_type === 'ds' && item.status == 'AC')">
+          <b-card-text><span class="font-weight-bold">Offer file: </span>{{item.offer__files}}</b-card-text>
           <br/>
           <b-link href="#" v-b-modal.modalxl v-show="this.permissions == 'true'">Make submit</b-link>
           <br/>
+        </div>
+        <div v-if="(user_type === 'ds' && item.status == 'PE')">
           <b-link v-if="item.status == 'PE'" @click="deleteApplication(item.id)">{{$t('delete')}}</b-link>
         </div>
         <div v-if="user_type === 'com'">
@@ -46,7 +47,7 @@
        {{this.name}}
      </b-card-text>
      <b-card-text class="card-text">
-       <label for="surname">Surname:</label>
+       <label for="surname">Surnamez:</label>
        {{this.surname}}
      </b-card-text>
      <b-card-text class="card-text">
@@ -192,30 +193,14 @@ Vue.use(VueRouter)
       { Authorization: token }
       }).then((result) => {
         this.offertodl = result.data,
-        this.url = this.offertodl[0].file
+        this.url = this.offertodl.file
+        alert(this.url)
+
       })
   },
-      forceFileDownload(response){
-    const url = window.URL.createObjectURL(new Blob([response.data]))
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('download', 'file.csv') //or any other extension
-    document.body.appendChild(link)
-    link.click()
-  },
-      downloadWithVueResource(offerId) {
-    this.getOffer(offerId)
-    this.$http({
-      method: 'get',
-      url: this.url,
-      responseType: 'arraybuffer'
-    })
-    .then(response => {
-      this.forceFileDownload(response)
-    })
-    .catch(() => console.log('error occured'))
-
-  },
+      redirectTo(offerId){
+        this.getOffer(offerId);
+      },
 
       toggleAcceptApply(id) {
        var token = 'JWT ' + this.$cookies.get('token')

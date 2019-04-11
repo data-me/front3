@@ -95,11 +95,10 @@ export default {
           "http://localhost:8000/api/v2/admin/delete_offer/" + offer_id,
           {
             headers: {
-              Authorization: token
-            }
-          }
-        );
-        window.location.href = "/admin_offers.html";
+              Authorization: token}}).then((result) => {
+              alert(result.data.message)
+              window.location.href = "/admin_offers.html";
+            });
       }
     }
   }

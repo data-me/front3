@@ -41,12 +41,6 @@
               <span class="font-weight-bold">file:</span>
               {{item.file}}
             </b-card-text>
-            <b-link
-              class="card-link"
-              variant="outline-primary"
-              @click="downloadWithVueResource(item.file)"
-            >Download file</b-link>
-            <b-card-text></b-card-text>
 
             <b-form v-if="user_type == 'com' && item.status == 'SU'" @submit.prevent>
               <label for="type">Change status</label>
