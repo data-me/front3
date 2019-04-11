@@ -42,10 +42,10 @@
                 </div>
 
                 <div id="deleteoffer" v-if="user_type !== 'ds' && applications.length == 0">
-                  <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">{{$t('delete_offer')}}</b-button>
+                  <b-button variant="danger" class="card-link" block @click="deleteOffer(item.id)">{{$t('delete_offer')}}</b-button>
                 </div>
                 <div id="editOffer" v-if="(user_type === 'com' && applications.length == 0)">
-                <b-link href="#" class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">{{$t('edit_offer')}}</b-link>
+                <b-button  class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">{{$t('edit_offer')}}</b-button>
                 </div>
               </b-card-body>
             </b-collapse>
@@ -327,8 +327,9 @@ export default {
               }
             ).then((result) => {
               alert(result.data.message)
+              window.location.href = "/explore.html";
             });
-            window.location.href = "/explore.html";
+            
           }
       },
         onSubmit() {
@@ -345,7 +346,10 @@ export default {
           this.$http.post('http://localhost:8000/api/v2/change_offer/' + this.offerId, formData,{ headers:
             { Authorization: token }}).then((result) => {
               this.items = result.data
-            })
+              alert(result.data.message)
+              window.location.href = "/explore.html";
+            });
+            
 
       }
       }
