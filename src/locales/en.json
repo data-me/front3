@@ -35,12 +35,13 @@
   "details": "View detail",
   "create_offer": "Create new offer",
   "search": "Search",
-  "search_placeholder": "Title or description",
+  "search_placeholder": "Enter title or description",
   "apply": "Apply",
   "title": "Title",
   "title_offer_placeholder": "The main title for your offer, max 80 characters.",
   "description_offer_placeholder": "The description for your offer, here you can explain everything.",
   "price_offered_placeholder": "Give your offer a price.",
+  "limit_time": "Limit time",
   "limit_date_offer_placeholder": "Limit date for being offered. (yyyy-MM-dd HH:mm)",
   "files": "Files",
   "file_offer_placeholder": "The files for your offer, write your URLs.",
@@ -64,5 +65,8 @@
   "edit_item":"Edit item",
   "delete":"Delete",
   "delete_app_success": "Application deleted successfully",
-  "delete_app_not_allowed": "Application could not be deleted because it was not yours or it is not pending"
+  "delete_app_not_allowed": "Application could not be deleted because it was not yours or it is not pending",
+  "made_in_sevilla": "Made with ❤️ in Sevilla",
+  "about_us": "About us",
+  "terms&conditions": "Terms and conditions"
 }
