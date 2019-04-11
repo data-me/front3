@@ -153,7 +153,9 @@
       <p></p>
       <div v-bind:key="item2.id" id="cv_items_sub" v-for="item2 in item.Items">
         <b-card :title="item2.name" :sub-title="item2.description">
-          <b-card-text style="float: left;">{{item2.entity}}</b-card-text>
+          <b-card-text>{{item2.entity}}</b-card-text>
+          <b-card-text>Start date: {{item2.date_start}}</b-card-text>
+          <b-card-text>Finish date: {{item2.date_finish}}</b-card-text>
           <div style="float: right;" id="deleteoffer">
             <div style="float: left; margin-right: 10px">
             <b-button 
