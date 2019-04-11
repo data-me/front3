@@ -82,5 +82,6 @@
   "number_applications":"Total number of applications",
   "number_AcAplicacions":"Number of accepted applications",
   "number_submitions":"Number of submitions",
-  "number_messages":"Number of exchanged messages"
+  "number_messages":"Number of exchanged messages",
+  "profile": "My profile"
 }

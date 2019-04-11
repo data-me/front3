@@ -82,5 +82,6 @@
   "number_applications":"Número total de aplicaciones",
   "number_AcAplicacions":"Número de aplicaciones aceptadas",
   "number_submitions":"Número de envíos realizados",
-  "number_messages":"Número de mensajes intercambiados"
+  "number_messages":"Número de mensajes intercambiados",
+  "profile": "Mi perfil"
 }
