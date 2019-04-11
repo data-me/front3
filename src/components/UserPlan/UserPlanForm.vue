@@ -1,7 +1,7 @@
 <template>
   <div class="user-plan-form">
     <h4>Upgrade to PRO plan</h4>
-    <b-form  @submit.prevent @submit="onSubmit" @reset="onReset">
+    <b-form  @submit.prevent @submit="onSubmit">
       <b-col sm="3">
           <label for="nMonths">Number of months:</label>
       </b-col>
@@ -40,12 +40,18 @@
         formData.append('nMonths', this.userPlanForm.nMonths);
         this.$http.post(baseURI, formData, { headers: { Authorization: token }})
         .then((result) => {
-            alert(result.data.message)
-            location.reload()
+            alert(result.data.message);
+            if(result.data.userplan_pk != null){
+              this.$http.get('http://localhost:8000/api/v1/pagos/paypal_userPlan_payment?userplan_pk=' + result.data.userplan_pk, 
+              { headers: { Authorization: token } })
+                  .then(result => {
+                  window.location.href = result.data.redirect_url;
+                })
+              }
         })
+        }
       } 
     }
-  }
 
 </script>
 
