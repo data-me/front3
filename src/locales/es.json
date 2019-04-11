@@ -61,5 +61,6 @@
   "date_finish": "Terminado el",
   "date_start": "Empezado el",
   "entity":"Entidad",
-  "edit_item":"Editar item"
+  "edit_item":"Editar item",
+  "delete_section":"Eliminar seccion"
 }

@@ -137,16 +137,17 @@
     <div v-bind:key="item.id" id="cv_items" v-for="item in items">
       <div>
         <div>
-        <p class="display-3">{{item.Section}}</p>
-        </div>
-        <div style="float: right;">
-              <b-button 
+        <p class="display-3">{{item.Section}} 
+          <b-button
+                size="sm"
                 variant="danger"
                 class="mt-2"
-                block
-                @click="deleteSection(item.Section_id)"
-              >{{$t('delete_item')}}</b-button>
+                
+                @click="deleteSection(item.Section_Id)">{{$t('delete_section')}}
+          </b-button>
+        </p>
         </div>
+     
       </div>
       <p></p>
       <div v-bind:key="item2.id" id="cv_items_sub" v-for="item2 in item.Items">
