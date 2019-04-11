@@ -94,6 +94,7 @@
               id="phone"
               :maxlength="9"
               aria-describedby="fileHelpBlock"
+
             />
           </b-card-text>
           <b-card-text class="card-text">
@@ -363,6 +364,12 @@ export default {
 
       if (this.form.email.length == 0) {
         this.messages.push("Email is required");
+      }
+       var regex = new RegExp(
+        /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g
+      );
+       if (!this.form.phone.match(regex)) {
+        this.messages.push("That is not a telephone number");
       }
 
       if (this.form.address.length == 0) {

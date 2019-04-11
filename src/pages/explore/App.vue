@@ -111,6 +111,7 @@
             type="number"
             id="price"
             v-model="form.price_offered"
+            :state="! form.price_offered == ''"
             aria-describedby="priceHelpBlock"
           />
           <b-form-text id="priceHelpBlock">{{$t('price_offered_placeholder')}}</b-form-text>
@@ -122,6 +123,7 @@
             id="limit_time"
             v-model="form.limit_time"
             aria-describedby="descriptionHelpBlock"
+            :state="(new RegExp(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/gi).test(form.limit_date))"
           />
           <b-form-text id="descriptionHelpBlock">{{$t('limit_date_offer_placeholder')}}</b-form-text>
           <label for="files">{{$t('files')}}</label>
@@ -129,6 +131,7 @@
             type="text"
             id="files"
             v-model="form.files"
+            :state="(new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi).test(form.files))"
             aria-describedby="descriptionHelpBlock"
           />
           <b-form-text id="descriptionHelpBlock">{{$t('file_offer_placeholder')}}</b-form-text>
@@ -139,6 +142,7 @@
             id="contract"
             v-model="form.contract"
             aria-describedby="descriptionHelpBlock"
+            :state ="this.form.contract.length > 0"
           />
           <b-form-text id="descriptionHelpBlock">{{$t('contract_offer_placeholder')}}</b-form-text>
           <br>
@@ -318,6 +322,30 @@ export default {
       if (this.form.contract.length == 0){
             this.messages.push('Contract is required')
       }
+      if(this.form.limit_time == null){
+         this.messages.push('Limit date is required')  
+      } else {
+      var datePattern = new RegExp(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/g);
+      if (!this.form.limit_time.match(datePattern)) {
+        this.messages.push("Please check the pattern of limit date");
+
+      } else{
+        let date= new Date(this.form.limit_time);
+        let now = Date.now();
+        if(date < now){
+            this.messages.push("Date can't be past");
+        }
+      }
+      }
+
+      var regex = new RegExp(
+        /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
+      );
+      if (!this.form.files.match(regex)) {
+        this.messages.push("That is not an URL");
+      }
+
+
       if(this.messages.length > 0){ 
           this.modalShow = true
       }
