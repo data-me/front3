@@ -328,7 +328,7 @@ export default {
               this.items = result.data
             })
         },updateOffer(){
-        var token = 'JWT' + this.$cookies.get('token')
+        var token = 'JWT ' + this.$cookies.get('token')
         const formData = new FormData();
         formData.append("title", this.formEdit.title);
         formData.append("description", this.formEdit.description);
