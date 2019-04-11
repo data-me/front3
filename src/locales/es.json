@@ -74,6 +74,13 @@
   "terms&conditions": "Términos y condiciones",
   "delete_section":"Eliminar seccion",
   "edit_offer":"Editar Oferta",
-  "new_offer":"Nueva Oferta"
-  
+  "new_offer":"Nueva Oferta",
+  "number_offers": "Número total de ofertas",
+  "number_user": "Número total de usuarios",
+  "number_companies":"Número de empresas registradas",
+  "average_offerCompany":"Media de ofertas por empresa",
+  "number_applications":"Número total de aplicaciones",
+  "number_AcAplicacions":"Número de aplicaciones aceptadas",
+  "number_submitions":"Número de envíos realizados",
+  "number_messages":"Número de mensajes intercambiados"
 }
