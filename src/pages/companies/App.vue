@@ -1,6 +1,36 @@
 <template>
   <div id="app">
     <Navbar/>
+
+    <b-modal
+      class="registered"
+      v-model="submited"
+      ref="submited"
+      id="submited"
+      hide-footer
+      size="xl"
+      title="submited"
+    >
+      <template slot="modal-header">{{$t('congrats')}}</template>
+       {{$t('submited_success')}}
+      <b-button class="mt-2" variant="success" block @click="reloadPage">{{$t('close')}}</b-button>
+    </b-modal>
+
+     <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+      <template slot="modal-header">{{$t('error_msg')}}</template>
+      <li :key="message.id" id="messagesError" v-for="message in this.messages">{{message}}</li>
+      <template slot="modal-footer">
+        <button class="btn btn-primary">{{$t('save_changes')}}</button>
+      </template>
+      <b-button
+        class="mt-3"
+        variant="outline-danger"
+        block
+        @click="modalShow = false"
+      >{{$t('close')}}</b-button>
+    </b-modal>
+
+
     <div v-bind:key="item.id" id="company" v-for="item in items">
       <b-card :title="item.name" :sub-title="item.nif ">
         <b-card-text>{{item.description}}</b-card-text>
@@ -57,7 +87,12 @@
           </b-card-text>
           <b-card-text class="card-text">
             <label for="logo">{{$t('logo')}}</label>
-            <b-input type="url" v-model="form.logo" id="logo" aria-describedby="fileHelpBlock"/>
+            <b-input type="url"
+             v-model="form.logo" 
+             id="logo"
+             aria-describedby="fileHelpBlock"
+            :state="(new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi).test(form.logo))"
+            />
           </b-card-text>
           <b-button class="mt-1" variant="success" block @click="saveProfile">{{$t('save_changes')}}</b-button>
         </b-form>
@@ -91,7 +126,8 @@ export default {
       submited: false,
       messages: [],
       updatedMessage: "",
-      modalShow: false
+      modalShow: false,
+      submited: false,
     };
   },
   mounted: function() {
@@ -125,6 +161,9 @@ export default {
       });
   },
   methods: {
+    reloadPage() {
+      window.location.reload();
+    },
     toggleEditProfile() {
       this.ViewEdit = false;
     },
@@ -138,26 +177,26 @@ export default {
       if (this.form.description.length == 0) {
         this.messages.push("Description is required");
       }
-
-      if (this.form.logo.length == 0) {
-        this.messages.push("Logo is required");
+      var regex = new RegExp(
+        /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
+      );
+      if (!this.form.logo.match(regex)) {
+        this.messages.push("That is not an URL");
       }
+
       if (this.messages.length > 0) {
         this.modalShow = true;
       } else {
         formData.append("name", this.form.name);
         formData.append("description", this.form.description);
         formData.append("logo", this.form.logo);
-        this.$http
-          .post("http://localhost:8000/api/v2/change_info", formData, {
+        this.$http.post("http://localhost:8000/api/v2/change_info", formData, {
             headers: { Authorization: token }
-          })
-          .then(result => {
+          }).then(result => {
             this.ViewEdit = true;
             this.updatedMessage = result.data.message;
             this.submited = true;
           });
-        window.location.href = "/companies";
       }
     }
   }
