@@ -37,9 +37,31 @@
   </b-card>
 </div>
 
-<!-- Modal Pop up showCompany -->
+<!-- Modal Pop up showDataScientist -->
 <div>
  <b-modal id="showDataScientist" hide-footer ref="detailedDataScientist" size="xl" title="Data Scientist's details">
+   <div id="info">
+     <b-card-text class="card-text">
+       <label for="name">Name:</label>
+       {{this.name}}
+     </b-card-text>
+     <b-card-text class="card-text">
+       <label for="surname">Surname:</label>
+       {{this.surname}}
+     </b-card-text>
+     <b-card-text class="card-text">
+       <label for="phone">Phone:</label>
+       {{this.phone}}
+     </b-card-text>
+     <b-card-text class="card-text">
+       <label for="email">Email:</label>
+       {{this.email}}
+     </b-card-text>
+     <b-card-text class="card-text">
+       <label for="address">Address:</label>
+       {{this.address}}
+     </b-card-text>
+   </div>
    <div id="cv_items_5" v-for="cvitem in dss">
      <p class="display-3">{{cvitem.Section}}</p>
      <div id="cv_items_sub" v-for="item2 in cvitem.Items">
@@ -78,8 +100,15 @@ Vue.use(VueRouter)
           status: '',
           date: null,
           file: '',
-          comments: ''
+          comments: '',
         },
+      user: "",
+      name: "",
+      surname: "",
+      email: "",
+      phone: "",
+      photo: "",
+      address: "",
       isCompany: null,
       permissions : '',
       offerId: '',
@@ -109,6 +138,19 @@ Vue.use(VueRouter)
     showDataScientist: function(idDataScientist) {
       this.dsId = idDataScientist
       var token = 'JWT ' + this.$cookies.get('token')
+      this.$http
+        .get("http://localhost:8000/api/v1/dataScientist?dataScientistId=" + idDataScientist, {
+          headers: { Authorization: token }
+        })
+        .then(result => {
+          this.user = result.data;
+          this.name = this.user.name;
+          this.surname = this.user.surname;
+          this.email = this.user.email;
+          this.phone = this.user.phone;
+          this.photo = this.user.photo;
+          this.address = this.user.address;
+        });
       this.$http.get('http://localhost:8000/api/v1/cv?dataScientistId=' + idDataScientist,{ headers:
         { Authorization: token }
       }).then((result) => {

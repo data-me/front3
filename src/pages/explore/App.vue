@@ -40,12 +40,12 @@
                 <div v-if="user_type === 'ds'">
                   <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">Apply</b-link>
                 </div>
-                
+
                 <div id="deleteoffer" v-if="user_type !== 'ds' && applications.length == 0">
                   <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">Delete offer</b-button>
                 </div>
-                <div>
-                <b-button href="#" v-if="(user_type === 'com' && applications.length == 0)" class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">Edit Offer</b-button>
+                <div id="editOffer" v-if="(user_type === 'com' && applications.length == 0)">
+                <b-link href="#" class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">Edit Offer</b-link>
                 </div>
               </b-card-body>
             </b-collapse>
@@ -57,21 +57,21 @@
     <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" title="Edit Offer">
         <b-form  @submit.prevent>
             <label for="title">Title</label>
-            <b-input type="text" v-model="form.title" id="title" :state="form.title.length > 0"  :maxlength="80" aria-describedby="titleHelpBlock" />
+            <b-input type="text" v-model="formEdit.title" id="title" :state="formEdit.title.length > 0"  :maxlength="80" aria-describedby="titleHelpBlock" />
             <b-form-text id="titleHelpBlock">
               The main title for your offer, max 80 characters.
             </b-form-text>
             <br/>
             <label for="description">Description</label>
-            <b-input type="text" id="description" v-model="form.description" :state="form.description.length > 0" aria-describedby="descriptionHelpBlock" />
+            <b-input type="text" id="description" v-model="formEdit.description" :state="formEdit.description.length > 0" aria-describedby="descriptionHelpBlock" />
             <b-form-text id="descriptionHelpBlock">
               The description for your offer, here you can explain everything.
             </b-form-text>
             <br/>
             <!--No sé como pasarle la oferta a la funcion updateOffer porque offerId está vacío -->
-             <b-button class="mt-2" variant="success" block @click="updateOffer(offerId)">Edit Offer</b-button>
+             <b-button class="mt-2" variant="success" block @click="updateOffer">Edit Offer</b-button>
           </b-form>
-    </b-modal> 
+    </b-modal>
 
     <!-- Modal Pop up -->
     <div>
@@ -212,6 +212,10 @@ export default {
             description: '',
             offerId: null,
         },
+        formEdit: {
+            title: '',
+            description: '',
+        },
         offerId: '',
         user_type: this.$cookies.get('user_type')
     }
@@ -222,7 +226,7 @@ export default {
       }).then((result) => {
         this.items = result.data
     })
-    
+
 
     // Para los pagos
     if (this.$cookies.get("user_type") == "com") {
@@ -323,16 +327,16 @@ export default {
             { Authorization: token }}).then((result) => {
               this.items = result.data
             })
-        },updateOffer(offerId){
-        var token = 'JWT' + this.$cookies.get('token')
+        },updateOffer(){
+        var token = 'JWT ' + this.$cookies.get('token')
         const formData = new FormData();
-        formData.append("title", this.form.title);
-        formData.append("description", this.form.description);
-          this.$http.post('http://localhost:8000/api/v2/change_offer/'+offerId, formData,{ headers:
+        formData.append("title", this.formEdit.title);
+        formData.append("description", this.formEdit.description);
+          this.$http.post('http://localhost:8000/api/v2/change_offer/' + this.offerId, formData,{ headers:
             { Authorization: token }}).then((result) => {
               this.items = result.data
             })
-      
+
       }
       }
 
