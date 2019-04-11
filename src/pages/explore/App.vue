@@ -1,128 +1,77 @@
 <template>
   <div id="app">
     <Navbar/>
-    <!-- ////// -->
-    <!-- Create an offer -->
-    <div v-if="user_type === 'com'">
-      <div class="create-offer">
-        <b-button id="create-offer" v-b-modal.modalxl variant="outline-primary">Create new offer</b-button>
-      </div>
-    </div>
-    <div v-else-if="user_type === 'ds'">
-      <!-- Search bar -->
-      <div id="search-group">
-        <b-form @submit="onSubmit">
-          <b-input-group prepend="Search" class="mt-3">
-            <b-form-input
-              v-on:keyup="onSubmit"
-              id="search"
-              v-model="form.search"
-              placeholder="title or description"
-            ></b-form-input>
-          </b-input-group>
-        </b-form>
-      </div>
-    </div>
-    <!-- ////// -->
+        <!-- ////// -->
+        <!-- Create an offer -->
+        <div v-if="user_type === 'com'">
+          <div class="create-offer">
+            <b-button id="create-offer" v-b-modal.modalxl variant="outline-primary"  >Create new offer</b-button>
+          </div>
+        </div>
+        <div v-else-if="user_type === 'ds'">
+        <!-- Search bar -->
+          <div id="search-group">
+            <b-form @submit="onSubmit">
+              <b-input-group prepend="Search" class="mt-3">
+              <b-form-input v-on:keyup="onSubmit" id="search" v-model="form.search" placeholder="title or description"></b-form-input>
+              </b-input-group>
+            </b-form>
+          </div>
+        </div>
+        <!-- ////// -->
 
-    <!-- Show offers -->
-    <div id="offers" v-bind:key="item.id" v-for="(item, index) in items">
-      <b-card no-body>
-        <b-card-header header-tag="header" class="p-3" role="tab">
-          <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">{{item.title}}</b-button>
-        </b-card-header>
-        <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <b-card-text>
-              <span class="font-weight-bold">id:</span>
-              {{item.id}}
-            </b-card-text>
-            <b-card-text>
-              <span class="font-weight-bold">Description:</span>
-              {{item.description}}
-            </b-card-text>
-            <b-card-text>
-              <span class="font-weight-bold">Price offered:</span>
-              {{item.price_offered + '€'}}
-            </b-card-text>
-            <b-card-text>
-              <span class="font-weight-bold">Creation date:</span>
-              {{item.creation_date.slice(0,10)}}
-            </b-card-text>
-            <b-card-text>
-              <span class="font-weight-bold">Limit date:</span>
-              {{item.limit_time.slice(0,10)}}
-            </b-card-text>
-            <b-card-text>
-              <span class="font-weight-bold">State:</span>
-              {{ item.finished ? 'Finished' : 'Not finished' }}
-            </b-card-text>
-            <b-card-text>
-              <span class="font-weight-bold">Contract: {{item.contract}}</span>
-            </b-card-text>
-            <b-card-text></b-card-text>
-            <div v-if="user_type === 'ds'">
-              <b-link
-                href="#"
-                v-if="item.finished == false"
-                class="card-link"
-                v-b-modal.createApply
-                variant="outline-primary"
-                @click="saveId(item.id)"
-              >Apply</b-link>
-            </div>
-            <div id="deleteoffer" v-if="user_type !== 'ds'">
-              <b-button
-                variant="danger"
-                class="mt-2"
-                block
-                @click="deleteOffer(item.id)"
-              >Delete offer</b-button>
-            </div>
-            <div>
-              <b-button
-                v-show="isCompany"
-                v-b-modal.EditOffer
-                variant="outline-primary"
-                @click="saveId(item.id)"
-              >Edit Offer</b-button>
-            </div>
-          </b-card-body>
-        </b-collapse>
-      </b-card>
-    </div>
-    <!-- ////// -->
+        <!-- Show offers -->
+        <div id="offers" v-bind:key="item.id" v-for="(item, index) in items">
+          <b-card no-body>
+            <b-card-header header-tag="header" class="p-3" role="tab">
+              <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
+                {{item.title}}
+              </b-button>
+            </b-card-header>
+            <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
+              <b-card-body>
+                <b-card-text><span class="font-weight-bold">Description: </span> {{item.description}}</b-card-text>
+                <b-card-text><span class="font-weight-bold">Price offered: </span>{{item.price_offered + '€'}}</b-card-text>
+                <b-card-text><span class="font-weight-bold">Creation date: </span>{{item.creation_date.slice(0,10)}}</b-card-text>
+                <b-card-text><span class="font-weight-bold">Limit date: </span>{{item.limit_time.slice(0,10)}}</b-card-text>
+                <b-card-text><span class="font-weight-bold">State: </span>{{ item.finished ? 'Finished' : 'Not finished' }}</b-card-text>
+                <b-card-text><span class="font-weight-bold">Contract: {{item.contract}}</span></b-card-text>
+                <b-card-text></b-card-text>
+                <div v-if="user_type === 'ds'">
+                  <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">Apply</b-link>
+                </div>
+                
+                <div id="deleteoffer" v-if="user_type !== 'ds' && applications.length == 0">
+                  <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">Delete offer</b-button>
+                </div>
+                <div>
+                <b-button href="#" v-if="(user_type === 'com' && applications.length == 0)" class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">Edit Offer</b-button>
+                </div>
+              </b-card-body>
+            </b-collapse>
+          </b-card>
+      </div>
+      <!-- ////// -->
 
-    <!-- Editing offer -->
+ <!-- Editing offer -->
     <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" title="Edit Offer">
-      <b-form @submit.prevent>
-        <label for="title">Title</label>
-        <b-input
-          type="text"
-          v-model="form.title"
-          id="title"
-          :state="form.title.length > 0"
-          :maxlength="80"
-          aria-describedby="titleHelpBlock"
-        />
-        <b-form-text id="titleHelpBlock">The main title for your offer, max 80 characters.</b-form-text>
-        <br>
-        <label for="description">Description</label>
-        <b-input
-          type="text"
-          id="description"
-          v-model="form.description"
-          :state="form.description.length > 0"
-          aria-describedby="descriptionHelpBlock"
-        />
-        <b-form-text
-          id="descriptionHelpBlock"
-        >The description for your offer, here you can explain everything.</b-form-text>
-        <br>
-
-        <b-button class="mt-2" variant="success" block @click="updateOffer()">Edit Offer</b-button>
-      </b-form>
-    </b-modal>
+        <b-form  @submit.prevent>
+            <label for="title">Title</label>
+            <b-input type="text" v-model="form.title" id="title" :state="form.title.length > 0"  :maxlength="80" aria-describedby="titleHelpBlock" />
+            <b-form-text id="titleHelpBlock">
+              The main title for your offer, max 80 characters.
+            </b-form-text>
+            <br/>
+            <label for="description">Description</label>
+            <b-input type="text" id="description" v-model="form.description" :state="form.description.length > 0" aria-describedby="descriptionHelpBlock" />
+            <b-form-text id="descriptionHelpBlock">
+              The description for your offer, here you can explain everything.
+            </b-form-text>
+            <br/>
+            <!--No sé como pasarle la oferta a la funcion updateOffer porque offerId está vacío -->
+             <b-button class="mt-2" variant="success" block @click="updateOffer(offerId)">Edit Offer</b-button>
+          </b-form>
+    </b-modal> 
 
     <!-- Modal Pop up -->
     <div>
@@ -250,36 +199,31 @@ export default {
   data() {
     return {
       items: [],
-      isCompany: this.$cookies.get("user_type") === "com",
+      applications:[],
       form: {
-        title: "",
-        description: "",
-        price_offered: null,
-        files: "",
-        contract: ""
-      },
-      formApply: {
-        title: "",
-        description: "",
-        offerId: null
-      },
-      formEdit: {
-        title: "",
-        description: ""
-      },
-      offerId: "",
-      user_type: this.$cookies.get("user_type")
-    };
-  },
-  mounted: function() {
-    var token = "JWT " + this.$cookies.get("token");
-    this.$http
-      .get("http://localhost:8000/api/v1/offer", {
-        headers: { Authorization: token }
-      })
-      .then(result => {
-        this.items = result.data;
-      });
+          title: '',
+          description: '',
+          price_offered: null,
+          files: '',
+          contract: '',
+        },
+        formApply: {
+            title: '',
+            description: '',
+            offerId: null,
+        },
+        offerId: '',
+        user_type: this.$cookies.get('user_type')
+    }
+  }, mounted: function () {
+    var token = 'JWT ' + this.$cookies.get('token')
+    this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
+      { Authorization: token }
+      }).then((result) => {
+        this.items = result.data
+    })
+    
+
     // Para los pagos
     if (this.$cookies.get("user_type") == "com") {
       try {
@@ -299,32 +243,35 @@ export default {
         }
       } catch (error) {}
     }
-  },
-  methods: {
-    toggleCreateApply() {
-      var token = "JWT " + this.$cookies.get("token");
-      const formApply = new FormData();
-      if (
-        this.formApply.title.length < 5 ||
-        this.formApply.description.length < 10
-      ) {
-        alert("Please correct the errors");
-      } else {
-        formApply.append("title", this.formApply.title);
-        formApply.append("description", this.formApply.description);
-        formApply.append("offerId", this.offerId);
-        this.$http
-          .post("http://localhost:8000/api/v1/apply", formApply, {
-            headers: { Authorization: token }
-          })
-          .then(result => {
-            alert(result.data.message);
-            location.reload();
-          });
+
+    //este es el endpoint que devuelve las applications que tiene una oferta pero tengo el mismo problema
+    //que para el edit, que no consigo pasarle la oferta. offerId está vacía
+    this.$http.get('http://localhost:8000/api/v2/applicationsOfOffer/'+ offerId,{ headers:
+      { Authorization: token }
+      }).then((result) => {
+        this.applications = result.data
+      })
+
+  }, methods: {
+      toggleCreateApply() {
+       var token = 'JWT ' + this.$cookies.get('token')
+       const formApply = new FormData();
+       if (this.formApply.title.length < 5 || this.formApply.description.length < 10){
+        alert("Please correct the errors")
+       } else{
+       formApply.append("title", this.formApply.title);
+       formApply.append("description", this.formApply.description);
+       formApply.append("offerId", this.offerId);
+       this.$http.post('http://localhost:8000/api/v1/apply', formApply,{ headers:
+      { Authorization: token }
+      }).then((result) => {
+          alert(result.data.message)
+          location.reload()
+      })
       }
-    },
-    saveId: function(idOffer) {
-      this.offerId = idOffer;
+     },
+    saveId: function(idOffer){
+    this.offerId = idOffer
     },
     createOffer() {
       var token = "JWT " + this.$cookies.get("token");
@@ -361,41 +308,36 @@ export default {
         this.$http
           .delete("http://localhost:8000/api/v1/company/offer/" + id, {
             headers: {
-              Authorization: token
-            }
-          })
-          .then(result => {
-            alert(result.data.message);
-          });
-        window.location.href = "/explore.html";
+                Authorization: token
+                }
+              }
+            ).then((result) => {
+              alert(result.data.message)
+            });
+            window.location.href = "/explore.html";
+          }
+      },
+        onSubmit() {
+          let token = `JWT ${this.$cookies.get('token')}`
+          this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
+            { Authorization: token }}).then((result) => {
+              this.items = result.data
+            })
+        },updateOffer(offerId){
+        var token = 'JWT' + this.$cookies.get('token')
+        const formData = new FormData();
+        formData.append("title", this.form.title);
+        formData.append("description", this.form.description);
+          this.$http.post('http://localhost:8000/api/v2/change_offer/'+offerId, formData,{ headers:
+            { Authorization: token }}).then((result) => {
+              this.items = result.data
+            })
+      
       }
-    },
-    onSubmit() {
-      let token = `JWT ${this.$cookies.get("token")}`;
-      this.$http
-        .get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`, {
-          headers: { Authorization: token }
-        })
-        .then(result => {
-          this.items = result.data;
-        });
-    },
-    updateOffer(id) {
-      var token = "JWT" + this.$cookies.get("token");
-      const formUpdate = new FormData();
-      formUpdate.append("title", this.formEdit.title);
-      formUpdate.append("description", this.formEdit.description);
-      print("hola");
-      this.$http
-        .post("http://localhost:8000/api/v2/change_offer/" + id, formUpdate, {
-          headers: { Authorization: token }
-        })
-        .then(result => {
-          this.items = result.data;
-        });
-    }
-  }
-};
+      }
+
+}
+
 /*{
           'title': this.form.title,
           'description': this.form.description,
