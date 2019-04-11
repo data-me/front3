@@ -110,6 +110,15 @@ export default {
   },
   computed: {},
   mounted: function() {
+    var lang
+
+    if (this.$cookies.get('lang')) {
+      lang = this.$cookies.get('lang')
+    } else {
+      lang = 'en'
+    }
+    this.$i18n.locale = lang
+
     var token = "JWT " + this.$cookies.get("token");
     if (this.$cookies.get("user_type") == "com") {
       this.isCompany = true;
