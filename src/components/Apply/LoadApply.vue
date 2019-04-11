@@ -24,6 +24,8 @@
           <b-link v-if= "item.status == 'AC'" class="card-link" variant="outline-primary" @click="downloadWithVueResource(item.offer_id)">Download file</b-link>
           <br/>
           <b-link href="#" v-b-modal.modalxl v-show="this.permissions == 'true'">Make submit</b-link>
+          <br/>
+          <b-link v-if="item.status == 'PE'" @click="deleteApplication(item.id)">{{$t('delete')}}</b-link>
         </div>
         <div v-if="user_type === 'com'">
         <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
@@ -35,11 +37,33 @@
   </b-card>
 </div>
 
-<!-- Modal Pop up showCompany -->
+<!-- Modal Pop up showDataScientist -->
 <div>
  <b-modal id="showDataScientist" hide-footer ref="detailedDataScientist" size="xl" title="Data Scientist's details">
+   <div id="info">
+     <b-card-text class="card-text">
+       <label for="name">Name:</label>
+       {{this.name}}
+     </b-card-text>
+     <b-card-text class="card-text">
+       <label for="surname">Surname:</label>
+       {{this.surname}}
+     </b-card-text>
+     <b-card-text class="card-text">
+       <label for="phone">Phone:</label>
+       {{this.phone}}
+     </b-card-text>
+     <b-card-text class="card-text">
+       <label for="email">Email:</label>
+       {{this.email}}
+     </b-card-text>
+     <b-card-text class="card-text">
+       <label for="address">Address:</label>
+       {{this.address}}
+     </b-card-text>
+   </div>
    <div id="cv_items_5" v-for="cvitem in dss">
-     <p class="display-3">{{cvitem.Section}}<p>
+     <p class="display-3">{{cvitem.Section}}</p>
      <div id="cv_items_sub" v-for="item2 in cvitem.Items">
        <b-card :title="item2.name" :sub-title="item2.description">
          <b-card-text>
@@ -76,8 +100,15 @@ Vue.use(VueRouter)
           status: '',
           date: null,
           file: '',
-          comments: ''
+          comments: '',
         },
+      user: "",
+      name: "",
+      surname: "",
+      email: "",
+      phone: "",
+      photo: "",
+      address: "",
       isCompany: null,
       permissions : '',
       offerId: '',
@@ -89,7 +120,17 @@ Vue.use(VueRouter)
 
 
     }
-  }, computed: {
+  }, mounted: function() {
+      var lang
+
+      if (this.$cookies.get('lang')) {
+        lang = this.$cookies.get('lang')
+      } else {
+        lang = 'en'
+      }
+      this.$i18n.locale = lang
+
+  },computed: {
 
   },
     props: ['item','index','key', 'isCompany'],
@@ -97,6 +138,19 @@ Vue.use(VueRouter)
     showDataScientist: function(idDataScientist) {
       this.dsId = idDataScientist
       var token = 'JWT ' + this.$cookies.get('token')
+      this.$http
+        .get("http://localhost:8000/api/v1/dataScientist?dataScientistId=" + idDataScientist, {
+          headers: { Authorization: token }
+        })
+        .then(result => {
+          this.user = result.data;
+          this.name = this.user.name;
+          this.surname = this.user.surname;
+          this.email = this.user.email;
+          this.phone = this.user.phone;
+          this.photo = this.user.photo;
+          this.address = this.user.address;
+        });
       this.$http.get('http://localhost:8000/api/v1/cv?dataScientistId=' + idDataScientist,{ headers:
         { Authorization: token }
       }).then((result) => {
@@ -174,6 +228,19 @@ Vue.use(VueRouter)
           location.reload()
       })
 
+     },
+
+     deleteApplication(applicationId) {
+       var token = 'JWT ' + this.$cookies.get('token')
+       this.$http.delete('http://localhost:8000/api/v2/application/' + applicationId, { headers: { Authorization: token }}).then((result) => {
+          if (result.data.code == '200') {
+            alert(this.$t('delete_app_success'))
+          }
+          if (result.data.code == '401') {
+            alert(this.$t('delete_app_not_allowed'))
+          }
+          location.reload()
+      })
      },
 
   },
