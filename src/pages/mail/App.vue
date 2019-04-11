@@ -1,6 +1,35 @@
 <template>
   <div id="app">
     <Navbar/>
+
+     <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+      <template slot="modal-header">{{$t('error_msg')}}</template>
+      <li :key="message.id" id="messagesError" v-for="message in this.messages">{{message}}</li>
+      <template slot="modal-footer">
+        <button class="btn btn-primary">{{$t('save_changes')}}</button>
+      </template>
+      <b-button
+        class="mt-3"
+        variant="outline-danger"
+        block
+        @click="modalShow = false"
+      >{{$t('close')}}</b-button>
+    </b-modal>
+
+    <b-modal
+      class="registered"
+      v-model="submited"
+      ref="submited"
+      id="submited"
+      hide-footer
+      size="xl"
+      title="submited"
+    >
+      <template slot="modal-header">{{$t('congrats')}}</template>
+      {{this.message}}
+      <b-button class="mt-2" variant="success" block @click="reloadPage">{{$t('close')}}</b-button>
+    </b-modal>
+
     <div class="create-message">
       <b-button id="create-message" v-b-modal.modalxl variant="outline-primary">Create new message</b-button>
     </div>
@@ -90,7 +119,11 @@ export default {
         title: "",
         body: "",
         receiverId: null
-      }
+      },
+       messages: [],
+       modalShow : false,
+       submited: false,
+       message:''
     };
   },
   mounted: function() {
@@ -121,9 +154,27 @@ export default {
       });
   },
   methods: {
+    reloadPage() {
+      window.location.reload();
+    },
+
     createMessage: function() {},
     toggleModal() {
-      var token = "JWT " + this.$cookies.get("token");
+     var token = "JWT " + this.$cookies.get("token");
+     
+     this.messages = [];
+     if(this.form.title.length < 1){
+      this.messages.push(this.$t('title_required'));
+     }
+     if(this.form.body.length < 1){
+      this.messages.push(this.$t('body_required'));
+     }
+    
+
+     if (this.messages.length > 0) {
+        this.modalShow = true;
+      } else {
+     
       const formData = new FormData();
       formData.append("title", this.form.title);
       formData.append("body", this.form.body);
@@ -134,9 +185,10 @@ export default {
           headers: { Authorization: token }
         })
         .then(result => {
-          alert(result.data.message);
-          location.reload();
+         this.submited = true;
+         this.message = result.data.message
         });
+     }
     }
   }
 };

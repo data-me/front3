@@ -64,5 +64,8 @@
   "edit_item":"Edit item",
   "delete":"Delete",
   "delete_app_success": "Application deleted successfully",
-  "delete_app_not_allowed": "Application could not be deleted because it was not yours or it is not pending"
+  "delete_app_not_allowed": "Application could not be deleted because it was not yours or it is not pending",
+  "title_required" : "Title is required",
+  "body_required" : "Body is required",
+  "username_message_error" : "That user doen't exist"
 }
