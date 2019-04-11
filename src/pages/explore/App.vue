@@ -2,6 +2,12 @@
   <div id="app">
     <Navbar/>
         <!-- ////// -->
+        <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+            <template slot="modal-header"> Please check the errors below </template>
+            <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
+            <template slot="modal-footer"><button class="btn btn-primary">Save Changes</button></template>
+            <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">Close</b-button>
+        </b-modal>
         <!-- Create an offer -->
         <div v-if="user_type === 'com'">
           <div class="create-offer">
@@ -217,6 +223,8 @@ export default {
             description: '',
         },
         offerId: '',
+        messages: [],
+        modalShow: 'false',
         user_type: this.$cookies.get('user_type')
     }
   }, mounted: function () {
@@ -290,6 +298,30 @@ export default {
     createOffer() {
       var token = "JWT " + this.$cookies.get("token");
       const formData = new FormData();
+
+      this.messages = [] 
+      if (this.form.title.length == 0){
+            this.messages.push('Title is required')
+      }
+      if (this.form.description.length == 0){
+            this.messages.push('Description is required')
+      }
+      if (this.form.price_offered == null){
+            this.messages.push('Price is required')
+      }
+      if (this.form.limit_time == null){
+            this.messages.push('Limit time is required')
+      }
+      if (this.form.files.length == 0){
+            this.messages.push('File is required')
+      }
+      if (this.form.contract.length == 0){
+            this.messages.push('Contract is required')
+      }
+      if(this.messages.length > 0){ 
+          this.modalShow = true
+      }
+
       formData.append("title", this.form.title);
       formData.append("description", this.form.description);
       formData.append("price_offered", this.form.price_offered);
