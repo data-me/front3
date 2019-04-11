@@ -135,7 +135,20 @@
     </div>
 
     <div v-bind:key="item.id" id="cv_items" v-for="item in items">
-      <p class="display-3">{{item.Section}}</p>
+      <div>
+        <div>
+        <p class="display-3">{{item.Section}} 
+          <b-button
+                size="sm"
+                variant="danger"
+                class="mt-2"
+                
+                @click="deleteSection(item.Section_Id)">{{$t('delete_section')}}
+          </b-button>
+        </p>
+        </div>
+     
+      </div>
       <p></p>
       <div v-bind:key="item2.id" id="cv_items_sub" v-for="item2 in item.Items">
         <b-card :title="item2.name" :sub-title="item2.description">
@@ -450,6 +463,24 @@ export default {
       if (confirm) {
         this.$http.delete(
           "http://localhost:8000/api/v2/data/delete_item/" + item_id,
+          {
+            headers: {
+              Authorization: token
+            }
+          }
+        );
+        window.location.href = "/my_cv.html";
+      }
+    },
+    deleteSection(section_id) {
+      var token = "JWT " + this.$cookies.get("token");
+      var confirm = window.confirm(
+        "Are you sure you want to delete this Section?"
+      );
+
+      if (confirm) {
+        this.$http.delete(
+          "http://localhost:8000/api/v2/data/delete_section/" + section_id,
           {
             headers: {
               Authorization: token
