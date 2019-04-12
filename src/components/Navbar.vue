@@ -10,8 +10,8 @@
       <b-collapse is-nav id="nav_collapse">
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item v-show="isLoggedIn" href="/applications.html">{{ $t('applications') }}</b-nav-item>
-          <b-nav-item v-show="isLoggedIn" href="/explore.html">{{ $t('offers') }}</b-nav-item>
+          <b-nav-item v-show="isDataScientist || isCompany" href="/applications.html">{{ $t('applications') }}</b-nav-item>
+          <b-nav-item v-show="isDataScientist || isCompany" href="/explore.html">{{ $t('offers') }}</b-nav-item>
           <b-nav-item v-show="isCompany && isLoggedIn" href="/companies.html">{{ $t('profile') }}</b-nav-item>
           <!-- <b-nav-item href="#">Pricing</b-nav-item> -->
           <b-nav-item v-show="isLoggedIn" href="/mail.html">{{ $t('mail') }}</b-nav-item>
