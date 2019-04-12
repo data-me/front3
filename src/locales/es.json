@@ -102,7 +102,7 @@
   "password_help1": "Tu contraseña no puede ser similar a tu información personal.",
   "password_help2": "Tu contraseña debe contener al menos 8 caracteres.",
   "password_help3": "Tu contraseña no puede ser comúnmente usada.",
-  "password_help4": "Tu contraseña no puede be númerica solo.",
+  "password_help4": "Tu contraseña no puede ser númerica solo.",
   "password_confim": "Confirmar contraseña",
   "password_error": "Introduce tu contraseña de nuevo",
   "write_name": "Introduce tu nombre",
