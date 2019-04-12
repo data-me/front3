@@ -2,6 +2,7 @@
   <div id="app">
     <Navbar/>
     <h1 class = 'heading'>Welcome to Datame</h1>
+    <p>{{$t('terms_explanation')}}</p>
     <p>These terms and conditions outline the rules and regulations for the use of Datame's Website.
 By accessing this website we assume you accept these terms and conditions in full. Do not continue to use Datame's website if you do not accept all of the terms and conditions stated
 on this page.
@@ -11,9 +12,9 @@ The following terminology applies to these Terms and Conditions, Privacy Stateme
     <p>Unless otherwise stated, Datame and/or it's licensors own the intellectual property rights for all material on Datame. All intellectual property rights are reserved. You may view and/or print pages from https://Datame.com for your own personal use subject to restrictions set in
 these terms and conditions.
 You must not:
-• Republish material from <a href="https://front-datame.herokuapp.com/">https://front-datame.herokuapp.com/</a>
-• Sell, rent or sub-license material from <a href="https://front-datame.herokuapp.com/">https://front-datame.herokuapp.com/</a>
-• Reproduce, duplicate or copy material from <a href="https://front-datame.herokuapp.com/">https://front-datame.herokuapp.com/</a>
+• Republish material from <a href="https://front2-datame.herokuapp.com/">https://front-datame.herokuapp.com/</a>
+• Sell, rent or sub-license material from <a href="https://front2-datame.herokuapp.com/">https://front-datame.herokuapp.com/</a>
+• Reproduce, duplicate or copy material from <a href="https://front2-datame.herokuapp.com/">https://front-datame.herokuapp.com/</a>
     </p>
     <h1 class = 'heading'>User Comments</h1>
     <p>This Agreement shall begin on the date hereof.
@@ -111,6 +112,15 @@ export default {
   name: 'app',
   components: {
     Navbar
+  }, mounted: function() {
+    var lang
+
+        if (this.$cookies.get('lang')) {
+          lang = this.$cookies.get('lang')
+        } else {
+          lang = 'en'
+        }
+        this.$i18n.locale = lang
   }
 }
 </script>
