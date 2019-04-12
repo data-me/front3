@@ -6,7 +6,7 @@
 
 <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
     <template slot="modal-header"> {{$t('error_msg')}}</template>
-    <li id="messagesError" v-for="message in this.messages"> {{$t('messages')}}</li>
+    <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
     <template slot="modal-footer"><button class="btn btn-primary">{{$t('save_changes')}}</button></template>
     <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">{{$t('close')}}</b-button>
 </b-modal>
@@ -314,12 +314,10 @@ export default {
         })
         if(this.selected == 'DataScientist'){
         this.$router.push({path:'/my_cv'})
-        window.location.replace('../my_cv.html')
-        }
+        window.location.replace('../')}
         if(this.selected == 'Company'){
         this.$router.push({path:'/helloworld.html'})
-        window.location.replace('../helloworld.html')    
-        }
+        window.location.replace('../')}
         }
 
      
