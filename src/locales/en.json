@@ -123,7 +123,7 @@
   "logo_url_help": "Write a URL referring to your company's logo",
   "create_company": "Register as a company",
   "create_ds": "Register as Data Scientist",
-  "terms_explanation": "The following terms are only available in english. If you wish to read them in a different language, make a request via email to <TODO>",
+  "terms_explanation": "The following terms are only available in english. If you wish to read them in a different language, make a request via email to the administrator of the website.",
   "submition_to": "Submition to",
   "change_status": "Change status"
 
