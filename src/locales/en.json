@@ -103,6 +103,7 @@
   "password_help2": "Your password must contain at least 8 characters.",
   "password_help3": "Your password can't be a commonly used password.",
   "password_help4": "Your password can't be entirely numeric.",
+  "password_help5": "Your password must contain at least 1 mayus.",
   "password_confim": "Confirm password",
   "password_error": "Type your password again please",
   "write_name": "Write your name",

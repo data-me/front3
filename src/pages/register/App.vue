@@ -39,7 +39,8 @@
             {{$t('password_help1')}}  <br/>
             {{$t('password_help2')}}  <br/>
             {{$t('password_help3')}}  <br/>
-            {{$t('password_help4')}} 
+            {{$t('password_help4')}}  <br/>
+            {{$t('password_help5')}}
             </b-form-text>
             <br/>
 
@@ -81,7 +82,7 @@
 
             <div id='email' v-if="selected ==='DataScientist'">
             <label for="email">{{$t('email')}}</label>
-            <b-input type="email" id="text" v-model="form.email" aria-describedby="emailHelpBlock" :state="form.email.length > 0" :maxlength="80" />
+            <b-input type="email" id="text" v-model="form.email" aria-describedby="emailHelpBlock" :state="form.email.length > 0 && new RegExp(/\S+@\S+\.\S+/).test(this.form.email)" :maxlength="80" />
             <b-form-text id="emailHelpBlock">
               {{$t('write_email')}}
             </b-form-text>
@@ -101,7 +102,7 @@
 
             <div id='phone' v-if="selected ==='DataScientist'">
             <label for="phone">{{$t('phone')}}</label>
-            <b-input type="text" id="text" v-model="form.phone" aria-describedby="phoneHelpBlock" :state="form.phone.length > 0" :maxlength="9" />
+            <b-input type="text" id="text" v-model="form.phone" aria-describedby="phoneHelpBlock" :state="form.phone.length > 0 && new RegExp(/\d{9}/).test(this.form.phone)" :maxlength="9" />
             <b-form-text id="phoneHelpBlock">
               {{$t('write_phone')}}
             </b-form-text>
