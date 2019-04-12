@@ -123,7 +123,7 @@
             id="limit_time"
             v-model="form.limit_time"
             aria-describedby="descriptionHelpBlock"
-            :state="(new RegExp(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/gi).test(form.limit_date))"
+            :state="(new RegExp(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/).test(form.limit_time))"
           />
           <b-form-text id="descriptionHelpBlock">{{$t('limit_date_offer_placeholder')}}</b-form-text>
           <label for="files">{{$t('files')}}</label>
@@ -216,6 +216,7 @@ export default {
           price_offered: null,
           files: '',
           contract: '',
+          limit_time:'',
         },
         formApply: {
             title: '',
