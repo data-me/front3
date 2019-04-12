@@ -126,7 +126,19 @@
   "create_ds": "Registrarse como científico de datos",
   "terms_explanation": "Los siguientes términos están solo disponibles en inglés. Si desea obtenerlos en otro idioma, envíe un correo electrónico al administrador.",
   "submition_to": "Propuesta a",
-  "change_status": "Cambiar estado"
+  "change_status": "Cambiar estado",
+  "register_error_password1": "Las contraseñas no coinciden",
+  "register_error_username": "El nombre de usuario tiene que contener al menos 5 letras",
+  "register_error_password2": "Las contraseñas deben de contener al menos 5 caracteres",
+  "register_error_password3": "Las contraseñas deben tener al menos un número y una letra mayúscula",
+  "name_error": "El nombre es obligatorio",
+  "surname_error": "El apellido es obligatorio",
+  "email_error": "El email es obligatorio",
+  "address_error": "La dirección es obligatoria",
+  "nif_error": "NIF es obligatorio",
+  "photo_error": "La foto debe ser una URL",
+  "description_error": "Description es obligatorio",
+  "logo_error": "El logo debe ser una URL"
 
 
 }
