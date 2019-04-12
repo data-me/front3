@@ -67,16 +67,19 @@
         this.$swal({
             type: 'success',
             title: 'Payment received successfully',
-            text: 'It is working!'
+            text: 'Thank you!'
         }).then(result =>{
               window.location.href = 'http://localhost:8080/user_plan.html';
             });
     },
-    error() {
+    error(message) {
+      if(message==undefined){
+        message = "Payment was not received.";
+      }
         this.$swal({
             type: 'error',
-            title: 'Payment received successfully',
-            text: 'It is working!'
+            title: message,
+            text: 'PRO plan upgrade was not posible.'
         }).then(result =>{
               window.location.href = 'http://localhost:8080/user_plan.html';
             });

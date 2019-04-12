@@ -84,5 +84,12 @@
   "number_submitions":"Número de envíos realizados",
   "number_messages":"Número de mensajes intercambiados",
   "profile": "Mi perfil",
-  "user_plan" : "Plan de Usuario"
+  "user_plan" : "Plan de Usuario",
+  "user_plan_current" : "Plan de usuario actual",
+  "upgrade_to_PRO" : "Actualiza a plan PRO",
+  "user_plan_nmonths" : "¿Cuántos meses quieres pagar?",
+  "user_plan_nmonths_placeholder" : "Número de meses",
+  "send" : "Enviar",
+  "user_plan_payment_success" : "Payment received successfully",
+  "user_plan_payment_cancel" : "Payment was not received"
 }

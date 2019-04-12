@@ -1,19 +1,18 @@
 <template>
   <div class="user-plan-form">
-    <h4>Upgrade to PRO plan</h4>
+    <h4>{{$t('upgrade_to_PRO')}}</h4>
     <b-form  @submit.prevent @submit="onSubmit">
-      <b-col sm="3">
-          <label for="nMonths">Number of months:</label>
+      <b-col sm="9">
+          <label for="nMonths">{{$t('user_plan_nmonths')}}</label>
       </b-col>
       <b-col sm="9">
         <b-form-input
             id="nMonths"
             v-model="userPlanForm.nMonths"
             required
-            placeholder="Nº of months"
         ></b-form-input>
         <br/>
-        <b-button class="send-button" type="submit" variant="primary">Send</b-button>
+        <b-button class="send-button" type="submit" variant="primary">{{$t('send')}}</b-button>
       </b-col>
     </b-form>
 
@@ -54,7 +53,6 @@
         this.$swal({
             type: 'warning',
             title: 'Proceed to payment',
-            text: 'llkanadskn',
             showCancelButton: true,
             cancelButtonColor: '#d33',
             confirmButtonText: 'Pay!'
