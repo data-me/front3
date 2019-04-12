@@ -230,45 +230,45 @@ export default {
        formData.append("name", this.form.name);
        this.messages = [] 
        if (this.form.password != this.form.confirmPassword){
-          this.messages.push('Passwords dont match')
+          this.messages.push(this.$t('register_error_password1'))
         }
         if (this.form.username.length < 5){
-            this.messages.push('Username must be at least 5 letters')
+            this.messages.push(this.$t('register_error_username'))
         }
         if (this.form.password.length < 8){
-            this.messages.push('Password must contain at least 8 characters')
+            this.messages.push(this.$t('register_error_password2'))
         }
         var re = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/g);
         if (! re.test(this.form.password)){
-            this.messages.push('Password must have at least one number and one capital letter')
+            this.messages.push(this.$t('register_error_password3'))
         }
         if (this.form.name.length == 0){
-            this.messages.push('Name is required')
+            this.messages.push(this.$t('name_error'))
         }
         if (this.selected == 'DataScientist' && this.form.surname.length == 0){
-            this.messages.push('Surname is required')
+            this.messages.push(this.$t('surname_error'))
         }
 
         if (this.selected == 'DataScientist' && this.form.email.length == 0){
-            this.messages.push('Email is required')
+            this.messages.push(this.$t('email_error'))
         }
 
         if (this.selected == 'DataScientist' && this.form.address.length == 0){
-            this.messages.push('Address is required')
+            this.messages.push(this.$t('address_error'))
         }
         if (this.selected == 'Company' && this.form.nif.length == 0){
-            this.messages.push('NIF is required')
+            this.messages.push(this.$t('nif_error'))
         }
        var regex = new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi);
        if (this.selected == 'DataScientist' && (! (this.form.photo).match(regex))){
-          this.messages.push('Photo must be an URL');
+          this.messages.push(this.$t('photo_error'));
           }
 
          if (this.selected == 'Company' && this.form.description.length == 0){
-            this.messages.push('Description is required')
+            this.messages.push(this.$t('description_error'))
         }
         if (this.selected == 'Company' && (! (this.form.logo).match(regex))){
-          this.messages.push('Logo must be an URL');
+          this.messages.push(this.$t('logo_error'));
         }
         if(this.messages.length > 0){ 
           this.modalShow = true
