@@ -337,7 +337,7 @@ export default {
       if (this.form.limit_time == null){
             this.messages.push('Limit time is required')
       }
-      if (this.form.files.length == 0){
+      if (this.form.files.length == null){
             this.messages.push('File is required')
       }
       if (this.form.contract.length == 0){
@@ -369,8 +369,7 @@ export default {
 
       if(this.messages.length > 0){ 
           this.modalShow = true
-      }
-
+      } else{
       formData.append("title", this.form.title);
       formData.append("description", this.form.description);
       formData.append("price_offered", this.form.price_offered);
@@ -393,6 +392,7 @@ export default {
               window.location.href = result.data.url_pago;
             });
         });
+        }
     },
     deleteOffer(id) {
       var token = "JWT " + this.$cookies.get("token");
