@@ -13,11 +13,10 @@
             placeholder="Nº of months"
         ></b-form-input>
         <br/>
-        <b-col sm="9">
         <b-button class="send-button" type="submit" variant="primary">Send</b-button>
-        </b-col>
       </b-col>
     </b-form>
+
   </div>
 </template>
 
@@ -29,6 +28,7 @@
         userPlanForm: {
           nMonths:'',
         },
+        redirect_url : '',
       }
     },
     methods: {
@@ -40,26 +40,36 @@
         formData.append('nMonths', this.userPlanForm.nMonths);
         this.$http.post(baseURI, formData, { headers: { Authorization: token }})
         .then((result) => {
-            alert(result.data.message);
             if(result.data.userplan_pk != null){
               this.$http.get('http://localhost:8000/api/v1/pagos/paypal_userPlan_payment?userplan_pk=' + result.data.userplan_pk, 
               { headers: { Authorization: token } })
-                  .then(result => {
-                  window.location.href = result.data.redirect_url;
-                })
+                .then((result) => {
+                  this.redirect_url =  result.data.redirect_url
+                  this.payment_question()
+              })
               }
         })
-        }
+        },
+        payment_question() {
+        this.$swal({
+            type: 'warning',
+            title: 'Proceed to payment',
+            text: 'llkanadskn',
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Pay!'
+        }).then((result) =>{
+            if(result.value){
+            window.location.href = this.redirect_url;
+            }
+          })
+    },
       } 
     }
 
 </script>
 
 <style>
-.send-button {
-  text-align: center;
-}
-
 .user-plan-form{
     margin: 2em;
 }
