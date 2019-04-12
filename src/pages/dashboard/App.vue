@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
-          <h1 class="card-header" >Numero Total de ofertas</h1>
+          <h1 class="card-header" >{{$t('number_offers')}}</h1>
           <h2 class="card-body">{{ offers.length }}</h2>
         </div>
       </div>
@@ -15,7 +15,7 @@
       <br>
       <div class="col-sm-4">
         <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
-          <h1 class="card-header">Número total de usuarios</h1>
+          <h1 class="card-header">{{$t('number_user')}}</h1>
           <h2 class="card-body">{{ users.length }}</h2>
         </div>
       </div>
@@ -23,7 +23,7 @@
       <br>
       <div class="col-sm-4">
         <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
-          <h1 class="card-header">Número de empresas registradas</h1>
+          <h1 class="card-header">{{$t('number_companies')}}</h1>
           <h2 class="card-body">{{ companies.length }}</h2>
         </div>
       </div>
@@ -31,7 +31,7 @@
       <br>
       <div class="col-sm-4">
         <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
-          <h1 class="card-header">Media de ofertas por empresa</h1>
+          <h1 class="card-header">{{$t('average_offerCompany')}}</h1>
           <h2 class="card-body">{{ offers.length /companies.length }}</h2>
         </div>
       </div>
@@ -39,7 +39,7 @@
       <br>
       <div class="col-sm-4">
         <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
-          <h1 class="card-header">Número total de aplicaciones</h1>
+          <h1 class="card-header">{{$t('number_applications')}}</h1>
           <h2 class="card-body">{{applications.length}}</h2>
         </div>
       </div>
@@ -47,7 +47,7 @@
       <br>
       <div class="col-sm-4">
         <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
-          <h1 class="card-header">Número de aplicaciones aceptadas</h1>
+          <h1 class="card-header">{{$t('number_AcAplicacions')}}</h1>
           <h2 class="card-body">{{applicationsAccepted.length}}</h2>
         </div>
       </div>
@@ -55,7 +55,7 @@
       <br>
       <div class="col-sm-4">
         <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
-          <h1 class="card-header">Número de envíos realizados</h1>
+          <h1 class="card-header">{{$t('number_submitions')}}</h1>
           <h2 class="card-body">{{submitions.length}}</h2>
         </div>
       </div>
@@ -63,7 +63,7 @@
       <br>
       <div class="col-sm-4">
         <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
-          <h1 class="card-header">Número de mensajes intercambiados</h1>
+          <h1 class="card-header">{{$t('number_messages')}}</h1>
           <h2 class="card-body">{{messages.length}}</h2>
         </div>
       </div>

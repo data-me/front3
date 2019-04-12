@@ -94,6 +94,7 @@
               id="phone"
               :maxlength="9"
               aria-describedby="fileHelpBlock"
+
             />
           </b-card-text>
           <b-card-text class="card-text">
@@ -135,11 +136,26 @@
     </div>
 
     <div v-bind:key="item.id" id="cv_items" v-for="item in items">
-      <p class="display-3">{{item.Section}}</p>
+      <div>
+        <div>
+        <p class="display-3">{{item.Section}} 
+          <b-button
+                size="sm"
+                variant="danger"
+                class="mt-2"
+                
+                @click="deleteSection(item.Section_Id)">{{$t('delete_section')}}
+          </b-button>
+        </p>
+        </div>
+     
+      </div>
       <p></p>
       <div v-bind:key="item2.id" id="cv_items_sub" v-for="item2 in item.Items">
         <b-card :title="item2.name" :sub-title="item2.description">
-          <b-card-text style="float: left;">{{item2.entity}}</b-card-text>
+          <b-card-text>{{item2.entity}}</b-card-text>
+          <b-card-text>Start date: {{item2.date_start}}</b-card-text>
+          <b-card-text>Finish date: {{item2.date_finish}}</b-card-text>
           <div style="float: right;" id="deleteoffer">
             <div style="float: left; margin-right: 10px">
             <b-button 
@@ -351,6 +367,12 @@ export default {
       if (this.form.email.length == 0) {
         this.messages.push("Email is required");
       }
+       var regex = new RegExp(
+        /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g
+      );
+       if (!this.form.phone.match(regex)) {
+        this.messages.push("That is not a telephone number");
+      }
 
       if (this.form.address.length == 0) {
         this.messages.push("Address is required");
@@ -450,6 +472,24 @@ export default {
       if (confirm) {
         this.$http.delete(
           "http://localhost:8000/api/v2/data/delete_item/" + item_id,
+          {
+            headers: {
+              Authorization: token
+            }
+          }
+        );
+        window.location.href = "/my_cv.html";
+      }
+    },
+    deleteSection(section_id) {
+      var token = "JWT " + this.$cookies.get("token");
+      var confirm = window.confirm(
+        "Are you sure you want to delete this Section?"
+      );
+
+      if (confirm) {
+        this.$http.delete(
+          "http://localhost:8000/api/v2/data/delete_section/" + section_id,
           {
             headers: {
               Authorization: token

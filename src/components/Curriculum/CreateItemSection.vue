@@ -1,5 +1,16 @@
 <template lang="html">
+
+
     <div>
+
+           <b-modal v-model="showModal" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+            <template slot="modal-header"> Please check the errors below </template>
+            <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
+            <template slot="modal-footer"><button class="btn btn-primary">Save Changes</button></template>
+            <b-button class="mt-3" variant="outline-danger" block @click="showModal = false">Close</b-button>
+        </b-modal>
+
+
         <h4>Create item section</h4>
         <b-form id="item" @submit.prevent @submit="onSubmit" @reset="onReset">
 
@@ -48,7 +59,7 @@
             <b-form-input
                 id="datestart"
                 v-model="item.datestart"
-                placeholder="yyyy-MM-dd HH:mm"
+                placeholder="yyyy-MM-dd"
                 required
             ></b-form-input>
             </b-col>
@@ -60,7 +71,7 @@
             <b-form-input
                 id="datefinish"
                 v-model="item.datefinish"
-                placeholder="yyyy-MM-dd HH:mm"
+                placeholder="yyyy-MM-dd"
             ></b-form-input>
             </b-col>
             <br/>
@@ -83,6 +94,8 @@ export default {
                 datestart: '',
                 datefinish: '',
             },
+            showModal : false,
+            messages: []
 
         }
     },
@@ -90,6 +103,20 @@ export default {
     methods: {
     onSubmit(evt) {
       evt.preventDefault()
+        this.messages = []
+     var datePattern = new RegExp(/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/g);
+      if (!this.item.datestart.match(datePattern)) {
+        alert("Please check the patter of the start date");
+      }
+
+    if (this.item.datefinish != '' && !this.item.datefinish.match(datePattern)) {
+        alert("Please check the pattern of the finish date");
+      }
+
+      if(this.messages.length > 0){ 
+          this.showModal = true
+      }
+      else{
         var token = 'JWT ' + this.$cookies.get('token')
       const baseURI = 'http://localhost:8000/api/v1/item'
       const formData = new FormData();
@@ -105,6 +132,7 @@ export default {
       .then((result) => {
           location.reload()
       })
+      }
     }
   }
 }

@@ -12,11 +12,11 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item v-show="isLoggedIn" href="/applications.html">{{ $t('applications') }}</b-nav-item>
           <b-nav-item v-show="isLoggedIn" href="/explore.html">{{ $t('offers') }}</b-nav-item>
-          <b-nav-item v-show="isCompany && isLoggedIn" href="/companies.html">Companies</b-nav-item>
+          <b-nav-item v-show="isCompany && isLoggedIn" href="/companies.html">{{ $t('profile') }}</b-nav-item>
           <!-- <b-nav-item href="#">Pricing</b-nav-item> -->
           <b-nav-item v-show="isLoggedIn" href="/mail.html">{{ $t('mail') }}</b-nav-item>
           <!--<div v-if="user_type === 'ds'">-->
-          <b-nav-item v-show="isDataScientist && isLoggedIn" href="/my_cv.html">{{ $t('cv') }}</b-nav-item>
+          <b-nav-item v-show="isDataScientist && isLoggedIn" href="/my_cv.html">{{ $t('profile') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/dashboard.html">{{ $t('dashboard') }}</b-nav-item>
           <b-nav-item
             v-show="isAdmin && isLoggedIn"
@@ -25,6 +25,7 @@
 
           <b-nav-item href="/submition.html" v-show="isDataScientist && isLoggedIn">{{ $t('my_submitions') }}</b-nav-item>
           <b-nav-item href="/submition.html" v-show="isCompany && isLoggedIn">{{ $t('recieved_submitions') }}</b-nav-item>
+          <b-nav-item href="/user_plan.html" v-show="isDataScientist && isLoggedIn">{{ $t('user_plan') }}</b-nav-item>
           <b-nav-item href="/login.html" v-show="!isLoggedIn">{{ $t('login') }}</b-nav-item>
           <b-nav-item href="/register.html" v-show="!isLoggedIn">{{ $t('signup') }}</b-nav-item>
           <b-nav-item href="#" v-show="isLoggedIn" @click="logOut">{{ $t('logout') }}</b-nav-item>

@@ -34,6 +34,7 @@
     <div id="applications">
       <Apply
         v-on:clicked="onClickChild"
+        v-on:clicked2="onClickChild2"
         v-for="(item, index) in items"
         v-bind:item="item"
         v-bind:isCompany="isCompany"
@@ -69,6 +70,45 @@
         <b-button class="mt-2" variant="success" block @click="createSubmit">{{$t('submit')}}</b-button>
       </b-form>
     </b-modal>
+
+    <!-- Modal Pop up showDataScientist -->
+    <div>
+     <b-modal id="showDataScientist" hide-footer ref="detailedDataScientist" size="xl" title="Data Scientist's details">
+       <div id="info">
+         <b-card-text class="card-text">
+           <label for="name">Name:</label>
+           {{this.name}}
+         </b-card-text>
+         <b-card-text class="card-text">
+           <label for="surname">Surnamez:</label>
+           {{this.surname}}
+         </b-card-text>
+         <b-card-text class="card-text">
+           <label for="phone">Phone:</label>
+           {{this.phone}}
+         </b-card-text>
+         <b-card-text class="card-text">
+           <label for="email">Email:</label>
+           {{this.email}}
+         </b-card-text>
+         <b-card-text class="card-text">
+           <label for="address">Address:</label>
+           {{this.address}}
+         </b-card-text>
+       </div>
+       <div id="cv_items_5" v-for="cvitem in dss">
+         <p class="display-3">{{cvitem.Section}}</p>
+         <div id="cv_items_sub" v-for="item2 in cvitem.Items">
+           <b-card :title="item2.name" :sub-title="item2.description">
+             <b-card-text>
+               {{item2.date_start}} - {{item2.date_finish}}
+             </b-card-text>
+           </b-card>
+         </div>
+       </div>
+     </b-modal>
+    </div>
+
     <Footer />
   </div>
 </template>
@@ -98,6 +138,16 @@ export default {
         comments: "",
         file: ""
       },
+      user: "",
+      name: "",
+      surname: "",
+      email: "",
+      phone: "",
+      photo: "",
+      address: "",
+      dsId: '',
+      dss: [],
+      idDataScientist: "",
       isCompany: null,
       idOffer: "",
       messages: [],
@@ -140,6 +190,28 @@ export default {
     },
     onClickChild(value) {
       this.idOffer = value;
+    },
+    onClickChild2(value) {
+      this.idDataScientist = value;
+      var token = 'JWT ' + this.$cookies.get('token')
+      this.$http
+        .get("http://localhost:8000/api/v1/dataScientist?dataScientistId=" + this.idDataScientist, {
+          headers: { Authorization: token }
+        })
+        .then(result => {
+          this.user = result.data;
+          this.name = this.user.name;
+          this.surname = this.user.surname;
+          this.email = this.user.email;
+          this.phone = this.user.phone;
+          this.photo = this.user.photo;
+          this.address = this.user.address;
+        });
+      this.$http.get('http://localhost:8000/api/v1/cv?dataScientistId=' + this.idDataScientist,{ headers:
+        { Authorization: token }
+      }).then((result) => {
+        this.dss = result.data
+      })
     },
     createSubmit() {
       var token = "JWT " + this.$cookies.get("token");

@@ -2,6 +2,12 @@
   <div id="app">
     <Navbar/>
         <!-- ////// -->
+        <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+            <template slot="modal-header"> Please check the errors below </template>
+            <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
+            <template slot="modal-footer"><button class="btn btn-primary">Save Changes</button></template>
+            <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">Close</b-button>
+        </b-modal>
         <!-- Create an offer -->
         <div v-if="user_type === 'com'">
           <div class="create-offer">
@@ -42,10 +48,10 @@
                 </div>
 
                 <div id="deleteoffer" v-if="user_type !== 'ds' && applications.length == 0">
-                  <b-button variant="danger" class="mt-2" block @click="deleteOffer(item.id)">{{$t('delete_offer')}}</b-button>
+                  <b-button variant="danger" class="card-link" block @click="deleteOffer(item.id)">{{$t('delete_offer')}}</b-button>
                 </div>
                 <div id="editOffer" v-if="(user_type === 'com' && applications.length == 0)">
-                <b-link href="#" class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">{{$t('edit_offer')}}</b-link>
+                <b-button  class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">{{$t('edit_offer')}}</b-button>
                 </div>
               </b-card-body>
             </b-collapse>
@@ -105,6 +111,7 @@
             type="number"
             id="price"
             v-model="form.price_offered"
+            :state="! form.price_offered == ''"
             aria-describedby="priceHelpBlock"
           />
           <b-form-text id="priceHelpBlock">{{$t('price_offered_placeholder')}}</b-form-text>
@@ -116,6 +123,7 @@
             id="limit_time"
             v-model="form.limit_time"
             aria-describedby="descriptionHelpBlock"
+            :state="(new RegExp(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/).test(form.limit_time))"
           />
           <b-form-text id="descriptionHelpBlock">{{$t('limit_date_offer_placeholder')}}</b-form-text>
           <label for="files">{{$t('files')}}</label>
@@ -123,6 +131,7 @@
             type="text"
             id="files"
             v-model="form.files"
+            :state="(new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi).test(form.files))"
             aria-describedby="descriptionHelpBlock"
           />
           <b-form-text id="descriptionHelpBlock">{{$t('file_offer_placeholder')}}</b-form-text>
@@ -133,6 +142,7 @@
             id="contract"
             v-model="form.contract"
             aria-describedby="descriptionHelpBlock"
+            :state ="this.form.contract.length > 0"
           />
           <b-form-text id="descriptionHelpBlock">{{$t('contract_offer_placeholder')}}</b-form-text>
           <br>
@@ -206,6 +216,7 @@ export default {
           price_offered: null,
           files: '',
           contract: '',
+          limit_time:'',
         },
         formApply: {
             title: '',
@@ -217,6 +228,8 @@ export default {
             description: '',
         },
         offerId: '',
+        messages: [],
+        modalShow: 'false',
         user_type: this.$cookies.get('user_type')
     }
   }, mounted: function () {
@@ -231,16 +244,10 @@ export default {
     this.$i18n.locale = lang
 
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.items = result.data
-    })
-
 
     // Para los pagos
-    if (this.$cookies.get("user_type") == "com") {
-      try {
+    if (this.$cookies.get("user_type") == "com") { 
+     if(window.location.search){
         if (window.location.search.split("?")[1].split("&")) {
           var respuesta_paypal = window.location.search
             .split("?")[1]
@@ -252,11 +259,37 @@ export default {
           this.$http
             .get(url_guarda_pagos, { headers: { Authorization: token } })
             .then(result => {
+              // El pago se ha guardado
               alert(result.data.message);
+              // Hago la llamada para obtener las offers con la nueva offer dentro
+              var token = 'JWT ' + this.$cookies.get('token')
+              this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
+                { Authorization: token }
+                }).then((result) => {
+                  this.items = result.data
+              })
             });
         }
-      } catch (error) {}
+      }else{
+        // Hago una llamada normal para que me las de
+        var token = 'JWT ' + this.$cookies.get('token')
+        this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
+          { Authorization: token }
+          }).then((result) => {
+            this.items = result.data
+        })
+      }
+    }else{
+      // Hago una llamada para que me las de siendo DS. Porque no soy company
+      var token = 'JWT ' + this.$cookies.get('token')
+      this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
+        { Authorization: token }
+        }).then((result) => {
+          this.items = result.data
+      })
     }
+    
+
 
     //este es el endpoint que devuelve las applications que tiene una oferta pero tengo el mismo problema
     //que para el edit, que no consigo pasarle la oferta. offerId está vacía
@@ -290,6 +323,54 @@ export default {
     createOffer() {
       var token = "JWT " + this.$cookies.get("token");
       const formData = new FormData();
+
+      this.messages = [] 
+      if (this.form.title.length == 0){
+            this.messages.push('Title is required')
+      }
+      if (this.form.description.length == 0){
+            this.messages.push('Description is required')
+      }
+      if (this.form.price_offered == null){
+            this.messages.push('Price is required')
+      }
+      if (this.form.limit_time == null){
+            this.messages.push('Limit time is required')
+      }
+      if (this.form.files.length == 0){
+            this.messages.push('File is required')
+      }
+      if (this.form.contract.length == 0){
+            this.messages.push('Contract is required')
+      }
+      if(this.form.limit_time == null){
+         this.messages.push('Limit date is required')  
+      } else {
+      var datePattern = new RegExp(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/g);
+      if (!this.form.limit_time.match(datePattern)) {
+        this.messages.push("Please check the pattern of limit date");
+
+      } else{
+        let date= new Date(this.form.limit_time);
+        let now = Date.now();
+        if(date < now){
+            this.messages.push("Date can't be past");
+        }
+      }
+      }
+
+      var regex = new RegExp(
+        /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
+      );
+      if (!this.form.files.match(regex)) {
+        this.messages.push("That is not an URL");
+      }
+
+
+      if(this.messages.length > 0){ 
+          this.modalShow = true
+      }
+
       formData.append("title", this.form.title);
       formData.append("description", this.form.description);
       formData.append("price_offered", this.form.price_offered);
@@ -327,8 +408,9 @@ export default {
               }
             ).then((result) => {
               alert(result.data.message)
+              window.location.href = "/explore.html";
             });
-            window.location.href = "/explore.html";
+            
           }
       },
         onSubmit() {
@@ -345,7 +427,10 @@ export default {
           this.$http.post('http://localhost:8000/api/v2/change_offer/' + this.offerId, formData,{ headers:
             { Authorization: token }}).then((result) => {
               this.items = result.data
-            })
+              alert(result.data.message)
+              window.location.href = "/explore.html";
+            });
+            
 
       }
       }
