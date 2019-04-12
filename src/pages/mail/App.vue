@@ -138,7 +138,7 @@ export default {
     this.$i18n.locale = lang;
 
     this.$http
-      .get("https://api2-datame.herokuapp.com/api/v1/message", {
+      .get("http://localhost:8000/api/v1/message", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -146,7 +146,7 @@ export default {
       });
 
     this.$http
-      .get("https://api2-datame.herokuapp.com/api/v1/users", {
+      .get("http://localhost:8000/api/v1/users", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -181,7 +181,7 @@ export default {
       formData.append("username", this.form.receiver);
 
       this.$http
-        .post("https://api2-datame.herokuapp.com/api/v1/message", formData, {
+        .post("http://localhost:8000/api/v1/message", formData, {
           headers: { Authorization: token }
         })
         .then(result => {
