@@ -122,7 +122,8 @@
   "logo_url": "Logo",
   "logo_url_help": "Escribe el enlace al logo de tu empresa",
   "create_company": "Registrarse como empresa",
-  "create_ds": "Registrarse como científico de datos"
+  "create_ds": "Registrarse como científico de datos",
+  "terms_explanation": "Los siguientes términos están solo disponibles en inglés. Si desea obtenerlos en otro idioma, envíe un correo electrónico a <TODO>"
 
 
 }
