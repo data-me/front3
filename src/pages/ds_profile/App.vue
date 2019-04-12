@@ -35,7 +35,7 @@ export default {
     var id_ds = window.location.search.split("=")[1]
 
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get(`http://localhost:8000/api/v1/cv?dataScientistId=${id_ds}`,{ headers:
+    this.$http.get(`https://api2-datame.herokuapp.com/api/v1/cv?dataScientistId=${id_ds}`,{ headers:
       { Authorization: token }
       }).then((result) => {
         this.items = result.data
