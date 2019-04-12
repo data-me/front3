@@ -3,6 +3,7 @@ import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueCookies from 'vue-cookies'
 import axios from 'axios'
+import i18n from '../../i18n'
 import VueSweetalert2 from 'vue-sweetalert2'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -23,5 +24,6 @@ Vue.use(VueSweetalert2, options)
 Vue.prototype.$http = axios
 
 new Vue({
+  i18n,
   render: h => h(App)
 }).$mount('#app')

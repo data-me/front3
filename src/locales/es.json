@@ -83,5 +83,6 @@
   "number_AcAplicacions":"Número de aplicaciones aceptadas",
   "number_submitions":"Número de envíos realizados",
   "number_messages":"Número de mensajes intercambiados",
-  "profile": "Mi perfil"
+  "profile": "Mi perfil",
+  "user_plan" : "Plan de Usuario"
 }

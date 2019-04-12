@@ -25,6 +25,7 @@
 
           <b-nav-item href="/submition.html" v-show="isDataScientist && isLoggedIn">{{ $t('my_submitions') }}</b-nav-item>
           <b-nav-item href="/submition.html" v-show="isCompany && isLoggedIn">{{ $t('recieved_submitions') }}</b-nav-item>
+          <b-nav-item href="/user_plan.html" v-show="isDataScientist && isLoggedIn">{{ $t('user_plan') }}</b-nav-item>
           <b-nav-item href="/login.html" v-show="!isLoggedIn">{{ $t('login') }}</b-nav-item>
           <b-nav-item href="/register.html" v-show="!isLoggedIn">{{ $t('signup') }}</b-nav-item>
           <b-nav-item href="#" v-show="isLoggedIn" @click="logOut">{{ $t('logout') }}</b-nav-item>
