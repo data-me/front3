@@ -2,13 +2,13 @@
   <div id="app">
     <Navbar v-if="showNavbar"/>
     <b-form id="form" @submit.prevent @submit="onSubmit" v-if="showForm">
-    <label for="textUsername">Username</label>
+    <label for="textUsername">{{$t('username')}}</label>
     <b-input type="text" v-model="form.username" id="textUsername"/>
     <br/>
-    <label for="textPassword">Password</label>
+    <label for="textPassword">{{$t('password')}}</label>
     <b-input type="password" id="textPassword" v-model="form.password" aria-describedby="passwordHelpBlock" />
     <br/>
-    <b-button type="submit" variant="primary">Log in</b-button>
+    <b-button type="submit" variant="primary">{{$t('login')}}</b-button>
    </b-form>
 
   <router-view></router-view>
@@ -71,7 +71,7 @@ export default {
           this.showNavbar = true
         })
       }).catch(()=>{
-          alert("Unable to log in with provided credentials, please try again.")
+          alert(this.$t('login_error'))
         })
     }
   }

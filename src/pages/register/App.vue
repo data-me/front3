@@ -5,63 +5,63 @@
 
 
 <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
-    <template slot="modal-header"> Please check the errors below </template>
-    <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
-    <template slot="modal-footer"><button class="btn btn-primary">Save Changes</button></template>
-    <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">Close</b-button>
+    <template slot="modal-header"> {{$t('error_msg')}}</template>
+    <li id="messagesError" v-for="message in this.messages"> {{$t('messages')}}</li>
+    <template slot="modal-footer"><button class="btn btn-primary">{{$t('save_changes')}}</button></template>
+    <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">{{$t('close')}}</b-button>
 </b-modal>
 
 <b-modal no-close-on-esc no-close-on-backdrop class='registered' v-model="registered" ref="registered" id="registered" hide-footer size="xl" title="registered">
-    <template slot="modal-header"> Congratulations! </template>
+    <template slot="modal-header"> {{$t('congrats')}} </template>
                     {{this.registerMessage}}
   <b-form  @submit="login">
-<b-button type=submit class="mt-2" variant="success" @click.stop.prevent="login()" >Let's Start!</b-button>
+<b-button type=submit class="mt-2" variant="success" @click.stop.prevent="login()" >{{$t('lets_start')}}</b-button>
 </b-form>
 </b-modal>
 
         <b-form id="register"  @submit = createUser>
-            <label for="type">Type of account</label>
+            <label for="type">{{$t('account_type')}}</label>
             <br/>
             <select v-model="selected">
             <option>DataScientist</option>
             <option>Company</option>
             </select>
              <br/>
-            <label for="username">Username</label>
+            <label for="username">{{$t('username')}}</label>
             <b-input type="text" v-model="form.username"  id="username" :state="form.username.length > 5"  :maxlength="80" aria-describedby="usernameHelpBlock" min=5 required/>
             <b-form-text id="usernameHelpBlock">
-              Write your username
+              {{$t('username_placeholder')}}
             </b-form-text>
             <br/>
-            <label for="password">Password</label>
+            <label for="password">{{$t('password')}}</label>
             <b-input type="password" id="password" v-model="form.password" :state="form.password.length >= 8 && (new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/g).test(this.form.password))" aria-describedby="passwordHelpBlock" required/>
             <b-form-text id="passwordHelpBlock">
-            Your password can't be too similar to your other personal information. <br/>
-            Your password must contain at least 8 characters. </br>
-            Your password can't be a commonly used password. <br/>
-            Your password can't be entirely numeric. 
+            {{$t('password_help1')}}  <br/>
+            {{$t('password_help2')}}  <br/>
+            {{$t('password_help3')}}  <br/>
+            {{$t('password_help4')}} 
             </b-form-text>
             <br/>
 
-            <label for="confirmPassword">Confirm password</label>
+            <label for="confirmPassword">{{$t('password_confim')}}</label>
             <b-input type="password" id="confirmPassword" v-model="form.confirmPassword" :state="form.confirmPassword == form.password && form.confirmPassword.length != 0" :maxlength="80"  aria-describedby="confirmPasswordHelpBlock" />
             <b-form-text id="confirmPasswordHelpBlock">
-            Type your password again please
+            {{$t('password_error')}}
             </b-form-text>
             <br/>
 
-            <label for="name">Name</label>
+            <label for="name">{{$t('name')}}</label>
             <b-input type="text" id="text" v-model="form.name" :state="form.name.length > 0"  :maxlength="80"  aria-describedby="nameHelpBlock" />
             <b-form-text id="nameHelpBlock">
-              Write your name
+              {{$t('write_name')}}
             </b-form-text>
             <br/>
 
             <div id='surname' v-if="selected ==='DataScientist'">
-            <label for="surname">Surname</label>
+            <label for="surname">{{$t('surname')}}</label>
             <b-input type="text" id="text" v-model="form.surname" aria-describedby="nameHelpBlock" :state="form.surname.length > 0"  :maxlength="80" />
             <b-form-text id="nameHelpBlock">
-              Write your surname
+              {{$t('write_surname')}}
             </b-form-text>
               <br/>
             </div>
@@ -69,10 +69,10 @@
           
 
             <div id='photo' v-if="selected ==='DataScientist'">
-            <label for="photo">Photo</label>
+            <label for="photo">{{$t('photo')}}</label>
             <b-input type="url" id="text" v-model="form.photo" aria-describedby="photoHelpBlock" :state="form.photo.length > 0 && new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi).test(this.form.photo)"  :maxlength="80" />
             <b-form-text id="photoHelpBlock">
-              Write a URL with a photo
+              {{$t('photo_help')}}
             </b-form-text>
              <br/>
             </div>
@@ -80,10 +80,10 @@
            
 
             <div id='email' v-if="selected ==='DataScientist'">
-            <label for="email">Email</label>
+            <label for="email">{{$t('email')}}</label>
             <b-input type="email" id="text" v-model="form.email" aria-describedby="emailHelpBlock" :state="form.email.length > 0" :maxlength="80" />
             <b-form-text id="emailHelpBlock">
-              Write your email
+              {{$t('write_email')}}
             </b-form-text>
               <br/>
             </div>
@@ -91,19 +91,19 @@
           
 
             <div id='address' v-if="selected ==='DataScientist'">
-            <label for="address">Address</label>
+            <label for="address">{{$t('address')}}</label>
             <b-input type="text" id="text" v-model="form.address" aria-describedby="addressHelpBlock" :state="form.address.length > 0" :maxlength="80"/>
             <b-form-text id="addressHelpBlock">
-              Write your address
+              {{$t('write_address')}}
             </b-form-text>
              <br/>
             </div>
 
             <div id='phone' v-if="selected ==='DataScientist'">
-            <label for="phone">Phone</label>
+            <label for="phone">{{$t('phone')}}</label>
             <b-input type="text" id="text" v-model="form.phone" aria-describedby="phoneHelpBlock" :state="form.phone.length > 0" :maxlength="9" />
             <b-form-text id="phoneHelpBlock">
-              Write your phone
+              {{$t('write_phone')}}
             </b-form-text>
              <br/>
             </div>
@@ -111,10 +111,10 @@
            
             
             <div id='description' v-if="selected ==='Company'">
-            <label for="description">Description</label>
+            <label for="description">{{$t('description')}}</label>
             <b-input type="text" id="text" v-model="form.description" aria-describedby="descriptionHelpBlock" :state="form.description.length > 0" :maxlength="80" />
             <b-form-text id="descriptionHelpBlock">
-              Write a description from your company
+              {{$t('description_help_company')}}
             </b-form-text>
              <br/>
             </div>
@@ -122,10 +122,10 @@
            
 
             <div id='nif' v-if="selected ==='Company'">
-            <label for="nif">NIF</label>
+            <label for="nif">{{$t('nif')}}</label>
             <b-input type="text" id="text" v-model="form.nif" aria-describedby="nifHelpBlock" :state="form.nif.length > 0" :maxlength="9" />
             <b-form-text id="nifHelpBlock">
-              Write the NIF from your company
+              {{$t('write_nif')}}
             </b-form-text>
              <br/>
             </div>
@@ -134,18 +134,18 @@
 
 
             <div id='logo' v-if="selected ==='Company'">
-            <label for="logo">Logo Url</label>
+            <label for="logo">{{$t('logo_url')}}</label>
             <b-input type="url" id="text" v-model="form.logo" aria-describedby="logoHelpBlock" :state="form.logo.length > 0 && new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi).test(this.form.logo)" :maxlength="80" />
             <b-form-text id="logoHelpBlock">
-              Write a URL referring to your company's logo
+              {{$t('logo_url_help')}}
             </b-form-text>
              <br/>
             </div>
 
            
 
-             <b-button type="submit" class="mt-2" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='Company'">Create new company</b-button>
-            <b-button type="submit" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='DataScientist'">Create new DataScientist</b-button>
+             <b-button type="submit" class="mt-2" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='Company'">{{$t('create_company')}}</b-button>
+            <b-button type="submit" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='DataScientist'">{{$t('create_ds')}}</b-button>
           </b-form>
 
            
@@ -200,6 +200,16 @@ export default {
     }
 
   }, mounted: function () {
+
+    var lang
+
+    if (this.$cookies.get('lang')) {
+       lang = this.$cookies.get('lang')
+    } else {
+        lang = 'en'
+    }
+    this.$i18n.locale = lang
+
     var token = 'JWT ' + this.$cookies.get('token')
     this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
       { Authorization: token }
