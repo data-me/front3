@@ -243,16 +243,10 @@ export default {
     this.$i18n.locale = lang
 
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.items = result.data
-    })
-
 
     // Para los pagos
-    if (this.$cookies.get("user_type") == "com") {
-      try {
+    if (this.$cookies.get("user_type") == "com") { 
+     if(window.location.search){
         if (window.location.search.split("?")[1].split("&")) {
           var respuesta_paypal = window.location.search
             .split("?")[1]
@@ -264,11 +258,37 @@ export default {
           this.$http
             .get(url_guarda_pagos, { headers: { Authorization: token } })
             .then(result => {
+              // El pago se ha guardado
               alert(result.data.message);
+              // Hago la llamada para obtener las offers con la nueva offer dentro
+              var token = 'JWT ' + this.$cookies.get('token')
+              this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
+                { Authorization: token }
+                }).then((result) => {
+                  this.items = result.data
+              })
             });
         }
-      } catch (error) {}
+      }else{
+        // Hago una llamada normal para que me las de
+        var token = 'JWT ' + this.$cookies.get('token')
+        this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
+          { Authorization: token }
+          }).then((result) => {
+            this.items = result.data
+        })
+      }
+    }else{
+      // Hago una llamada para que me las de siendo DS. Porque no soy company
+      var token = 'JWT ' + this.$cookies.get('token')
+      this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
+        { Authorization: token }
+        }).then((result) => {
+          this.items = result.data
+      })
     }
+    
+
 
     //este es el endpoint que devuelve las applications que tiene una oferta pero tengo el mismo problema
     //que para el edit, que no consigo pasarle la oferta. offerId está vacía
