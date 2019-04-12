@@ -110,40 +110,40 @@ export default {
     this.$i18n.locale = lang
 
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get('http://localhost:8000/api/v2/admin/offers',{ headers:
+    this.$http.get('https://api2-datame.herokuapp.com/api/v2/admin/offers',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.offers = result.data
       })
 
-    this.$http.get('http://localhost:8000/api/v1/users',{ headers:
+    this.$http.get('https://api2-datame.herokuapp.com/api/v1/users',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.users = result.data
       })
 
-    this.$http.get('http://localhost:8000/api/v1/companies',{ headers:
+    this.$http.get('https://api2-datame.herokuapp.com/api/v1/companies',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.companies = result.data
       })
 
-    this.$http.get('http://localhost:8000/api/v1/applications',{ headers:
+    this.$http.get('https://api2-datame.herokuapp.com/api/v1/applications',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.applications = result.data
       })
-    this.$http.get('http://localhost:8000/api/v1/applicationsAccepted',{ headers:
+    this.$http.get('https://api2-datame.herokuapp.com/api/v1/applicationsAccepted',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.applicationsAccepted = result.data
       })
-    this.$http.get('http://localhost:8000/api/v1/submitions',{ headers:
+    this.$http.get('https://api2-datame.herokuapp.com/api/v1/submitions',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.submitions = result.data
       })
-    this.$http.get('http://localhost:8000/api/v1/messages',{ headers:
+    this.$http.get('https://api2-datame.herokuapp.com/api/v1/messages',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.messages = result.data

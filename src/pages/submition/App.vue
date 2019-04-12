@@ -14,7 +14,7 @@
       title="submited"
     >
       <template slot="modal-header">{{this.message}}</template>
-      <b-button class="mt-2" variant="success" block @click="reloadPage">Close</b-button>
+      <b-button class="mt-2" variant="success" block @click="reloadPage">{{$t('close')}}</b-button>
     </b-modal>
 
     <!-- Show submitions -->
@@ -25,25 +25,25 @@
             block
             v-b-toggle="'accordion-' + index"
             variant="outline-primary"
-          >Submition to offer "{{item.offer__title}}"</b-button>
+          >{{$t('submition_to')}} "{{item.offer__title}}"</b-button>
         </b-card-header>
         <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <b-card-text>
-              <span class="font-weight-bold">Comments:</span>
+              <span class="font-weight-bold">{{$t('comments')}}:</span>
               {{item.comments}}
             </b-card-text>
             <b-card-text>
-              <span class="font-weight-bold">Status:</span>
+              <span class="font-weight-bold">{{$t('state')}}:</span>
               {{item.status}}
             </b-card-text>
             <b-card-text>
-              <span class="font-weight-bold">file:</span>
+              <span class="font-weight-bold">{{$t('file')}}:</span>
               {{item.file}}
             </b-card-text>
 
             <b-form v-if="user_type == 'com' && item.status == 'SU'" @submit.prevent>
-              <label for="type">Change status</label>
+              <label for="type">{{$t('change_status')}}</label>
               <br>
               <select v-model="selected">
                 <option>Accepted</option>
@@ -55,7 +55,7 @@
                 variant="success"
                 block
                 @click="changeStatus(item.id)"
-              >Change status</b-button>
+              >{{$t('change_status')}}</b-button>
             </b-form>
           </b-card-body>
         </b-collapse>
@@ -104,6 +104,16 @@ export default {
     };
   },
   mounted: function() {
+
+    var lang
+
+    if (this.$cookies.get('lang')) {
+       lang = this.$cookies.get('lang')
+    } else {
+        lang = 'en'
+    }
+    this.$i18n.locale = lang
+
     var token = "JWT " + this.$cookies.get("token");
     var lang;
 
@@ -115,7 +125,7 @@ export default {
     this.$i18n.locale = lang;
 
     this.$http
-      .get("http://localhost:8000/api/v1/submit", {
+      .get("https://api2-datame.herokuapp.com/api/v1/submit", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -156,7 +166,7 @@ export default {
       }
       formData.append("submitId", id);
       this.$http
-        .post("http://localhost:8000/api/v1/change_status", formData, {
+        .post("https://api2-datame.herokuapp.com/api/v1/change_status", formData, {
           headers: { Authorization: token }
         })
         .then(result => {
