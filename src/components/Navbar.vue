@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar toggleable="lg" type="light" variant="light">
       <b-navbar-brand href="/">
         <img id="DataMe-brand" src="https://data-me.github.io/img/branding/DataMe-brand.png">
       </b-navbar-brand>
@@ -12,11 +12,11 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item v-show="isLoggedIn" href="/applications.html">{{ $t('applications') }}</b-nav-item>
           <b-nav-item v-show="isLoggedIn" href="/explore.html">{{ $t('offers') }}</b-nav-item>
-          <b-nav-item v-show="isCompany && isLoggedIn" href="/companies.html">Companies</b-nav-item>
+          <b-nav-item v-show="isCompany && isLoggedIn" href="/companies.html">{{ $t('profile') }}</b-nav-item>
           <!-- <b-nav-item href="#">Pricing</b-nav-item> -->
           <b-nav-item v-show="isLoggedIn" href="/mail.html">{{ $t('mail') }}</b-nav-item>
           <!--<div v-if="user_type === 'ds'">-->
-          <b-nav-item v-show="isDataScientist && isLoggedIn" href="/my_cv.html">{{ $t('cv') }}</b-nav-item>
+          <b-nav-item v-show="isDataScientist && isLoggedIn" href="/my_cv.html">{{ $t('profile') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/dashboard.html">{{ $t('dashboard') }}</b-nav-item>
           <b-nav-item
             v-show="isAdmin && isLoggedIn"

@@ -4,6 +4,7 @@
 
           {{toggleMakeSubmition(item.id)}}
               {{saveId(item.offer_id)}}
+              {{saveId2(item.dataScientist_id)}}
 
 
             <div id="applications">
@@ -19,60 +20,23 @@
         <b-card-text><span class="font-weight-bold">Status: </span> {{item.status}}</b-card-text>
         <b-card-text><span class="font-weight-bold">Date: </span>{{item.date.slice(0,10)}}</b-card-text>
         <b-card-text><span class="font-weight-bold">Offer: </span>{{item.offer_id}}</b-card-text>
-        <b-card-text></b-card-text>
-        <div v-if="user_type === 'ds'">
-          <b-link v-if= "item.status == 'AC'" class="card-link" variant="outline-primary" @click="downloadWithVueResource(item.offer_id)">Download file</b-link>
+        <div v-if="(user_type === 'ds' && item.status == 'AC')">
+          <b-card-text><span class="font-weight-bold">Offer file: </span>{{item.offer__files}}</b-card-text>
           <br/>
           <b-link href="#" v-b-modal.modalxl v-show="this.permissions == 'true'">Make submit</b-link>
           <br/>
+        </div>
+        <div v-if="(user_type === 'ds' && item.status == 'PE')">
           <b-link v-if="item.status == 'PE'" @click="deleteApplication(item.id)">{{$t('delete')}}</b-link>
         </div>
         <div v-if="user_type === 'com'">
         <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
-        <b-link href="#" class="card-link" v-b-modal.showDataScientist variant="outline-primary" @click="showDataScientist(item.dataScientist_id)">Show Data Scientist</b-link>
+        <b-link href="#" class="card-link" v-b-modal.showDataScientist variant="outline-primary" @click="onClickButton2">Show Data Scientist</b-link>
         </div>
 
       </b-card-body>
     </b-collapse>
   </b-card>
-</div>
-
-<!-- Modal Pop up showDataScientist -->
-<div>
- <b-modal id="showDataScientist" hide-footer ref="detailedDataScientist" size="xl" title="Data Scientist's details">
-   <div id="info">
-     <b-card-text class="card-text">
-       <label for="name">Name:</label>
-       {{this.name}}
-     </b-card-text>
-     <b-card-text class="card-text">
-       <label for="surname">Surname:</label>
-       {{this.surname}}
-     </b-card-text>
-     <b-card-text class="card-text">
-       <label for="phone">Phone:</label>
-       {{this.phone}}
-     </b-card-text>
-     <b-card-text class="card-text">
-       <label for="email">Email:</label>
-       {{this.email}}
-     </b-card-text>
-     <b-card-text class="card-text">
-       <label for="address">Address:</label>
-       {{this.address}}
-     </b-card-text>
-   </div>
-   <div id="cv_items_5" v-for="cvitem in dss">
-     <p class="display-3">{{cvitem.Section}}</p>
-     <div id="cv_items_sub" v-for="item2 in cvitem.Items">
-       <b-card :title="item2.name" :sub-title="item2.description">
-         <b-card-text>
-           {{item2.date_start}} - {{item2.date_finish}}
-         </b-card-text>
-       </b-card>
-     </div>
-   </div>
- </b-modal>
 </div>
 
 
@@ -102,21 +66,13 @@ Vue.use(VueRouter)
           file: '',
           comments: '',
         },
-      user: "",
-      name: "",
-      surname: "",
-      email: "",
-      phone: "",
-      photo: "",
-      address: "",
       isCompany: null,
       permissions : '',
       offerId: '',
+      dataScientistId: '',
       user_type: this.$cookies.get('user_type'),
       offertodl: [],
-      url: '',
-      dsId: '',
-      dss: []
+      url: ''
 
 
     }
@@ -135,34 +91,17 @@ Vue.use(VueRouter)
   },
     props: ['item','index','key', 'isCompany'],
  methods: {
-    showDataScientist: function(idDataScientist) {
-      this.dsId = idDataScientist
-      var token = 'JWT ' + this.$cookies.get('token')
-      this.$http
-        .get("http://localhost:8000/api/v1/dataScientist?dataScientistId=" + idDataScientist, {
-          headers: { Authorization: token }
-        })
-        .then(result => {
-          this.user = result.data;
-          this.name = this.user.name;
-          this.surname = this.user.surname;
-          this.email = this.user.email;
-          this.phone = this.user.phone;
-          this.photo = this.user.photo;
-          this.address = this.user.address;
-        });
-      this.$http.get('http://localhost:8000/api/v1/cv?dataScientistId=' + idDataScientist,{ headers:
-        { Authorization: token }
-      }).then((result) => {
-        this.dss = result.data
-      })
-
-    },
      onClickButton (event) {
       this.$emit('clicked', this.offerId)
     },
+    onClickButton (event) {
+     this.$emit('clicked2', this.dataScientistId)
+   },
     saveId (id) {
       this.offerId = id
+    },
+    saveId2 (id) {
+      this.dataScientistId = id
     },
 
 
@@ -192,30 +131,14 @@ Vue.use(VueRouter)
       { Authorization: token }
       }).then((result) => {
         this.offertodl = result.data,
-        this.url = this.offertodl[0].file
+        this.url = this.offertodl.file
+        alert(this.url)
+
       })
   },
-      forceFileDownload(response){
-    const url = window.URL.createObjectURL(new Blob([response.data]))
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('download', 'file.csv') //or any other extension
-    document.body.appendChild(link)
-    link.click()
-  },
-      downloadWithVueResource(offerId) {
-    this.getOffer(offerId)
-    this.$http({
-      method: 'get',
-      url: this.url,
-      responseType: 'arraybuffer'
-    })
-    .then(response => {
-      this.forceFileDownload(response)
-    })
-    .catch(() => console.log('error occured'))
-
-  },
+      redirectTo(offerId){
+        this.getOffer(offerId);
+      },
 
       toggleAcceptApply(id) {
        var token = 'JWT ' + this.$cookies.get('token')
