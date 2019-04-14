@@ -12,9 +12,9 @@ The following terminology applies to these Terms and Conditions, Privacy Stateme
     <p>Unless otherwise stated, Datame and/or it's licensors own the intellectual property rights for all material on Datame. All intellectual property rights are reserved. You may view and/or print pages from https://Datame.com for your own personal use subject to restrictions set in
 these terms and conditions.
 You must not:
-• Republish material from <a href="https://front2-datame.herokuapp.com/">https://front-datame.herokuapp.com/</a>
-• Sell, rent or sub-license material from <a href="https://front2-datame.herokuapp.com/">https://front-datame.herokuapp.com/</a>
-• Reproduce, duplicate or copy material from <a href="https://front2-datame.herokuapp.com/">https://front-datame.herokuapp.com/</a>
+• Republish material from <a href="https://front2-datame.herokuapp.com/">https://front2-datame.herokuapp.com/</a>
+• Sell, rent or sub-license material from <a href="https://front2-datame.herokuapp.com/">https://front2-datame.herokuapp.com/</a>
+• Reproduce, duplicate or copy material from <a href="https://front2-datame.herokuapp.com/">https://front2-datame.herokuapp.com/</a>
     </p>
     <h1 class = 'heading'>User Comments</h1>
     <p>This Agreement shall begin on the date hereof.

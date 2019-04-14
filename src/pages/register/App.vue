@@ -6,7 +6,7 @@
 
 <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
     <template slot="modal-header"> {{$t('error_msg')}}</template>
-    <li id="messagesError" v-for="message in this.messages"> {{$t('messages')}}</li>
+    <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
     <template slot="modal-footer"><button class="btn btn-primary">{{$t('save_changes')}}</button></template>
     <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">{{$t('close')}}</b-button>
 </b-modal>
@@ -39,7 +39,8 @@
             {{$t('password_help1')}}  <br/>
             {{$t('password_help2')}}  <br/>
             {{$t('password_help3')}}  <br/>
-            {{$t('password_help4')}} 
+            {{$t('password_help4')}}  <br/>
+            {{$t('password_help5')}}
             </b-form-text>
             <br/>
 
@@ -81,7 +82,7 @@
 
             <div id='email' v-if="selected ==='DataScientist'">
             <label for="email">{{$t('email')}}</label>
-            <b-input type="email" id="text" v-model="form.email" aria-describedby="emailHelpBlock" :state="form.email.length > 0" :maxlength="80" />
+            <b-input type="email" id="text" v-model="form.email" aria-describedby="emailHelpBlock" :state="form.email.length > 0 && new RegExp(/\S+@\S+\.\S+/).test(this.form.email)" :maxlength="80" />
             <b-form-text id="emailHelpBlock">
               {{$t('write_email')}}
             </b-form-text>
@@ -101,7 +102,7 @@
 
             <div id='phone' v-if="selected ==='DataScientist'">
             <label for="phone">{{$t('phone')}}</label>
-            <b-input type="text" id="text" v-model="form.phone" aria-describedby="phoneHelpBlock" :state="form.phone.length > 0" :maxlength="9" />
+            <b-input type="text" id="text" v-model="form.phone" aria-describedby="phoneHelpBlock" :state="form.phone.length > 0 && new RegExp(/\d{9}/).test(this.form.phone)" :maxlength="9" />
             <b-form-text id="phoneHelpBlock">
               {{$t('write_phone')}}
             </b-form-text>
@@ -211,7 +212,7 @@ export default {
     this.$i18n.locale = lang
 
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
+    this.$http.get('https://api2-datame.herokuapp.com/api/v1/offer',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.items = result.data
@@ -229,45 +230,45 @@ export default {
        formData.append("name", this.form.name);
        this.messages = [] 
        if (this.form.password != this.form.confirmPassword){
-          this.messages.push('Passwords dont match')
+          this.messages.push(this.$t('register_error_password1'))
         }
         if (this.form.username.length < 5){
-            this.messages.push('Username must be at least 5 letters')
+            this.messages.push(this.$t('register_error_username'))
         }
         if (this.form.password.length < 8){
-            this.messages.push('Password must contain at least 8 characters')
+            this.messages.push(this.$t('register_error_password2'))
         }
         var re = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/g);
         if (! re.test(this.form.password)){
-            this.messages.push('Password must have at least one number and one capital letter')
+            this.messages.push(this.$t('register_error_password3'))
         }
         if (this.form.name.length == 0){
-            this.messages.push('Name is required')
+            this.messages.push(this.$t('name_error'))
         }
         if (this.selected == 'DataScientist' && this.form.surname.length == 0){
-            this.messages.push('Surname is required')
+            this.messages.push(this.$t('surname_error'))
         }
 
         if (this.selected == 'DataScientist' && this.form.email.length == 0){
-            this.messages.push('Email is required')
+            this.messages.push(this.$t('email_error'))
         }
 
         if (this.selected == 'DataScientist' && this.form.address.length == 0){
-            this.messages.push('Address is required')
+            this.messages.push(this.$t('address_error'))
         }
         if (this.selected == 'Company' && this.form.nif.length == 0){
-            this.messages.push('NIF is required')
+            this.messages.push(this.$t('nif_error'))
         }
        var regex = new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi);
        if (this.selected == 'DataScientist' && (! (this.form.photo).match(regex))){
-          this.messages.push('Photo must be an URL');
+          this.messages.push(this.$t('photo_error'));
           }
 
          if (this.selected == 'Company' && this.form.description.length == 0){
-            this.messages.push('Description is required')
+            this.messages.push(this.$t('description_error'))
         }
         if (this.selected == 'Company' && (! (this.form.logo).match(regex))){
-          this.messages.push('Logo must be an URL');
+          this.messages.push(this.$t('logo_error'));
         }
         if(this.messages.length > 0){ 
           this.modalShow = true
@@ -286,7 +287,7 @@ export default {
                     formData.append("email", this.form.email);
                     formData.append("photo", this.form.photo);
             }
-      this.$http.post('http://localhost:8000/api/v1/register', formData).then((result) => {
+      this.$http.post('https://api2-datame.herokuapp.com/api/v1/register', formData).then((result) => {
       this.registerMessage = result.data.message
       this.registered = true;
       })
@@ -299,11 +300,11 @@ export default {
        formLogin.append("username", this.form.username);
        formLogin.append("password", this.form.password);
 
-        const baseURI = 'http://localhost:8000/api/v1/login'
-      this.$http.post('http://localhost:8000/api/v1/login', formLogin).then((result) => {
+        const baseURI = 'https://api2-datame.herokuapp.com/api/v1/login'
+      this.$http.post('https://api2-datame.herokuapp.com/api/v1/login', formLogin).then((result) => {
           this.$cookies.set('token',result.data.token)
           let token = `JWT ${this.$cookies.get('token')}`
-          this.$http.get('http://localhost:8000/api/v1/whoami', { headers: { Authorization: token }
+          this.$http.get('https://api2-datame.herokuapp.com/api/v1/whoami', { headers: { Authorization: token }
         }).then((result) => {
           this.$cookies.set('user_type', result.data.user_type)
         })
@@ -313,12 +314,10 @@ export default {
         })
         if(this.selected == 'DataScientist'){
         this.$router.push({path:'/my_cv'})
-        window.location.replace('../my_cv.html')
-        }
+        window.location.replace('../')}
         if(this.selected == 'Company'){
         this.$router.push({path:'/helloworld.html'})
-        window.location.replace('../helloworld.html')    
-        }
+        window.location.replace('../')}
         }
 
      

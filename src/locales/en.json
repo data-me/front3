@@ -103,6 +103,7 @@
   "password_help2": "Your password must contain at least 8 characters.",
   "password_help3": "Your password can't be a commonly used password.",
   "password_help4": "Your password can't be entirely numeric.",
+  "password_help5": "Your password must contain at least 1 mayus.",
   "password_confim": "Confirm password",
   "password_error": "Type your password again please",
   "write_name": "Write your name",
@@ -123,7 +124,19 @@
   "logo_url_help": "Write a URL referring to your company's logo",
   "create_company": "Register as a company",
   "create_ds": "Register as Data Scientist",
-  "terms_explanation": "The following terms are only available in english. If you wish to read them in a different language, make a request via email to <TODO>"
-
-
+  "terms_explanation": "The following terms are only available in english. If you wish to read them in a different language, make a request via email to the administrator of the website.",
+  "submition_to": "Submition to",
+  "change_status": "Change status",
+  "register_error_password1": "Passwords dont match",
+  "register_error_username": "Username must be at least 5 letters",
+  "register_error_password2": "Password must contain at least 8 characters",
+  "register_error_password3": "Password must have at least one number and one capital letter",
+  "name_error": "Name is required",
+  "surname_error": "Surname is required",
+  "email_error": "Email is required",
+  "address_error": "Address is required",
+  "nif_error": "NIF is required",
+  "photo_error": "Photo must be an URL",
+  "description_error": "Description is required",
+  "logo_error": "Logo must be an URL"
 }
