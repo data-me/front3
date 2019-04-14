@@ -1,11 +1,11 @@
 <template>
   <div id="nav">
-    <b-navbar toggleable="lg" type="light" variant="light">
+    <b-navbar class="custom-nav" toggleable="lg"  :sticky="true">
       <b-navbar-brand href="/">
         <img id="DataMe-brand" src="https://data-me.github.io/img/branding/DataMe-brand.png">
       </b-navbar-brand>
 
-      <b-navbar-toggle target="nav_collapse"/>
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
       <b-collapse is-nav id="nav_collapse">
         <!-- Right aligned nav items -->
@@ -18,16 +18,19 @@
           <!--<div v-if="user_type === 'ds'">-->
           <b-nav-item v-show="isDataScientist && isLoggedIn" href="/my_cv.html">{{ $t('profile') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/dashboard.html">{{ $t('dashboard') }}</b-nav-item>
-          <b-nav-item
-            v-show="isAdmin && isLoggedIn"
-            href="/admin_offers.html"
-          >{{ $t('manage_offers') }}</b-nav-item>
+          <b-nav-item v-show="isAdmin && isLoggedIn" href="/admin_offers.html" >{{ $t('manage_offers') }}</b-nav-item>
 
           <b-nav-item href="/submition.html" v-show="isDataScientist && isLoggedIn">{{ $t('my_submitions') }}</b-nav-item>
           <b-nav-item href="/submition.html" v-show="isCompany && isLoggedIn">{{ $t('recieved_submitions') }}</b-nav-item>
           <b-nav-item href="/user_plan.html" v-show="isDataScientist && isLoggedIn">{{ $t('user_plan') }}</b-nav-item>
-          <b-nav-item href="/login.html" v-show="!isLoggedIn">{{ $t('login') }}</b-nav-item>
-          <b-nav-item href="/register.html" v-show="!isLoggedIn">{{ $t('signup') }}</b-nav-item>
+          <b-nav-form class="buttons">
+          <b-button size="sm" class="my-1 my-sm-0 accent-button" href="/login.html" v-show="!isLoggedIn">{{ $t('login') }}</b-button>
+          </b-nav-form>
+          <b-nav-form class="buttons">
+          <b-button size="sm" class="my-2 my-sm-0 secondary-button" variant="outline-primary" href="/register.html" v-show="!isLoggedIn">{{ $t('signup') }}</b-button>
+          </b-nav-form>
+          <!--<b-nav-item href="/login.html" v-show="!isLoggedIn"><p class="accent-button">{{ $t('login') }}</p></b-nav-item>
+          <b-nav-item href="/register.html" v-show="!isLoggedIn">{{ $t('signup') }}</b-nav-item>-->
           <b-nav-item href="#" v-show="isLoggedIn" @click="logOut">{{ $t('logout') }}</b-nav-item>
           <b-nav-item-dropdown :text="$t('lang')" v-model="$i18n.locale" right>
             <b-dropdown-item
@@ -42,6 +45,7 @@
     </b-navbar>
   </div>
 </template>
+
 <script>
 export default {
   name: "Navbar",
@@ -59,7 +63,7 @@ export default {
       isDataScientist: this.$cookies.get("user_type") === "ds",
       isAdmin: this.$cookies.get("user_type") === "admin",
       isLoggedIn: null,
-      langs: ["en", "es"],
+      langs: ["English 🇬🇧", "Español 🇪🇸"],
       language: this.$t.lang
     };
   },
@@ -97,6 +101,14 @@ export default {
       window.location.href = "/";
     },
     changeLanguage: function(lang) {
+      switch (lang) {
+        case 'Español 🇪🇸':
+            lang = 'es'
+            break
+        case 'English 🇬🇧':
+            lang = 'en'
+            break
+      }
       this.$i18n.locale = lang;
       this.setCookie("lang", lang, 2);
       //window.location.href = "/"
@@ -109,4 +121,32 @@ export default {
   height: 35px;
   width: auto;
 }
+
+.custom-nav {
+  background-color: #fff;
+}
+.accent-button {
+  background-color: #22546f !important;
+  border-color: #22546f;
+  color: #fff;
+  border: 0.5rem; 
+  margin-left: 0.3rem;
+}
+
+.secondary-button {
+  background-color: #fff !important;
+  border-color: #22546f !important;
+  color: #22546f !important;
+  margin-left: 0.3rem;
+}
+
+@media all and (max-width: 1000px)  {
+  .buttons {
+    text-align: center !important;
+    display: block !important;
+    margin-top:0.5rem;
+  }
+}
+
+
 </style>
