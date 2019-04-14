@@ -1,15 +1,31 @@
 <template>
   <div id="app">
-    <Navbar />
-      <header class="masthead">
-      <div class="container">
-        <div class="intro-text">
-          <div class="intro-lead-in">{{$t('message')}}</div>
-            <div class="intro-heading text-uppercase">{{$t('home_message')}}</div>
-            <div class="intro-lead-in">DataMe - {{$t('version')}} 1.1 (Sprint 2) </div>
-          </div>
-        </div>
-  </header>
+    <Navbar id="nav"/>
+
+    <div class="wrap-banner">
+       <div class="main-title">
+        <h2 class="statement">{{$t('message')}}</h2>
+        <h1 class="title">{{$t('home_message')}}</h1>
+       </div>
+    </div>
+    <vue-particles color="#22546f"
+        :particleOpacity="0.7"
+        :particlesNumber="80"
+        shapeType="circle"
+        :particleSize="4"
+        linesColor= "#37868a"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="0.4"
+        :linesDistance="150"
+        :moveSpeed="3"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="push"
+    ></vue-particles>
+    
+    
 
     <Footer />
   </div>
@@ -38,7 +54,9 @@ export default {
 </script>
 
 <style>
+
 #app {
+  height: 100%;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -47,46 +65,56 @@ export default {
   
 }
 
-.text-uppercase {
-    text-transform: uppercase!important;
-}
-
-header.masthead .intro-text .intro-heading {
-    font-size: 75px;
-    font-weight: 700;
-    line-height: 75px;
-    margin-bottom: 50px;
-    font-family: Montserrat,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
-}
-
-header.masthead .intro-text .intro-lead-in {
-    font-size: 40px;
-    font-style: italic;
-    line-height: 40px;
-    margin-bottom: 25px;
-    font-family: 'Droid Serif',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
-}
-
-header.masthead .intro-text {
-    padding-top: 150px;
-    padding-bottom: 100px;
-}
-
-header.masthead {
-    text-align: center;
-    color: rgb(255, 255, 255);
-    background-image: url("https://data-me.github.io/img/header-bg.png");
-    background-attachment: scroll;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-
 html {
   background-color: #ffffff;
 }
 
+h1.title {
+  z-index: 999;
+  display: block;
+  font-size: 4rem;
+}
 
+#nav {
+  z-index: 999;
+}
 
+#particles-js {
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 
+.wrap-banner {
+    position: relative;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-flex;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+}
+
+ .main-title {
+    margin-top: 10em; 
+    color: #000;
+    z-index: 999;
+}
+
+h2.statement {
+    font-size: 3rem;
+}
+
+@media all and (max-width: 699px)  {
+   h2.statement {
+    font-size: 1.4rem;
+  }
+  h1.title {
+    font-size: 2.5rem;
+  }
+}
 </style>
