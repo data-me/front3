@@ -85,6 +85,7 @@
           />
           <b-form-text id="bodyHelpBlock">The body of your message, max 250 characters.</b-form-text>
           <br>
+          <!--
           <label for="receiver">Receiver</label>
           <b-input
             type="text"
@@ -94,6 +95,29 @@
           />
           <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
           <br>
+          -->
+          <label for="receiver">Receiver</label>
+          <div class = "autocomplete">
+          <div class = "input" @click="toogleVisible" v-text="selectedItem ? selectedItem[filterby] : ''"></div>
+          <div class ="popover" v-show="visible">
+            <input type="text"
+             v-model="query"
+             placeholder = "Start typing the username">
+             <div class="options">
+               <ul>
+                 <li v-for="(match, index) in matches"
+                 :key="match[filterby]" 
+                 :class="{'selected':(selected == index)}"
+                 @click="itemClicked(index)"
+                 v-text = "match[filterby]"></li>
+               </ul>
+
+             </div>
+          </div>
+          </div>
+          <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
+          <br>
+
           <b-button class="mt-2" variant="success" block @click="toggleModal">Create message</b-button>
         </b-form>
       </b-modal>
@@ -114,11 +138,17 @@ export default {
   },
   data() {
     return {
+      filterby: 'username',
+      selected:0,
+      selectedItem: null,
+      visible: false,
+      query : '',
+      users: [],
       items: [],
       form: {
         title: "",
         body: "",
-        receiverId: null
+        receiver: null
       },
        messages: [],
        modalShow : false,
@@ -138,7 +168,7 @@ export default {
     this.$i18n.locale = lang;
 
     this.$http
-      .get("https://api2-datame.herokuapp.com/api/v1/message", {
+      .get("http://localhost:8000/api/v1/message", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -146,14 +176,43 @@ export default {
       });
 
     this.$http
-      .get("https://api2-datame.herokuapp.com/api/v1/users", {
+      .get("http://localhost:8000/api/v1/users", {
         headers: { Authorization: token }
       })
       .then(result => {
-        this.options = result.data;
+        this.users = result.data;
       });
   },
   methods: {
+    itemClicked(index){
+      this.selected = index;
+      this.selectItem();
+    },
+    selectItem(){
+      this.selectedItem = this.matches[this.selected];
+      //console.log(this.selectedItem[this.filterby]);
+      const cadena = JSON.stringify(this.selectedItem[this.filterby]).replace(/['"]+/g, '');
+      this.form.receiver = cadena;
+
+      console.log(this.form.receiver); 
+      //console.log(this.form.receiver.replace(/['"]+/g, ''));
+
+      /*
+      this.users.forEach(element => {
+        console.log(element[this.filterby]);
+        //this.selected
+        //console.log(element);
+        if(element[this.filterby] == this.selectedItem){
+          console.log('jaja');
+        }
+      });
+      */
+      //console.log(this.matches.filter(element => element[this.filterby]));
+      this.visible = false;
+    },
+    toogleVisible(){
+      this.visible = !this.visible;
+    },
     reloadPage() {
       window.location.reload();
     },
@@ -169,6 +228,10 @@ export default {
      if(this.form.body.length < 1){
       this.messages.push(this.$t('body_required'));
      }
+     
+     if(this.form.receiver == null){
+      this.messages.push(this.$t('receiver_required'));
+     }
     
 
      if (this.messages.length > 0) {
@@ -181,14 +244,23 @@ export default {
       formData.append("username", this.form.receiver);
 
       this.$http
-        .post("https://api2-datame.herokuapp.com/api/v1/message", formData, {
+        .post("http://localhost:8000/api/v1/message", formData, {
           headers: { Authorization: token }
         })
         .then(result => {
+          
          this.submited = true;
          this.message = result.data.message
         });
      }
+    }
+  },computed:{
+    matches(){
+      if(this.query == ''){
+        return[];
+      }
+
+      return this.users.filter((user)=> user[this.filterby].toLowerCase().includes(this.query.toLowerCase()))
     }
   }
 };
@@ -220,5 +292,68 @@ export default {
 
 html {
   background-color: #ffffff;
+}
+
+.autocomplete{
+  width: 100%;
+  position:relative;
+}
+
+.input{
+  border-radius: 3px;
+  border: 2px solid lightgray;
+  box-shadow: 0 0 10pc #eceaea;
+  padding-left:10px;
+  padding-top:13px;
+  padding-bottom:13px;
+  cursor:text;
+
+}
+
+.popover{
+  min-height: 50px;
+  border:2px solid lightgray;
+  position: relative;
+  top:46px;
+  left:0;
+  right:0;
+  background: #fff;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.popover input{
+  width: 95%;
+  margin-top:5px;
+  height: 40px;
+  font-size:15px;
+  border-radius:3px;
+  border: 1px solid lightgray;
+  padding-left:8px;
+}
+
+.options{
+  max-height: 150px;
+  overflow-y:scroll;
+  margin-top:5px;
+}
+
+.options ul{
+  list-style-type: none;
+  text-align: left;
+  padding-left: 0;
+}
+
+.options ul li{
+  border-bottom: 1px solid lightgray;
+  padding:10px;
+  cursor:pointer;
+  background: #f1f1f1;
+}
+
+.options ul li.selected{
+  background: #58bd4c;
+  color:#fff;
+  font-weight: 600;
 }
 </style>

@@ -138,5 +138,7 @@
   "nif_error": "NIF is required",
   "photo_error": "Photo must be an URL",
   "description_error": "Description is required",
-  "logo_error": "Logo must be an URL"
+  "logo_error": "Logo must be an URL",
+  "receiver_required": "Must introduce a receiver"
+
 }
