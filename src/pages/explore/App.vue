@@ -48,7 +48,7 @@
                 </div>
 
                 <div id="deleteoffer" v-if="user_type !== 'ds' && applications.length == 0">
-                  <b-button variant="danger" class="card-link" block @click="deleteOffer(item.id)">{{$t('delete_offer')}}</b-button>
+                  <b-button variant="danger" class="card-link" block @click="deleteOffer(item.id, $t('confirm_delete_offer'))">{{$t('delete_offer')}}</b-button>
                 </div>
                 <div id="editOffer" v-if="(user_type === 'com' && applications.length == 0)">
                 <b-button  class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">{{$t('edit_offer')}}</b-button>
@@ -396,11 +396,9 @@ export default {
         });
         }
     },
-    deleteOffer(id) {
+    deleteOffer(id, text) {
       var token = "JWT " + this.$cookies.get("token");
-      var confirm = window.confirm(
-        "Are you sure you want to delete this offer?"
-      );
+      var confirm = window.confirm(text);
       if (confirm) {
         this.$http
           .delete("http://localhost:8000/api/v1/company/offer/" + id, {

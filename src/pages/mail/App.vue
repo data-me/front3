@@ -96,14 +96,14 @@
           <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
           <br>
           -->
-          <label for="receiver">Receiver</label>
-          <div class = "autocomplete">
-          <div class = "input" @click="toogleVisible" v-text="selectedItem ? selectedItem[filterby] : ''"></div>
-          <div class ="popover" v-show="visible">
-            <input type="text"
+            <label for="receiver">Search receiver</label>
+
+            <b-input type="text"
              v-model="query"
-             placeholder = "Start typing the username">
-             <div class="options">
+             placeholder = "Start typing the username"
+             v-on:keyup="changeVisibility"/>
+             <div id="options" class="options" style="display:None;">
+               <hr>
                <ul>
                  <li v-for="(match, index) in matches"
                  :key="match[filterby]" 
@@ -111,10 +111,8 @@
                  @click="itemClicked(index)"
                  v-text = "match[filterby]"></li>
                </ul>
-
              </div>
-          </div>
-          </div>
+          
           <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
           <br>
 
@@ -195,6 +193,8 @@ export default {
       this.form.receiver = cadena;
 
       console.log(this.form.receiver); 
+      document.getElementById("options").style.display = "none";
+      this.query = this.form.receiver;
       //console.log(this.form.receiver.replace(/['"]+/g, ''));
 
       /*
@@ -208,7 +208,14 @@ export default {
       });
       */
       //console.log(this.matches.filter(element => element[this.filterby]));
-      this.visible = false;
+      this.visible = true;
+    },
+    changeVisibility(){
+      if(this.query === ""){
+        document.getElementById("options").style.display = "None";
+      }else{
+        document.getElementById("options").style.display = "";
+      }
     },
     toogleVisible(){
       this.visible = !this.visible;

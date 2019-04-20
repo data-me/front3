@@ -30,7 +30,7 @@
           <b-link v-if="item.status == 'PE'" @click="deleteApplication(item.id, $t('apply_delete'))">{{$t('delete')}}</b-link>
         </div>
         <div v-if="user_type === 'com'">
-        <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
+        <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id, $t('confirm_accept_application'))">Accept</b-link>
         <b-link href="#" class="card-link" v-b-modal.showDataScientist variant="outline-primary" @click="onClickButton2">Show Data Scientist</b-link>
         </div>
 
@@ -140,17 +140,18 @@ Vue.use(VueRouter)
         this.getOffer(offerId);
       },
 
-      toggleAcceptApply(id) {
-       var token = 'JWT ' + this.$cookies.get('token')
-       var formAccept = new FormData()
-       formAccept.append('idApply', id)
-       this.$http.post('http://localhost:8000/api/v1/accept', formAccept, { headers:
-      { Authorization: token }
-      }).then((result) => {
-          alert("Successfully accepted apply")
-          location.reload()
-      })
-
+      toggleAcceptApply(id, text) {
+        if(confirm(text)){
+          var token = 'JWT ' + this.$cookies.get('token')
+          var formAccept = new FormData()
+          formAccept.append('idApply', id)
+          this.$http.post('http://localhost:8000/api/v1/accept', formAccept, { headers:
+          { Authorization: token }
+          }).then((result) => {
+              alert("Successfully accepted apply")
+              location.reload()
+          })
+        }
      },
 
      deleteApplication(applicationId, text) {

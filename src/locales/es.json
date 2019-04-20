@@ -143,5 +143,7 @@
   "apply_offer": "Se procede a aplicar, ¿Está seguro de que desea aplicar?",
   "apply_delete": "¿Está seguro de que desea eliminar la aplicación a la oferta?",
   "confirm_delete_section": "¿Está seguro de que desea eliminar la sección de su curriculum?",
-  "confirm_delete_item": "¿Está seguro de que desea eliminar el elemento de su curriculum?"
+  "confirm_delete_item": "¿Está seguro de que desea eliminar el elemento de su curriculum?",
+  "confirm_delete_offer": "¿Está seguro de que desea eliminar la oferta?",
+  "confirm_accept_application": "¿Está seguro de que desea aceptar la aplicación a la oferta?"
 }
