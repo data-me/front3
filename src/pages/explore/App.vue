@@ -181,7 +181,7 @@
           >{{$t('description_apply_placeholder')}}</b-form-text>
           <b-form-invalid-feedback id="apply-description-feedback">{{$t('description_apply_feedback')}}</b-form-invalid-feedback>
           <br>
-          <b-button class="mt-2" variant="success" block @click="toggleCreateApply">{{$t('create_apply')}}</b-button>
+          <b-button class="mt-2" variant="success" block @click="toggleCreateApply($t('apply_offer'))">{{$t('create_apply')}}</b-button>
         </b-form>
       </b-modal>
     </div>
@@ -300,22 +300,24 @@ export default {
       })
 
   }, methods: {
-      toggleCreateApply() {
-       var token = 'JWT ' + this.$cookies.get('token')
-       const formApply = new FormData();
-       if (this.formApply.title.length < 5 || this.formApply.description.length < 10){
-        alert("Please correct the errors")
-       } else{
-       formApply.append("title", this.formApply.title);
-       formApply.append("description", this.formApply.description);
-       formApply.append("offerId", this.offerId);
-       this.$http.post('http://localhost:8000/api/v1/apply', formApply,{ headers:
-      { Authorization: token }
-      }).then((result) => {
-          alert(result.data.message)
-          location.reload()
-      })
-      }
+      toggleCreateApply(text) {
+        if(confirm(text)){
+          var token = 'JWT ' + this.$cookies.get('token')
+          const formApply = new FormData();
+          if (this.formApply.title.length < 5 || this.formApply.description.length < 10){
+            alert("Please correct the errors")
+          } else{
+          formApply.append("title", this.formApply.title);
+          formApply.append("description", this.formApply.description);
+          formApply.append("offerId", this.offerId);
+          this.$http.post('http://localhost:8000/api/v1/apply', formApply,{ headers:
+          { Authorization: token }
+          }).then((result) => {
+              alert(result.data.message)
+              location.reload()
+          })
+          }
+        }
      },
     saveId: function(idOffer){
     this.offerId = idOffer

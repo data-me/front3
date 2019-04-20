@@ -144,7 +144,7 @@
                 variant="danger"
                 class="mt-2"
                 
-                @click="deleteSection(item.Section_Id)">{{$t('delete_section')}}
+                @click="deleteSection(item.Section_Id, $t('confirm_delete_section'))">{{$t('delete_section')}}
           </b-button>
         </p>
         </div>
@@ -170,7 +170,7 @@
               variant="danger"
               class="mt-2"
               block
-              @click="deleteItem(item2.id)"
+              @click="deleteItem(item2.id, $t('confirm_delete_item'))"
             >{{$t('delete_item')}}</b-button></div>
           </div>
         </b-card>
@@ -463,41 +463,37 @@ export default {
           });
       }
     },
-    deleteItem(item_id) {
-      var token = "JWT " + this.$cookies.get("token");
-      var confirm = window.confirm(
-        "Are you sure you want to delete this item?"
-      );
+    deleteItem(item_id, text) {
+        var token = "JWT " + this.$cookies.get("token");
+        var confirm = window.confirm(text);
 
-      if (confirm) {
-        this.$http.delete(
-          "http://localhost:8000/api/v2/data/delete_item/" + item_id,
-          {
-            headers: {
-              Authorization: token
+        if (confirm) {
+          this.$http.delete(
+            "http://localhost:8000/api/v2/data/delete_item/" + item_id,
+            {
+              headers: {
+                Authorization: token
+              }
             }
-          }
-        );
-        window.location.href = "/my_cv.html";
-      }
+          );
+          window.location.href = "/my_cv.html";
+        }
     },
-    deleteSection(section_id) {
-      var token = "JWT " + this.$cookies.get("token");
-      var confirm = window.confirm(
-        "Are you sure you want to delete this Section?"
-      );
+    deleteSection(section_id, text) {
+        var token = "JWT " + this.$cookies.get("token");
+        var confirm = window.confirm(text);
 
-      if (confirm) {
-        this.$http.delete(
-          "http://localhost:8000/api/v2/data/delete_section/" + section_id,
-          {
-            headers: {
-              Authorization: token
+        if (confirm) {
+          this.$http.delete(
+            "http://localhost:8000/api/v2/data/delete_section/" + section_id,
+            {
+              headers: {
+                Authorization: token
+              }
             }
-          }
-        );
-        window.location.href = "/my_cv.html";
-      }
+          );
+          window.location.href = "/my_cv.html";
+        }
     },
     saveIds: function(item) {
       this.formDiobrando.itemid = item.id;

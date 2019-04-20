@@ -33,7 +33,7 @@
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-          var token = 'JWT ' + this.$cookies.get('token')
+        var token = 'JWT ' + this.$cookies.get('token')
         const baseURI = 'http://localhost:8000/api/v2/payUserPlan'
         const formData = new FormData();
         formData.append('nMonths', this.userPlanForm.nMonths);

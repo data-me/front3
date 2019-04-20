@@ -27,7 +27,7 @@
           <br/>
         </div>
         <div v-if="(user_type === 'ds' && item.status == 'PE')">
-          <b-link v-if="item.status == 'PE'" @click="deleteApplication(item.id)">{{$t('delete')}}</b-link>
+          <b-link v-if="item.status == 'PE'" @click="deleteApplication(item.id, $t('apply_delete'))">{{$t('delete')}}</b-link>
         </div>
         <div v-if="user_type === 'com'">
         <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id)">Accept</b-link>
@@ -153,20 +153,21 @@ Vue.use(VueRouter)
 
      },
 
-     deleteApplication(applicationId) {
-       var token = 'JWT ' + this.$cookies.get('token')
-       this.$http.delete('http://localhost:8000/api/v2/application/' + applicationId, { headers: { Authorization: token }}).then((result) => {
-          if (result.data.code == '200') {
-            alert(this.$t('delete_app_success'))
-          }
-          if (result.data.code == '401') {
-            alert(this.$t('delete_app_not_allowed'))
-          }
-          location.reload()
-      })
+     deleteApplication(applicationId, text) {
+      if(confirm(text)){
+        var token = 'JWT ' + this.$cookies.get('token')
+        this.$http.delete('http://localhost:8000/api/v2/application/' + applicationId, { headers: { Authorization: token }}).then((result) => {
+            if (result.data.code == '200') {
+              alert(this.$t('delete_app_success'))
+            }
+            if (result.data.code == '401') {
+              alert(this.$t('delete_app_not_allowed'))
+            }
+            location.reload()
+        })
+       }
      },
-
-  },
+    },
   }
 
 

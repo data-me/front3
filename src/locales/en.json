@@ -139,6 +139,9 @@
   "photo_error": "Photo must be an URL",
   "description_error": "Description is required",
   "logo_error": "Logo must be an URL",
-  "receiver_required": "Must introduce a receiver"
-
+  "receiver_required": "Must introduce a receiver",
+  "apply_offer": "You are going to apply to an offer, are you sure?",
+  "apply_delete": "You are going to delete an application, are you sure?",
+  "confirm_delete_section": "You are going to delete a section of your curriculum, are you sure?",
+  "confirm_delete_item": "You are going to delete an item of your curriculum, are you sure?"
 }
