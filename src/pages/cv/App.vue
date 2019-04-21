@@ -272,7 +272,9 @@
         <create-section></create-section>
       </div>
     </b-modal>
-    <Footer/>
+    <!--
+      <Footer/>
+    -->
   </div>
 </template>
 
@@ -323,7 +325,7 @@ export default {
     var token = "JWT " + this.$cookies.get("token");
 
     this.$http
-      .get("https://api2-datame.herokuapp.com/api/v2/get_user_logged", {
+      .get(" http://localhost:8000/api/v2/get_user_logged", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -336,7 +338,7 @@ export default {
         this.form.address = this.user.address;
       });
     this.$http
-      .get("https://api2-datame.herokuapp.com/api/v1/cv", {
+      .get(" http://localhost:8000/api/v1/cv", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -387,7 +389,7 @@ export default {
         formData.append("photo", this.form.photo);
         formData.append("address", this.form.address);
         this.$http
-          .post("https://api2-datame.herokuapp.com/api/v2/change_info", formData, {
+          .post(" http://localhost:8000/api/v2/change_info", formData, {
             headers: { Authorization: token }
           })
           .then(result => {
@@ -453,7 +455,7 @@ export default {
         formData.append("secid", this.formDiobrando.secid);
         formData.append("itemid", this.formDiobrando.itemid);
         this.$http
-          .post("https://api2-datame.herokuapp.com/api/v1/item", formData, {
+          .post(" http://localhost:8000/api/v1/item", formData, {
             headers: { Authorization: token }
           })
           .then(result => {
@@ -471,7 +473,7 @@ export default {
 
       if (confirm) {
         this.$http.delete(
-          "https://api2-datame.herokuapp.com/api/v2/data/delete_item/" + item_id,
+          " http://localhost:8000/api/v2/data/delete_item/" + item_id,
           {
             headers: {
               Authorization: token
@@ -489,7 +491,7 @@ export default {
 
       if (confirm) {
         this.$http.delete(
-          "https://api2-datame.herokuapp.com/api/v2/data/delete_section/" + section_id,
+          " http://localhost:8000/api/v2/data/delete_section/" + section_id,
           {
             headers: {
               Authorization: token

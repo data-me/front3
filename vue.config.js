@@ -213,6 +213,18 @@ module.exports = {
     // extracted common chunks and vendor chunks.
     chunks: ['chunk-vendors', 'chunk-common', 'user_plan']
   },
+  'manage_users': {
+    // entry for the page
+    entry: 'src/pages/manage_users/main.js',
+    // the source template
+    template: 'public/index.html',
+    // when using title option,
+    // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
+    title: 'Cancel UserPlan Payment',
+    // chunks to include on this page, by default includes
+    // extracted common chunks and vendor chunks.
+    chunks: ['chunk-vendors', 'chunk-common', 'manage_users']
+  },
 },
 
   pluginOptions: {

@@ -142,7 +142,7 @@ export default {
     this.$i18n.locale = lang;
 
     this.$http
-      .get("https://api2-datame.herokuapp.com/api/v1/company", {
+      .get(" http://localhost:8000/api/v1/company", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -150,7 +150,7 @@ export default {
       });
 
     this.$http
-      .get("https://api2-datame.herokuapp.com/api/v2/get_user_logged", {
+      .get(" http://localhost:8000/api/v2/get_user_logged", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -190,7 +190,7 @@ export default {
         formData.append("name", this.form.name);
         formData.append("description", this.form.description);
         formData.append("logo", this.form.logo);
-        this.$http.post("https://api2-datame.herokuapp.com/api/v2/change_info", formData, {
+        this.$http.post(" http://localhost:8000/api/v2/change_info", formData, {
             headers: { Authorization: token }
           }).then(result => {
             this.ViewEdit = true;
