@@ -138,7 +138,12 @@
   "nif_error": "NIF es obligatorio",
   "photo_error": "La foto debe ser una URL",
   "description_error": "Description es obligatorio",
-  "logo_error": "El logo debe ser una URL"
-
-
+  "logo_error": "El logo debe ser una URL",
+  "receiver_required": "Es necesario un destinatario",
+  "apply_offer": "Se procede a aplicar, ¿Está seguro de que desea aplicar?",
+  "apply_delete": "¿Está seguro de que desea eliminar la aplicación a la oferta?",
+  "confirm_delete_section": "¿Está seguro de que desea eliminar la sección de su curriculum?",
+  "confirm_delete_item": "¿Está seguro de que desea eliminar el elemento de su curriculum?",
+  "confirm_delete_offer": "¿Está seguro de que desea eliminar la oferta?",
+  "confirm_accept_application": "¿Está seguro de que desea aceptar la aplicación a la oferta?"
 }

@@ -212,7 +212,7 @@ export default {
     this.$i18n.locale = lang
 
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get(' http://localhost:8000/api/v1/offer',{ headers:
+    this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.items = result.data
@@ -287,7 +287,7 @@ export default {
                     formData.append("email", this.form.email);
                     formData.append("photo", this.form.photo);
             }
-      this.$http.post(' http://localhost:8000/api/v1/register', formData).then((result) => {
+      this.$http.post('http://localhost:8000/api/v1/register', formData).then((result) => {
       this.registerMessage = result.data.message
       this.registered = true;
       })
@@ -300,11 +300,11 @@ export default {
        formLogin.append("username", this.form.username);
        formLogin.append("password", this.form.password);
 
-        const baseURI = ' http://localhost:8000/api/v1/login'
-      this.$http.post(' http://localhost:8000/api/v1/login', formLogin).then((result) => {
+        const baseURI = 'http://localhost:8000/api/v1/login'
+      this.$http.post('http://localhost:8000/api/v1/login', formLogin).then((result) => {
           this.$cookies.set('token',result.data.token)
           let token = `JWT ${this.$cookies.get('token')}`
-          this.$http.get(' http://localhost:8000/api/v1/whoami', { headers: { Authorization: token }
+          this.$http.get('http://localhost:8000/api/v1/whoami', { headers: { Authorization: token }
         }).then((result) => {
           this.$cookies.set('user_type', result.data.user_type)
         })

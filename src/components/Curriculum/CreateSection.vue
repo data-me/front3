@@ -30,7 +30,7 @@ export default {
       }
     }, mounted: function () {
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get(' http://localhost:8000/api/v1/section_names',{ headers:
+    this.$http.get('http://localhost:8000/api/v1/section_names',{ headers:
       { Authorization: token }
       }).then((result) => {
           for(var i = 0, size = result.data.length; i < size ; i++){
@@ -42,7 +42,11 @@ export default {
     onSubmit(evt) {
       evt.preventDefault()
         var token = 'JWT ' + this.$cookies.get('token')
+<<<<<<< HEAD
       const baseURI = ' http://localhost:8000/api/v1/section'
+=======
+      const baseURI = 'http://localhost:8000/api/v1/section'
+>>>>>>> sprint3
       const formData = new FormData();
       formData.append('name', this.section.name);
       this.$http.post(baseURI, formData, { headers: { Authorization: token }})

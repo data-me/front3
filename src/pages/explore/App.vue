@@ -48,7 +48,7 @@
                 </div>
 
                 <div id="deleteoffer" v-if="user_type !== 'ds' && applications.length == 0">
-                  <b-button variant="danger" class="card-link" block @click="deleteOffer(item.id)">{{$t('delete_offer')}}</b-button>
+                  <b-button variant="danger" class="card-link" block @click="deleteOffer(item.id, $t('confirm_delete_offer'))">{{$t('delete_offer')}}</b-button>
                 </div>
                 <div id="editOffer" v-if="(user_type === 'com' && applications.length == 0)">
                 <b-button  class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">{{$t('edit_offer')}}</b-button>
@@ -181,7 +181,7 @@
           >{{$t('description_apply_placeholder')}}</b-form-text>
           <b-form-invalid-feedback id="apply-description-feedback">{{$t('description_apply_feedback')}}</b-form-invalid-feedback>
           <br>
-          <b-button class="mt-2" variant="success" block @click="toggleCreateApply">{{$t('create_apply')}}</b-button>
+          <b-button class="mt-2" variant="success" block @click="toggleCreateApply($t('apply_offer'))">{{$t('create_apply')}}</b-button>
         </b-form>
       </b-modal>
     </div>
@@ -255,7 +255,7 @@ export default {
           var paymentId = respuesta_paypal[0].split("=")[1];
           var token_paypal = respuesta_paypal[1].split("=")[1];
           var payerID = respuesta_paypal[2].split("=")[1];
-          var url_guarda_pagos = ` http://localhost:8000/api/v1/pagos/accept_paypal_payment/${paymentId}/${token_paypal}/${payerID}/`;
+          var url_guarda_pagos = `http://localhost:8000/api/v1/pagos/accept_paypal_payment/${paymentId}/${token_paypal}/${payerID}/`;
           this.$http
             .get(url_guarda_pagos, { headers: { Authorization: token } })
             .then(result => {
@@ -263,7 +263,7 @@ export default {
               alert(result.data.message);
               // Hago la llamada para obtener las offers con la nueva offer dentro
               var token = 'JWT ' + this.$cookies.get('token')
-              this.$http.get(' http://localhost:8000/api/v1/offer',{ headers:
+              this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
                 { Authorization: token }
                 }).then((result) => {
                   this.items = result.data
@@ -273,7 +273,7 @@ export default {
       }else{
         // Hago una llamada normal para que me las de
         var token = 'JWT ' + this.$cookies.get('token')
-        this.$http.get(' http://localhost:8000/api/v1/offer',{ headers:
+        this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
           { Authorization: token }
           }).then((result) => {
             this.items = result.data
@@ -282,7 +282,7 @@ export default {
     }else{
       // Hago una llamada para que me las de siendo DS. Porque no soy company
       var token = 'JWT ' + this.$cookies.get('token')
-      this.$http.get(' http://localhost:8000/api/v1/offer',{ headers:
+      this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
         { Authorization: token }
         }).then((result) => {
           this.items = result.data
@@ -293,29 +293,31 @@ export default {
 
     //este es el endpoint que devuelve las applications que tiene una oferta pero tengo el mismo problema
     //que para el edit, que no consigo pasarle la oferta. offerId está vacía
-    this.$http.get(' http://localhost:8000/api/v2/applicationsOfOffer/'+ offerId,{ headers:
+    this.$http.get('http://localhost:8000/api/v2/applicationsOfOffer/'+ offerId,{ headers:
       { Authorization: token }
       }).then((result) => {
         this.applications = result.data
       })
 
   }, methods: {
-      toggleCreateApply() {
-       var token = 'JWT ' + this.$cookies.get('token')
-       const formApply = new FormData();
-       if (this.formApply.title.length < 5 || this.formApply.description.length < 10){
-        alert("Please correct the errors")
-       } else{
-       formApply.append("title", this.formApply.title);
-       formApply.append("description", this.formApply.description);
-       formApply.append("offerId", this.offerId);
-       this.$http.post(' http://localhost:8000/api/v1/apply', formApply,{ headers:
-      { Authorization: token }
-      }).then((result) => {
-          alert(result.data.message)
-          location.reload()
-      })
-      }
+      toggleCreateApply(text) {
+        if(confirm(text)){
+          var token = 'JWT ' + this.$cookies.get('token')
+          const formApply = new FormData();
+          if (this.formApply.title.length < 5 || this.formApply.description.length < 10){
+            alert("Please correct the errors")
+          } else{
+          formApply.append("title", this.formApply.title);
+          formApply.append("description", this.formApply.description);
+          formApply.append("offerId", this.offerId);
+          this.$http.post('http://localhost:8000/api/v1/apply', formApply,{ headers:
+          { Authorization: token }
+          }).then((result) => {
+              alert(result.data.message)
+              location.reload()
+          })
+          }
+        }
      },
     saveId: function(idOffer){
     this.offerId = idOffer
@@ -377,7 +379,7 @@ export default {
       formData.append("files", this.form.files);
       formData.append("contract", this.form.contract);
       this.$http
-        .post(" http://localhost:8000/api/v1/offer", formData, {
+        .post("http://localhost:8000/api/v1/offer", formData, {
           headers: { Authorization: token }
         })
         .then(result => {
@@ -385,7 +387,7 @@ export default {
           var offer_created = result.data.offer_id;
           this.$http
             .get(
-              ` http://localhost:8000/api/v1/pagos/create_papyal_payment/${offer_created}/`,
+              `http://localhost:8000/api/v1/pagos/create_papyal_payment/${offer_created}/`,
               { headers: { Authorization: token } }
             )
             .then(result => {
@@ -394,14 +396,12 @@ export default {
         });
         }
     },
-    deleteOffer(id) {
+    deleteOffer(id, text) {
       var token = "JWT " + this.$cookies.get("token");
-      var confirm = window.confirm(
-        "Are you sure you want to delete this offer?"
-      );
+      var confirm = window.confirm(text);
       if (confirm) {
         this.$http
-          .delete(" http://localhost:8000/api/v1/company/offer/" + id, {
+          .delete("http://localhost:8000/api/v1/company/offer/" + id, {
             headers: {
                 Authorization: token
                 }
@@ -415,7 +415,7 @@ export default {
       },
         onSubmit() {
           let token = `JWT ${this.$cookies.get('token')}`
-          this.$http.get(` http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
+          this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
             { Authorization: token }}).then((result) => {
               this.items = result.data
             })
@@ -424,7 +424,7 @@ export default {
         const formData = new FormData();
         formData.append("title", this.formEdit.title);
         formData.append("description", this.formEdit.description);
-          this.$http.post(' http://localhost:8000/api/v2/change_offer/' + this.offerId, formData,{ headers:
+          this.$http.post('http://localhost:8000/api/v2/change_offer/' + this.offerId, formData,{ headers:
             { Authorization: token }}).then((result) => {
               this.items = result.data
               alert(result.data.message)
