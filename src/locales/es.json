@@ -141,9 +141,17 @@
   "logo_error": "El logo debe ser una URL",
   "receiver_required": "Es necesario un destinatario",
   "apply_offer": "Se procede a aplicar, ¿Está seguro de que desea aplicar?",
-  "apply_delete": "¿Está seguro de que desea eliminar la aplicación a la oferta?",
+  "apply_delete": "¿Está seguro de que desea eliminar la solicitud a la oferta?",
   "confirm_delete_section": "¿Está seguro de que desea eliminar la sección de su curriculum?",
   "confirm_delete_item": "¿Está seguro de que desea eliminar el elemento de su curriculum?",
   "confirm_delete_offer": "¿Está seguro de que desea eliminar la oferta?",
-  "confirm_accept_application": "¿Está seguro de que desea aceptar la aplicación a la oferta?"
+  "confirm_accept_application": "¿Está seguro de que desea aceptar la solicitud a la oferta?",
+  "status": "Estado",
+  "date": "Fecha",
+  "offer": "Oferta",
+  "offer_file": "Ficheros en la oferta",
+  "apply_edit": "¿Está seguro de que desea editar la solicitud con estos nuevos datos?",
+  "make_submition": "Hacer propuesta",
+  "accept": "Aceptar",
+  "show_ds": "Mostrar al científico de datos"
 }
