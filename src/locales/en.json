@@ -138,5 +138,12 @@
   "nif_error": "NIF is required",
   "photo_error": "Photo must be an URL",
   "description_error": "Description is required",
-  "logo_error": "Logo must be an URL"
+  "logo_error": "Logo must be an URL",
+  "receiver_required": "Must introduce a receiver",
+  "apply_offer": "You are going to apply to an offer, are you sure?",
+  "apply_delete": "You are going to delete an application, are you sure?",
+  "confirm_delete_section": "You are going to delete a section of your curriculum, are you sure?",
+  "confirm_delete_item": "You are going to delete an item of your curriculum, are you sure?",
+  "confirm_delete_offer": "You are going to delete an offer, are you sure?",
+  "confirm_accept_application": "You are going to accept an application to an offer, are you sure?"
 }
