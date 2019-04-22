@@ -16,32 +16,51 @@
     </b-card-header>
     <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
       <b-card-body>
-        <b-card-text><span class="font-weight-bold">Description: </span> {{item.description}}</b-card-text>
-        <b-card-text><span class="font-weight-bold">Status: </span> {{item.status}}</b-card-text>
-        <b-card-text><span class="font-weight-bold">Date: </span>{{item.date.slice(0,10)}}</b-card-text>
-        <b-card-text><span class="font-weight-bold">Offer: </span>{{item.offer_id}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">{{$t('description')}}: </span> {{item.description}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">{{$t('status')}}: </span> {{item.status}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">{{$t('date')}}: </span>{{item.date.slice(0,10)}}</b-card-text>
+        <b-card-text><span class="font-weight-bold">{{$t('offer')}}: </span>{{item.offer_id}}</b-card-text>
         <div v-if="(user_type === 'ds' && item.status == 'AC')">
-          <b-card-text><span class="font-weight-bold">Offer file: </span>{{item.offer__files}}</b-card-text>
+          <b-card-text><span class="font-weight-bold">{{$t('offer_file')}}: </span>{{item.offer__files}}</b-card-text>
           <br/>
-          <b-link href="#" v-b-modal.modalxl v-show="this.permissions == 'true'">Make submit</b-link>
+          <b-link href="#" v-b-modal.modalxl v-show="this.permissions == 'true'">{{$t('make_submition')}}</b-link>
           <br/>
         </div>
         <div v-if="(user_type === 'ds' && item.status == 'PE')">
+          <b-link v-if="item.status == 'PE'" @click="toggleEdit(item.id)" >{{$t('edit')}}</b-link>
           <b-link v-if="item.status == 'PE'" @click="deleteApplication(item.id, $t('apply_delete'))">{{$t('delete')}}</b-link>
         </div>
         <div v-if="user_type === 'com'">
-        <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id, $t('confirm_accept_application'))">Accept</b-link>
-        <b-link href="#" class="card-link" v-b-modal.showDataScientist variant="outline-primary" @click="onClickButton2">Show Data Scientist</b-link>
+        <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id, $t('confirm_accept_application'))">{{$t('accept')}}</b-link>
+      
+        <b-link href="#" class="card-link" v-b-modal.showDataScientist variant="outline-primary" @click="onClickButton2">{{$t('show_ds')}}</b-link>
         </div>
 
       </b-card-body>
     </b-collapse>
   </b-card>
 </div>
+  <b-modal id="modal-edit-application" v-model="showEdit" centered title="BootstrapVue">
+    <b-form @submit="editApplication" @reset="onReset" v-if="showEdit">
+      <b-form-input v-model="applyDescription" hidden></b-form-input>
+      <b-form-group
+        id="input-group-1"
+        :label="$t('description')"
+        label-for="description"
+        :description="$t('description_apply_feedback')"
+      ><b-form-textarea
+          id="textarea"
+          v-model="applyDescription"
+          placeholder="Enter something..."
+          rows="3"
+          max-rows="6"
+        ></b-form-textarea>
+      </b-form-group>
 
-
-
-
+      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="reset" variant="danger">Reset</b-button>
+    </b-form>
+  </b-modal>
 </div>
 
 
@@ -72,9 +91,10 @@ Vue.use(VueRouter)
       dataScientistId: '',
       user_type: this.$cookies.get('user_type'),
       offertodl: [],
-      url: ''
-
-
+      url: '',
+      showEdit: false,
+      applyDescription: '',
+      applicationId: ''
     }
   }, mounted: function() {
       var lang
@@ -199,6 +219,29 @@ Vue.use(VueRouter)
        }
 >>>>>>> sprint3
      },
+     toggleEdit(id) {
+       this.showEdit = true
+       this.applicationId = id
+     },
+     editApplication(evt) {
+       evt.preventDefault()
+       var token = 'JWT ' + this.$cookies.get('token')
+
+      var body = new FormData()
+      body.append('description', this.applyDescription)
+
+       this.$http.post('http://localhost:8000/api/v2/application/' + this.applicationId, body, { headers:
+        { Authorization: token }
+        }).then((result) => {
+            if (result.data.code == '200') {
+              alert(this.$t('delete_app_success'))
+            }
+            if (result.data.code == '401') {
+              alert(this.$t('delete_app_not_allowed'))
+            }
+            location.reload()
+        })
+     }
     },
   }
 
