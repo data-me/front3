@@ -10,7 +10,6 @@
             <b-button class="mt-3" variant="outline-danger" block @click="showModal = false">Close</b-button>
         </b-modal>
 
-        <p style="color:red;">This is the createItemSection</p>
         <b-button v-b-modal="'create-item-section-form' + secid">New section Item</b-button>
 
         <b-modal :id="'create-item-section-form' + secid" hide-footer ref="newItemMessage" size="x1" title="New section item">

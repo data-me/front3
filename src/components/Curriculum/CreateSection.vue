@@ -42,11 +42,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault()
         var token = 'JWT ' + this.$cookies.get('token')
-<<<<<<< HEAD
-      const baseURI = ' http://localhost:8000/api/v1/section'
-=======
       const baseURI = 'http://localhost:8000/api/v1/section'
->>>>>>> sprint3
       const formData = new FormData();
       formData.append('name', this.section.name);
       this.$http.post(baseURI, formData, { headers: { Authorization: token }})

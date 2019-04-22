@@ -190,11 +190,7 @@ export default {
         formData.append("name", this.form.name);
         formData.append("description", this.form.description);
         formData.append("logo", this.form.logo);
-<<<<<<< HEAD
-        this.$http.post(" http://localhost:8000/api/v2/change_info", formData, {
-=======
         this.$http.post("http://localhost:8000/api/v2/change_info", formData, {
->>>>>>> sprint3
             headers: { Authorization: token }
           }).then(result => {
             this.ViewEdit = true;

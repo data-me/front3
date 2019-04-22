@@ -177,11 +177,7 @@ export default {
     }
 
     this.$http
-<<<<<<< HEAD
-      .get(" http://localhost:8000/api/v1/apply", {
-=======
       .get("http://localhost:8000/api/v1/apply", {
->>>>>>> sprint3
         headers: { Authorization: token }
       })
       .then(result => {
@@ -199,11 +195,7 @@ export default {
       this.idDataScientist = value;
       var token = 'JWT ' + this.$cookies.get('token')
       this.$http
-<<<<<<< HEAD
-        .get(" http://localhost:8000/api/v1/dataScientist?dataScientistId=" + this.idDataScientist, {
-=======
         .get("http://localhost:8000/api/v1/dataScientist?dataScientistId=" + this.idDataScientist, {
->>>>>>> sprint3
           headers: { Authorization: token }
         })
         .then(result => {
@@ -215,11 +207,7 @@ export default {
           this.photo = this.user.photo;
           this.address = this.user.address;
         });
-<<<<<<< HEAD
-      this.$http.get(' http://localhost:8000/api/v1/cv?dataScientistId=' + this.idDataScientist,{ headers:
-=======
       this.$http.get('http://localhost:8000/api/v1/cv?dataScientistId=' + this.idDataScientist,{ headers:
->>>>>>> sprint3
         { Authorization: token }
       }).then((result) => {
         this.dss = result.data
@@ -247,11 +235,7 @@ export default {
         formData.append("file", this.submitForm.file);
         formData.append("offerId", this.idOffer);
         this.$http
-<<<<<<< HEAD
-          .post(" http://localhost:8000/api/v1/submit", formData, {
-=======
           .post("http://localhost:8000/api/v1/submit", formData, {
->>>>>>> sprint3
             headers: { Authorization: token }
           })
           .then(result => {

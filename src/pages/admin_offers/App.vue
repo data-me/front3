@@ -92,11 +92,7 @@ export default {
 
       if (confirm) {
         this.$http.delete(
-<<<<<<< HEAD
-          " http://localhost:8000/api/v2/admin/delete_offer/" + offer_id,
-=======
           "http://localhost:8000/api/v2/admin/delete_offer/" + offer_id,
->>>>>>> sprint3
           {
             headers: {
               Authorization: token}}).then((result) => {
