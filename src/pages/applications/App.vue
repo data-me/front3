@@ -58,7 +58,7 @@
         <br>
 
         <label for="comments">{{$t('comments')}}</label>
-        <b-input
+        <b-form-textarea
           type="text"
           id="comments"
           v-model="submitForm.comments"

@@ -67,7 +67,7 @@
               <br/>
             </div>
 
-          
+
 
             <div id='photo' v-if="selected ==='DataScientist'">
             <label for="photo">{{$t('photo')}}</label>
@@ -78,7 +78,7 @@
              <br/>
             </div>
 
-           
+
 
             <div id='email' v-if="selected ==='DataScientist'">
             <label for="email">{{$t('email')}}</label>
@@ -89,7 +89,7 @@
               <br/>
             </div>
 
-          
+
 
             <div id='address' v-if="selected ==='DataScientist'">
             <label for="address">{{$t('address')}}</label>
@@ -109,18 +109,18 @@
              <br/>
             </div>
 
-           
-            
+
+
             <div id='description' v-if="selected ==='Company'">
             <label for="description">{{$t('description')}}</label>
-            <b-input type="text" id="text" v-model="form.description" aria-describedby="descriptionHelpBlock" :state="form.description.length > 0" :maxlength="80" />
+            <b-form-textarea type="text" id="text" v-model="form.description" aria-describedby="descriptionHelpBlock" :state="form.description.length > 0" :maxlength="80" />
             <b-form-text id="descriptionHelpBlock">
               {{$t('description_help_company')}}
             </b-form-text>
              <br/>
             </div>
 
-           
+
 
             <div id='nif' v-if="selected ==='Company'">
             <label for="nif">{{$t('nif')}}</label>
@@ -131,7 +131,7 @@
              <br/>
             </div>
 
-           
+
 
 
             <div id='logo' v-if="selected ==='Company'">
@@ -143,19 +143,19 @@
              <br/>
             </div>
 
-           
+
 
              <b-button type="submit" class="mt-2" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='Company'">{{$t('create_company')}}</b-button>
             <b-button type="submit" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='DataScientist'">{{$t('create_ds')}}</b-button>
           </b-form>
 
-           
 
-        
+
+
 <Footer/>
 </div>
 
-             
+
 
 
 </template>
@@ -221,14 +221,14 @@ export default {
       checkErrors(){
 
       },
-      
 
-     createUser(event) { 
+
+     createUser(event) {
        const formData = new FormData();
        formData.append("username", this.form.username);
        formData.append("password", this.form.password);
        formData.append("name", this.form.name);
-       this.messages = [] 
+       this.messages = []
        if (this.form.password != this.form.confirmPassword){
           this.messages.push(this.$t('register_error_password1'))
         }
@@ -270,7 +270,7 @@ export default {
         if (this.selected == 'Company' && (! (this.form.logo).match(regex))){
           this.messages.push(this.$t('logo_error'));
         }
-        if(this.messages.length > 0){ 
+        if(this.messages.length > 0){
           this.modalShow = true
         }
         else {
@@ -291,8 +291,8 @@ export default {
       this.registerMessage = result.data.message
       this.registered = true;
       })
-      
-      
+
+
        }
      },
      login(event){
@@ -308,7 +308,7 @@ export default {
         }).then((result) => {
           this.$cookies.set('user_type', result.data.user_type)
         })
-        
+
       }).catch((err)=>{
           alert("Oops, an error ocurred trying to sign in.")
         })
@@ -320,7 +320,7 @@ export default {
         window.location.replace('../')}
         }
 
-     
+
   }
 }
 

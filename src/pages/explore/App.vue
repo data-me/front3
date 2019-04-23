@@ -69,7 +69,7 @@
             </b-form-text>
             <br/>
             <label for="description">{{$t('description')}}</label>
-            <b-input type="text" id="description" v-model="formEdit.description" :state="formEdit.description.length > 0" aria-describedby="descriptionHelpBlock" />
+            <b-form-textarea type="text" id="description" v-model="formEdit.description" :state="formEdit.description.length > 0" aria-describedby="descriptionHelpBlock" />
             <b-form-text id="descriptionHelpBlock">
               {{$t('description_offer_placeholder')}}
             </b-form-text>
@@ -95,7 +95,7 @@
           <b-form-text id="titleHelpBlock">{{$t('title_offer_placeholder')}}</b-form-text>
           <br>
           <label for="description">{{$t('description')}}</label>
-          <b-input
+          <b-form-textarea
             type="text"
             id="description"
             v-model="form.description"
@@ -137,7 +137,7 @@
           <b-form-text id="descriptionHelpBlock">{{$t('file_offer_placeholder')}}</b-form-text>
           <br>
           <label for="contract">{{$t('contract')}}</label>
-          <b-input
+          <b-form-textarea
             type="text"
             id="contract"
             v-model="form.contract"
@@ -169,7 +169,7 @@
           <b-form-invalid-feedback id="apply-tittle-feedback">{{$t('title_apply_feedback')}}</b-form-invalid-feedback>
           <br>
           <label for="description">{{$t('description')}}</label>
-          <b-input
+          <b-form-textarea
             type="text"
             id="description"
             v-model="formApply.description"
@@ -246,7 +246,7 @@ export default {
     var token = 'JWT ' + this.$cookies.get('token')
 
     // Para los pagos
-    if (this.$cookies.get("user_type") == "com") { 
+    if (this.$cookies.get("user_type") == "com") {
      if(window.location.search){
         if (window.location.search.split("?")[1].split("&")) {
           var respuesta_paypal = window.location.search
@@ -288,7 +288,7 @@ export default {
           this.items = result.data
       })
     }
-    
+
 
 
     //este es el endpoint que devuelve las applications que tiene una oferta pero tengo el mismo problema
@@ -326,7 +326,7 @@ export default {
       var token = "JWT " + this.$cookies.get("token");
       const formData = new FormData();
 
-      this.messages = [] 
+      this.messages = []
       if (this.form.title.length == 0){
             this.messages.push('Title is required')
       }
@@ -346,7 +346,7 @@ export default {
             this.messages.push('Contract is required')
       }
       if(this.form.limit_time == null){
-         this.messages.push('Limit date is required')  
+         this.messages.push('Limit date is required')
       } else {
       var datePattern = new RegExp(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/g);
       if (!this.form.limit_time.match(datePattern)) {
@@ -369,7 +369,7 @@ export default {
       }
 
 
-      if(this.messages.length > 0){ 
+      if(this.messages.length > 0){
           this.modalShow = true
       } else{
       formData.append("title", this.form.title);
@@ -410,7 +410,7 @@ export default {
               alert(result.data.message)
               window.location.href = "/explore.html";
             });
-            
+
           }
       },
         onSubmit() {
@@ -430,7 +430,7 @@ export default {
               alert(result.data.message)
               window.location.href = "/explore.html";
             });
-            
+
 
       }
       }

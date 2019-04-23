@@ -76,7 +76,7 @@
           </b-card-text>
           <b-card-text class="card-text">
             <label for="description">{{$t('description')}}</label>
-            <b-input
+            <b-form-textarea
               type="text"
               v-model="form.description"
               id="description"
@@ -88,7 +88,7 @@
           <b-card-text class="card-text">
             <label for="logo">{{$t('logo')}}</label>
             <b-input type="url"
-             v-model="form.logo" 
+             v-model="form.logo"
              id="logo"
              aria-describedby="fileHelpBlock"
             :state="(new RegExp(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi).test(form.logo))"
