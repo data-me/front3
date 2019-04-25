@@ -155,5 +155,6 @@
   "accept": "Accept",
   "show_ds": "Show Data Scientist",
   "make_review_ds": "Review Data Scientist",
+   "make_review_com": "Review company",
   "score": "Score"
 }
