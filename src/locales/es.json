@@ -69,7 +69,7 @@
   "title_required" : "El título es obligatorio",
   "body_required" : "El cuerpo del mensaje es obligatorio",
   "username_message_error" : "Ese usuario no existe",
-  "made_in_sevilla": "Hecho con ❤️en Sevilla",
+  "made_in_sevilla": "Hecho con ❤︝en Sevilla",
   "about_us": "Sobre nosotros",
   "terms&conditions": "Términos y condiciones",
   "delete_section":"Eliminar seccion",
@@ -153,5 +153,7 @@
   "apply_edit": "¿Está seguro de que desea editar la solicitud con estos nuevos datos?",
   "make_submition": "Hacer propuesta",
   "accept": "Aceptar",
-  "show_ds": "Mostrar al científico de datos"
+  "show_ds": "Mostrar al científico de datos",
+  "make_review_ds": "Haz una critica del cientifico de datos",
+  "score": "Puntuacion"
 }

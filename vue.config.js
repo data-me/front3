@@ -129,6 +129,18 @@ module.exports = {
       // extracted common chunks and vendor chunks.
       chunks: ['chunk-vendors', 'chunk-common', 'register']
     },
+    'review': {
+      // entry for the page
+      entry: 'src/pages/review/main.js',
+      // the source template
+      template: 'public/index.html',
+      // when using title option,
+      // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
+      title: 'Reviews',
+      // chunks to include on this page, by default includes
+      // extracted common chunks and vendor chunks.
+      chunks: ['chunk-vendors', 'chunk-common', 'review']
+    },
     'admin_offers': {
     // entry for the page
     entry: 'src/pages/admin_offers/main.js',

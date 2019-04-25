@@ -69,7 +69,7 @@
   "title_required" : "Title is required",
   "body_required" : "Body is required",
   "username_message_error" : "That user doen't exist",
-  "made_in_sevilla": "Made with ❤️ in Sevilla",
+  "made_in_sevilla": "Made with ❤︝ in Sevilla",
   "about_us": "About us",
   "terms&conditions": "Terms and conditions",
   "delete_section":"Delete section",
@@ -153,5 +153,7 @@
   "apply_edit": "You are going to replace the application with this new information, are you sure?",
   "make_submition": "Make submition",
   "accept": "Accept",
-  "show_ds": "Show Data Scientist"
+  "show_ds": "Show Data Scientist",
+  "make_review_ds": "Review Data Scientist",
+  "score": "Score"
 }

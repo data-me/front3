@@ -14,8 +14,45 @@
       title="submited"
     >
       <template slot="modal-header">{{this.message}}</template>
-      <b-button class="mt-2" variant="success" block @click="reloadPage">{{$t('close')}}</b-button>
+      <b-button v-if="message.length" class="mt-2" variant="outline-info" block @click="reloadPage">{{$t('close')}}</b-button>
     </b-modal>
+
+
+
+        <b-modal
+      class="registered"
+      v-model="reviewPopup"
+      ref="reviewMopup"
+      id="reviewMopup"
+      hide-footer
+      size="xl"
+      title="submited"
+    >
+
+
+
+          <b-form @submit.prevent>
+              <label for="type">{{$t('score')}}</label>
+              <br>
+             <b-form-input type="number" id="score" v-model="reviewForm.score" max="5"/>
+            <label for="type">{{$t('comments')}}</label>
+              <br>
+             <b-form-textarea type="text" id="comments" v-model="reviewForm.comments" />
+              <b-button
+                type="submit"
+                class="mt-2"
+                variant="success"
+                block
+                @click="createReview()"
+              >{{$t('save_changes')}}</b-button>
+            </b-form>
+
+
+    </b-modal>
+
+
+
+
 
     <!-- Show submitions -->
     <div v-bind:key="item.id" id="applications" v-for="(item, index) in items">
@@ -25,6 +62,7 @@
             block
             v-b-toggle="'accordion-' + index"
             variant="outline-primary"
+            @click="prepareReviewPopup(item.dataScientist_id)"
           >{{$t('submition_to')}} "{{item.offer__title}}"</b-button>
         </b-card-header>
         <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
@@ -41,6 +79,12 @@
               <span class="font-weight-bold">{{$t('file')}}:</span>
               {{item.file}}
             </b-card-text>
+             <b-button v-if="item.status != 'SU' && canDoAReview == true"
+                class="mt-2"
+                variant="success"
+                block
+                @click="reviewPopup = true"
+              >{{$t('make_review_ds')}}</b-button>
 
             <b-form v-if="user_type == 'com' && item.status == 'SU'" @submit.prevent>
               <label for="type">{{$t('change_status')}}</label>
@@ -80,27 +124,21 @@ export default {
   data() {
     return {
       items: [],
-      form: {
-        username: "",
-        password: "",
-        name: "",
-        phone: "",
-        address: "",
-        email: "",
-        photo: "",
-        surname: "",
-        logo: "",
-        description: "",
-        nif: "",
-        confirmPassword: ""
-      },
+      usersReviewed:[],
       url: "",
       messages: [],
       modalShow: "false",
       user_type: this.$cookies.get("user_type"),
-      submited: "false",
+      submited: false,
       message: "",
-      selected: "Accepted"
+      selected: "Accepted",
+      reviewPopup: false,
+      reviewForm:{
+          reviewedId:"",
+          comments:"",
+          score:"5",
+      },
+      canDoAReview:true
     };
   },
   mounted: function() {
@@ -131,10 +169,47 @@ export default {
       .then(result => {
         this.items = result.data;
       });
+
+     this.$http
+      .get("http://localhost:8000/api/v3/data/get_user_reviews", {
+        headers: { Authorization: token }
+      })
+      .then(result => {
+        this.usersReviewed = result.data;
+      });
+
   },
   methods: {
     reloadPage() {
       window.location.reload();
+    },
+    prepareReviewPopup(id){
+        this.reviewForm.reviewedId = id
+        for (var user in this.usersReviewed){
+         if (user == id){
+             this.canDoAReview = false
+             break
+         }
+        }
+
+    },
+    createReview(){
+      this.errorMessage = ""
+      this.message = ""
+      var token = "JWT " + this.$cookies.get("token");
+      const formData = new FormData();
+      formData.append("score", this.reviewForm.score);
+      formData.append("comments", this.reviewForm.comments);
+      formData.append("reviewedId", this.reviewForm.reviewedId);
+      this.$http
+        .post("http://localhost:8000/api/v3/data/create_review", formData, {
+          headers: { Authorization: token }
+        })
+        .then(result => {
+          this.message = result.data.message
+          this.submited = true
+        });
+
     },
     forceFileDownload(response) {
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -156,6 +231,8 @@ export default {
         .catch(e => alert("error occured" + e));
     },
     changeStatus(id) {
+      this.errorMessage = ""
+      this.message = ""
       var token = "JWT " + this.$cookies.get("token");
       const formData = new FormData();
 
