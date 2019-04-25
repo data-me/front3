@@ -191,6 +191,7 @@ export default {
       window.location.reload();
     },
     prepareReviewPopup(idDs, idCom){
+        this.canDoAReview = true
         if(this.user_type == 'com'){
         this.reviewForm.reviewedId = idDs
         for (var i = 0; i < this.usersReviewed.length; i++){ 
