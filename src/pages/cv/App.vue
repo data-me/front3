@@ -272,6 +272,7 @@
         <create-section></create-section>
       </div>
     </b-modal>
+    <deleteMeButton/>
     <!--
       <Footer/>
     -->
@@ -283,14 +284,15 @@ import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
 import CreateItemSection from "../../components/Curriculum/CreateItemSection.vue";
 import CreateSection from "../../components/Curriculum/CreateSection.vue";
-
+import DeleteMeButton from "../../components/Users/DeleteMeButton.vue";
 export default {
   name: "app",
   components: {
     Navbar,
     Footer,
     CreateItemSection,
-    CreateSection
+    CreateSection,
+    DeleteMeButton
   },
   data() {
     return {
