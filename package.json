@@ -25,7 +25,9 @@
     "vue-cookies": "^1.5.12",
     "vue-i18n": "^8.0.0",
     "vue-router": "^3.0.2",
-    "vue-sweetalert2": "^1.6.4"
+    "vue-sweetalert2": "^1.6.4",
+    "jspdf": "^1.5.3",
+    "image-to-base64": "2.0.1"
   },
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.3.0",

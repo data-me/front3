@@ -56,6 +56,7 @@
           block
           v-b-modal.new-new-section
         >{{$t("add_section")}}</b-button>
+        <b-button class="mt-1" variant="primary" block v-b-modal.export>{{$t('export')}}</b-button>
       </div>
     </div>
 
@@ -94,7 +95,6 @@
               id="phone"
               :maxlength="9"
               aria-describedby="fileHelpBlock"
-
             />
           </b-card-text>
           <b-card-text class="card-text">
@@ -138,17 +138,16 @@
     <div v-bind:key="item.id" id="cv_items" v-for="item in items">
       <div>
         <div>
-        <p class="display-3">{{item.Section}}
-          <b-button
-                size="sm"
-                variant="danger"
-                class="mt-2"
-
-                @click="deleteSection(item.Section_Id, $t('confirm_delete_section'))">{{$t('delete_section')}}
-          </b-button>
-        </p>
+          <p class="display-3">
+            {{item.Section}}
+            <b-button
+              size="sm"
+              variant="danger"
+              class="mt-2"
+              @click="deleteSection(item.Section_Id, $t('confirm_delete_section'))"
+            >{{$t('delete_section')}}</b-button>
+          </p>
         </div>
-
       </div>
       <p></p>
       <div v-bind:key="item2.id" id="cv_items_sub" v-for="item2 in item.Items">
@@ -158,20 +157,22 @@
           <b-card-text>Finish date: {{item2.date_finish}}</b-card-text>
           <div style="float: right;" id="deleteoffer">
             <div style="float: left; margin-right: 10px">
-            <b-button
-              variant="success"
-              class="mt-2"
-              block
-              @click="saveIds(item2)"
-              v-b-modal.edit-wryyyy
-            >{{$t('edit_item')}}</b-button></div>
+              <b-button
+                variant="success"
+                class="mt-2"
+                block
+                @click="saveIds(item2)"
+                v-b-modal.edit-wryyyy
+              >{{$t('edit_item')}}</b-button>
+            </div>
             <div style="float: right;">
-            <b-button
-              variant="danger"
-              class="mt-2"
-              block
-              @click="deleteItem(item2.id, $t('confirm_delete_item'))"
-            >{{$t('delete_item')}}</b-button></div>
+              <b-button
+                variant="danger"
+                class="mt-2"
+                block
+                @click="deleteItem(item2.id, $t('confirm_delete_item'))"
+              >{{$t('delete_item')}}</b-button>
+            </div>
           </div>
         </b-card>
       </div>
@@ -272,6 +273,22 @@
         <create-section></create-section>
       </div>
     </b-modal>
+
+    <b-modal id="export" ok-disabled hide-footer="true" centered :title="$t('export')">
+      <b-button
+        style="float:right"
+        class="mt-1"
+        variant="info"
+        @click="exportasPDF(user)"
+      >{{$t('exportpdf')}}</b-button>
+
+      <b-button
+        style="float:right; margin:10px"
+        class="mt-1"
+        variant="info"
+        @click="exportasRAW(user)"
+      >{{$t('exportraw')}}</b-button>
+    </b-modal>
     <!--
       <Footer/>
     -->
@@ -283,6 +300,7 @@ import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
 import CreateItemSection from "../../components/Curriculum/CreateItemSection.vue";
 import CreateSection from "../../components/Curriculum/CreateSection.vue";
+import jsPDF from "jspdf";
 
 export default {
   name: "app",
@@ -369,10 +387,8 @@ export default {
       if (this.form.email.length == 0) {
         this.messages.push("Email is required");
       }
-       var regex = new RegExp(
-        /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g
-      );
-       if (!this.form.phone.match(regex)) {
+      var regex = new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g);
+      if (!this.form.phone.match(regex)) {
         this.messages.push("That is not a telephone number");
       }
 
@@ -431,11 +447,7 @@ export default {
           this.messages.push("la fecha de inicio es requerida");
         }
       }
-      if (
-        !/^\d{4}[-]\d{2}[-]\d{2}/.test(
-          this.formDiobrando.date_start
-        )
-      ) {
+      if (!/^\d{4}[-]\d{2}[-]\d{2}/.test(this.formDiobrando.date_start)) {
         if (this.language == "en") {
           this.messages.push(
             "Starting date is does not follow the pattern yyyy-MM-dd HH:mm"
@@ -466,36 +478,36 @@ export default {
       }
     },
     deleteItem(item_id, text) {
-        var token = "JWT " + this.$cookies.get("token");
-        var confirm = window.confirm(text);
+      var token = "JWT " + this.$cookies.get("token");
+      var confirm = window.confirm(text);
 
-        if (confirm) {
-          this.$http.delete(
-            "http://localhost:8000/api/v2/data/delete_item/" + item_id,
-            {
-              headers: {
-                Authorization: token
-              }
+      if (confirm) {
+        this.$http.delete(
+          "http://localhost:8000/api/v2/data/delete_item/" + item_id,
+          {
+            headers: {
+              Authorization: token
             }
-          );
-          window.location.href = "/my_cv.html";
-        }
+          }
+        );
+        window.location.href = "/my_cv.html";
+      }
     },
     deleteSection(section_id, text) {
-        var token = "JWT " + this.$cookies.get("token");
-        var confirm = window.confirm(text);
+      var token = "JWT " + this.$cookies.get("token");
+      var confirm = window.confirm(text);
 
-        if (confirm) {
-          this.$http.delete(
-            "http://localhost:8000/api/v2/data/delete_section/" + section_id,
-            {
-              headers: {
-                Authorization: token
-              }
+      if (confirm) {
+        this.$http.delete(
+          "http://localhost:8000/api/v2/data/delete_section/" + section_id,
+          {
+            headers: {
+              Authorization: token
             }
-          );
-          window.location.href = "/my_cv.html";
-        }
+          }
+        );
+        window.location.href = "/my_cv.html";
+      }
     },
     saveIds: function(item) {
       this.formDiobrando.itemid = item.id;
@@ -509,6 +521,121 @@ export default {
     moreFunctions() {
       this.submited = false;
       window.location.href = "/my_cv.html";
+    },
+    exportasPDF(user) {
+      if (this.language == "en") {
+        var olawenas =
+          "This will download files to your computer. Are you sure?";
+        var email = "E-mail: ";
+        var address = "Address: ";
+        var phone = "Phone: ";
+
+      } else {
+        var olawenas =
+          "Esta acción descargará archivos en tu terminal. ¿Estas seguro?";
+        var email = "Correo electrónico: ";
+        var address = "Dirección: ";
+        var phone = "Teléfono: ";
+      }
+      var continuar = window.confirm(olawenas);
+
+      if (continuar) {
+        var nameSurname = user.name + " " + user.surname;
+        let pdfName = nameSurname;
+
+        var doc = new jsPDF("p", "mm", "a4");
+
+        // Adding name and surname
+
+        doc.setFontSize(20);
+
+        
+        doc.text(nameSurname.toUpperCase(), 10, 10);
+
+        // Adding email
+
+        doc.setFontSize(15);
+
+        doc.text(email + user.email, 10, 20);
+
+        // Adding address
+
+        doc.text(address + user.address, 10, 30);
+
+        // Adding phone
+
+        doc.text(phone + user.phone, 10, 40);
+
+        // Adding photo
+
+        doc.setFontSize(10);
+
+        var lMargin = 15;
+        var rMargin = 15;
+        var pdfInMM = 210;
+
+        var photo = user.photo;
+
+        var lines = doc.splitTextToSize(photo, pdfInMM - lMargin - rMargin);
+
+        doc.text(lMargin, 50, photo);
+
+        // Saving PDF
+        doc.save(pdfName + ".pdf");
+      }
+    },
+    exportasRAW(user) {
+      if (this.language == "en") {
+        var olawenas =
+          "This will download files to your computer. Are you sure?";
+      } else {
+        var olawenas =
+          "Esta acción descargará archivos en tu terminal. ¿Estas seguro?";
+      }
+      var continuar = window.confirm(olawenas);
+
+      if (continuar) {
+        var text =
+          "{name:" +
+          user.name +
+          ",surname:" +
+          user.surname +
+          ",email:" +
+          user.email +
+          ",photo:" +
+          user.photo +
+          ",address:" +
+          user.photo +
+          ",phone:" +
+          user.phone +
+          "}";
+
+        var blob = new Blob([JSON.stringify(text)], { type: "text/plain" });
+
+        var e = document.createEvent("MouseEvents"),
+          a = document.createElement("a");
+        a.download = "Data";
+        a.href = window.URL.createObjectURL(blob);
+        a.dataset.downloadurl = ["text/plain", a.download, a.href].join(":");
+        e.initEvent(
+          "click",
+          true,
+          false,
+          window,
+          0,
+          0,
+          0,
+          0,
+          0,
+          false,
+          false,
+          false,
+          false,
+          0,
+          null
+        );
+        a.dispatchEvent(e);
+      }
     }
   }
 };
@@ -534,7 +661,7 @@ export default {
 
 #cv_items {
   margin: 2em;
-  margin-right: 25%
+  margin-right: 25%;
 }
 
 #cv_items_sub {
