@@ -143,10 +143,16 @@
              <br/>
             </div>
 
+            <b-form-checkbox id="checkbox-1" v-model="form.confirmTerms" name="checkbox-1" value="accepted" unchecked-value="not_accepted">
+            {{$t('terms_and_condition_claim')}}
+            </b-form-checkbox>
 
+            <br/>
 
-             <b-button type="submit" class="mt-2" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='Company'">{{$t('create_company')}}</b-button>
+            <b-button type="submit" class="mt-2" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='Company'">{{$t('create_company')}}:</b-button>
             <b-button type="submit" variant="success" block @click.stop.prevent="createUser()" v-if="selected ==='DataScientist'">{{$t('create_ds')}}</b-button>
+            <br/>
+            <br/>
           </b-form>
 
 
@@ -190,13 +196,14 @@ export default {
           description: '',
           nif: '',
           confirmPassword: '',
+          confirmTerms: 'not_accepted',
         },
         selected:'DataScientist',
         messages: [],
         modalShow: 'false',
         user_type: this.$cookies.get('user_type'),
         registered : 'false',
-        registerMessage: ''
+        registerMessage: '',
 
     }
 
@@ -224,10 +231,11 @@ export default {
 
 
      createUser(event) {
-       const formData = new FormData();
-       formData.append("username", this.form.username);
-       formData.append("password", this.form.password);
-       formData.append("name", this.form.name);
+       const formData = new FormData()
+       formData.append("username", this.form.username)
+       formData.append("password", this.form.password)
+       formData.append("name", this.form.name)
+       formData.append("confirmTerms", this.form.name)
        this.messages = []
        if (this.form.password != this.form.confirmPassword){
           this.messages.push(this.$t('register_error_password1'))
@@ -268,7 +276,11 @@ export default {
             this.messages.push(this.$t('description_error'))
         }
         if (this.selected == 'Company' && (! (this.form.logo).match(regex))){
-          this.messages.push(this.$t('logo_error'));
+          this.messages.push(this.$t('logo_error'))
+        }
+        if(this.form.confirmTerms=='not_accepted'){
+          console.log('Yes!')
+          this.messages.push(this.$('terms_error'))
         }
         if(this.messages.length > 0){
           this.modalShow = true
