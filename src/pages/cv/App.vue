@@ -138,17 +138,17 @@
     <div v-bind:key="item.id" id="cv_items" v-for="item in items">
       <div>
         <div>
-        <p class="display-3">{{item.Section}} 
+        <p class="display-3">{{item.Section}}
           <b-button
                 size="sm"
                 variant="danger"
                 class="mt-2"
-                
+
                 @click="deleteSection(item.Section_Id, $t('confirm_delete_section'))">{{$t('delete_section')}}
           </b-button>
         </p>
         </div>
-     
+
       </div>
       <p></p>
       <div v-bind:key="item2.id" id="cv_items_sub" v-for="item2 in item.Items">
@@ -158,7 +158,7 @@
           <b-card-text>Finish date: {{item2.date_finish}}</b-card-text>
           <div style="float: right;" id="deleteoffer">
             <div style="float: left; margin-right: 10px">
-            <b-button 
+            <b-button
               variant="success"
               class="mt-2"
               block
@@ -166,7 +166,7 @@
               v-b-modal.edit-wryyyy
             >{{$t('edit_item')}}</b-button></div>
             <div style="float: right;">
-            <b-button 
+            <b-button
               variant="danger"
               class="mt-2"
               block
@@ -196,7 +196,7 @@
           </b-card-text>
           <b-card-text class="card-text">
             <label for="description">{{$t('description')}}:</label>
-            <b-input
+            <b-form-textarea
               type="text"
               v-model="formDiobrando.description"
               id="description"
@@ -272,7 +272,9 @@
         <create-section></create-section>
       </div>
     </b-modal>
-    <Footer/>
+    <!--
+      <Footer/>
+    -->
   </div>
 </template>
 

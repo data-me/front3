@@ -80,10 +80,10 @@
             id="body"
             v-model="form.body"
             :state="form.body.length > 0"
-            :maxlength="250"
+            :maxlength="1000"
             aria-describedby="bodyHelpBlock"
           />
-          <b-form-text id="bodyHelpBlock">The body of your message, max 250 characters.</b-form-text>
+          <b-form-text id="bodyHelpBlock">The body of your message, max 1000 characters.</b-form-text>
           <br>
           <!--
           <label for="receiver">Receiver</label>
@@ -106,13 +106,13 @@
                <hr>
                <ul>
                  <li v-for="(match, index) in matches"
-                 :key="match[filterby]" 
+                 :key="match[filterby]"
                  :class="{'selected':(selected == index)}"
                  @click="itemClicked(index)"
                  v-text = "match[filterby]"></li>
                </ul>
              </div>
-          
+
           <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
           <br>
 
@@ -192,7 +192,7 @@ export default {
       const cadena = JSON.stringify(this.selectedItem[this.filterby]).replace(/['"]+/g, '');
       this.form.receiver = cadena;
 
-      console.log(this.form.receiver); 
+      console.log(this.form.receiver);
       document.getElementById("options").style.display = "none";
       this.query = this.form.receiver;
       //console.log(this.form.receiver.replace(/['"]+/g, ''));
@@ -227,7 +227,7 @@ export default {
     createMessage: function() {},
     toggleModal() {
      var token = "JWT " + this.$cookies.get("token");
-     
+
      this.messages = [];
      if(this.form.title.length < 1){
       this.messages.push(this.$t('title_required'));
@@ -235,16 +235,16 @@ export default {
      if(this.form.body.length < 1){
       this.messages.push(this.$t('body_required'));
      }
-     
+
      if(this.form.receiver == null){
       this.messages.push(this.$t('receiver_required'));
      }
-    
+
 
      if (this.messages.length > 0) {
         this.modalShow = true;
       } else {
-     
+
       const formData = new FormData();
       formData.append("title", this.form.title);
       formData.append("body", this.form.body);
@@ -255,7 +255,7 @@ export default {
           headers: { Authorization: token }
         })
         .then(result => {
-          
+
          this.submited = true;
          this.message = result.data.message
         });

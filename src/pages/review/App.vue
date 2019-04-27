@@ -62,7 +62,7 @@
             block
             v-b-toggle="'accordion-' + index"
             variant="outline-primary"
-            @click="prepareReviewPopup(item.dataScientist__user_id, item.offer__company__user_id)"
+            @click="prepareReviewPopup(item.dataScientist_id)"
           >{{$t('submition_to')}} "{{item.offer__title}}"</b-button>
         </b-card-header>
         <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
@@ -79,19 +79,12 @@
               <span class="font-weight-bold">{{$t('file')}}:</span>
               {{item.file}}
             </b-card-text>
-             <b-button v-if="item.status != 'SU' && canDoAReview == true && user_type =='com' "
+             <b-button v-if="item.status != 'SU' && canDoAReview == true"
                 class="mt-2"
                 variant="success"
                 block
                 @click="reviewPopup = true"
               >{{$t('make_review_ds')}}</b-button>
-
-              <b-button v-if="item.status != 'SU' && canDoAReview == true && user_type =='ds' "
-                class="mt-2"
-                variant="success"
-                block
-                @click="reviewPopup = true"
-              >{{$t('make_review_com')}}</b-button>
 
             <b-form v-if="user_type == 'com' && item.status == 'SU'" @submit.prevent>
               <label for="type">{{$t('change_status')}}</label>
@@ -190,26 +183,18 @@ export default {
     reloadPage() {
       window.location.reload();
     },
-    prepareReviewPopup(idDs, idCom){
-        this.canDoAReview = true
+    prepareReviewPopup(id){
         if(this.user_type == 'com'){
-        this.reviewForm.reviewedId = idDs
-        for (var i = 0; i < this.usersReviewed.length; i++){ 
-         if (this.usersReviewed[i].reviewed_id == idDs){
-             this.canDoAReview = false
-             break
-         }
-        }
+        this.reviewForm.reviewedId = id
         } else{
-        this.reviewForm.reviewedId = idCom   
-        for (var i = 0; i < this.usersReviewed.length; i++){
-         if (this.usersReviewed[i].reviewed_id == idCom){
+        this.reviewForm.reviewedId = id    
+        }
+        for (var user in this.usersReviewed){
+         if (user == id){
              this.canDoAReview = false
              break
          }
         }
-        }
-        
 
     },
     createReview(){

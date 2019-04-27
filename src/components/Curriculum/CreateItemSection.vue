@@ -3,82 +3,63 @@
 
     <div>
 
-           <b-modal v-model="showModal" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+        <b-modal v-model="showModal" ref="messages" id="messages" hide-footer size="xl" title="Erros">
             <template slot="modal-header"> Please check the errors below </template>
             <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
             <template slot="modal-footer"><button class="btn btn-primary">Save Changes</button></template>
             <b-button class="mt-3" variant="outline-danger" block @click="showModal = false">Close</b-button>
         </b-modal>
 
+        <b-button v-b-modal="'create-item-section-form' + secid">New section Item</b-button>
 
-        <h4>Create item section</h4>
-        <b-form id="item" @submit.prevent @submit="onSubmit" @reset="onReset">
-
-            <b-col sm="3">
+        <b-modal :id="'create-item-section-form' + secid" hide-footer ref="newItemMessage" size="x1" title="New section item">
+            <b-form id="item" @submit.prevent @submit="onSubmit">
+                
                 <label for="name">Name:</label>
-            </b-col>
-            <b-col sm="9">
-            <b-form-input
-                id="name"
-                v-model="item.name"
-                required
-                placeholder="Name this record"
-            ></b-form-input>
-            </b-col>
+                <b-form-input
+                    id="name"
+                    v-model="item.name"
+                    required
+                    placeholder="Name this record"
+                ></b-form-input>
 
-            <b-col sm="3">
-                <label for="entity">Entity:</label>
-            </b-col>
-            <b-col sm="9">
-            <b-form-input
-                id="entity"
-                v-model="item.entity"
-                required
-                placeholder="Organization or Entity"
-            ></b-form-input>
-            </b-col>
+                    <label for="entity">Entity:</label>
+                <b-form-input
+                    id="entity"
+                    v-model="item.entity"
+                    required
+                    placeholder="Organization or Entity"
+                ></b-form-input>
 
-            <b-col sm="3">
-                <label for="description">Desription:</label>
-            </b-col>
-            <b-col sm="9">
-            <b-form-textarea
-                id="description"
-                v-model="item.description"
-                placeholder="Enter a description..."
-                rows="3"
-                max-rows="6"
-                required
-            ></b-form-textarea>
-            </b-col>
+                    <label for="description">Description:</label>
+                <b-form-textarea
+                    id="description"
+                    v-model="item.description"
+                    placeholder="Enter a description..."
+                    rows="3"
+                    max-rows="6"
+                    required
+                ></b-form-textarea>
 
-            <b-col sm="3">
-                <label for="datestart">Start date:</label>
-            </b-col>
-            <b-col sm="9">
-            <b-form-input
-                id="datestart"
-                v-model="item.datestart"
-                placeholder="yyyy-MM-dd"
-                required
-            ></b-form-input>
-            </b-col>
+                    <label for="datestart">Start date:</label>
 
-            <b-col sm="3">
-                <label for="datefinish">Finalization date:</label>
-            </b-col>
-            <b-col sm="9">
-            <b-form-input
-                id="datefinish"
-                v-model="item.datefinish"
-                placeholder="yyyy-MM-dd"
-            ></b-form-input>
-            </b-col>
-            <br/>
-            <b-col sm="9">
-            <b-button type="submit" variant="primary">Save</b-button>
-            </b-col>
-        </b-form>
+                <b-form-input
+                    id="datestart"
+                    v-model="item.datestart"
+                    placeholder="yyyy-MM-dd"
+                    required
+                ></b-form-input>
+
+                    <label for="datefinish">Finalization date:</label>
+                <b-form-input
+                    id="datefinish"
+                    v-model="item.datefinish"
+                    placeholder="yyyy-MM-dd"
+                ></b-form-input>
+                <br/>
+                <b-button type="submit" variant="primary">Save</b-button>
+            </b-form>
+        </b-modal>
     </div>
 </template>
 

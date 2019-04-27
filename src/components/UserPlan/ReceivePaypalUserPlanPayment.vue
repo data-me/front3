@@ -69,7 +69,7 @@
             title: 'Payment received successfully',
             text: 'Thank you!'
         }).then(result =>{
-              window.location.href = 'https://front2-datame.herokuapp.com/user_plan.html';
+              window.location.href = 'http://localhost:8080/user_plan.html';
             });
     },
     error(message) {
@@ -81,7 +81,7 @@
             title: message,
             text: 'PRO plan upgrade was not posible.'
         }).then(result =>{
-              window.location.href = 'https://front2-datame.herokuapp.com/user_plan.html';
+              window.location.href = 'http://localhost:8080/user_plan.html';
             });
     }
   }

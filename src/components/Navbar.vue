@@ -19,6 +19,8 @@
           <b-nav-item v-show="isDataScientist && isLoggedIn" href="/my_cv.html">{{ $t('profile') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/dashboard.html">{{ $t('dashboard') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/admin_offers.html" >{{ $t('manage_offers') }}</b-nav-item>
+          <b-nav-item v-show="isAdmin && isLoggedIn" href="/manage_users.html" >Manage Users</b-nav-item>
+
 
           <b-nav-item href="/submition.html" v-show="isDataScientist && isLoggedIn">{{ $t('my_submitions') }}</b-nav-item>
           <b-nav-item href="/submition.html" v-show="isCompany && isLoggedIn">{{ $t('recieved_submitions') }}</b-nav-item>

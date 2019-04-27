@@ -1,0 +1,42 @@
+<template>
+    <div class="dataScientistsList">
+        <h2>Data Scientists</h2>
+        <div :key="userItem.id" v-for="userItem in dataScientistsList">
+            <User :user="userItem"/>
+        </div>
+    </div>
+</template>
+
+<script>
+import User from "./User.vue";
+export default {
+    name: "DataScientistList",
+    components: {
+        User,
+    },
+    data(){
+        return{
+            dataScientistsList: [],
+        };
+    },
+    mounted: function(){
+        var token = "JWT " + this.$cookies.get("token");
+
+        this.$http
+        .get("http://localhost:8000/api/v2/list_dataScientists", {
+        headers: { Authorization: token }
+      }).then(result => {
+          this.dataScientistsList = result.data;
+      })
+
+    },
+    
+}
+</script>
+<style>
+.dataScientistsList{
+    margin: 2em;
+}
+</style>
+
+
