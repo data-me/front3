@@ -35,7 +35,6 @@
   "details": "View detail",
   "create_offer": "Create new offer",
   "search": "Search",
-  "search_placeholder": "Enter title or description",
   "apply": "Apply",
   "title": "Title",
   "title_offer_placeholder": "The main title for your offer, max 80 characters.",
@@ -156,5 +155,8 @@
   "show_ds": "Show Data Scientist",
   "make_review_ds": "Review Data Scientist",
    "make_review_com": "Review company",
-  "score": "Score"
+  "score": "Score",
+  "search_placeholder_title_desc": "Title or description",
+  "search_placeholder_price": "Price",
+  "search_placeholder_date": "Date before (dd-MM-yyyy)"
 }

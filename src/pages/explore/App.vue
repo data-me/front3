@@ -19,7 +19,9 @@
           <div id="search-group">
             <b-form @submit="onSubmit">
               <b-input-group :prepend="$t('search')" class="mt-3">
-              <b-form-input v-on:keyup="onSubmit" id="search" v-model="form.search" :placeholder="$t('search_placeholder')"></b-form-input>
+              <b-form-input v-on:keyup="onSubmit" id="search_title" v-model="form.search_title" :placeholder="$t('search_placeholder_title_desc')"></b-form-input>
+              <b-form-input v-on:keyup="onSubmit" id="search_price" v-model="form.search_price" :placeholder="$t('search_placeholder_price')"></b-form-input>
+              <b-form-input v-on:keyup="onSubmit" id="search_date" v-model="form.search_date" :placeholder="$t('search_placeholder_date')"></b-form-input>
               </b-input-group>
             </b-form>
           </div>
@@ -415,10 +417,21 @@ export default {
       },
         onSubmit() {
           let token = `JWT ${this.$cookies.get('token')}`
-          this.$http.get(`http://localhost:8000/api/v1/offer?search=${this.form.search}`,{ headers:
+          let search_title = this.form.search_title
+          let search_price = this.form.search_price
+          let search_date = this.form.search_date
+
+          if((search_title == "" || search_title == undefined) && (search_price == "" || search_price == undefined) && (search_date == "" || search_date == undefined)){
+            this.$http.get(`http://localhost:8000/api/v1/offer`,{ headers:
             { Authorization: token }}).then((result) => {
               this.items = result.data
             })
+          }else{
+            this.$http.get(`http://localhost:8000/api/v1/offer?search_title=${this.form.search_title}&search_price=${this.form.search_price}&search_date=${this.form.search_date}`,{ headers:
+            { Authorization: token }}).then((result) => {
+              this.items = result.data
+            })
+          }
         },updateOffer(){
         var token = 'JWT ' + this.$cookies.get('token')
         const formData = new FormData();

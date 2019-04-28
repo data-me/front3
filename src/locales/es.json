@@ -35,7 +35,6 @@
   "details": "Ver detalle",
   "create_offer": "Crear nueva oferta",
   "search": "Buscar",
-  "search_placeholder": "Introduce título o descripción",
   "apply": "Aplicar",
   "title": "Título",
   "title_offer_placeholder": "El título principal de tu oferta, máximo 80 caracteres.",
@@ -156,5 +155,8 @@
   "show_ds": "Mostrar al científico de datos",
   "make_review_ds": "Haz una critica del cientifico de datos",
   "make_review_com": "Haz una critica de la empresa",
-  "score": "Puntuacion"
+  "score": "Puntuacion",
+  "search_placeholder_title_desc": "Título o descripción",
+  "search_placeholder_price": "Precio",
+  "search_placeholder_date": "Fecha anterior a (dd-MM-yyyy hh:mm)"
 }
