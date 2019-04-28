@@ -10,6 +10,7 @@
             id="nMonths"
             v-model="userPlanForm.nMonths"
             required
+            :state="this.userPlanForm.nMonths.length> 0 && this.userPlanForm.nMonths>0"
         ></b-form-input>
         <br/>
         <b-button class="send-button" type="submit" variant="primary">{{$t('send')}}</b-button>
@@ -25,7 +26,7 @@
     data () {
       return {
         userPlanForm: {
-          nMonths:'',
+          nMonths:'1',
         },
         redirect_url : '',
       }
