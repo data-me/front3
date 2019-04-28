@@ -24,6 +24,39 @@
         :clickEffect="true"
         clickMode="push"
     ></vue-particles>
+
+    <vue-cookie-accept-decline
+    :ref="'myPanel1'"
+    :elementId="'myPanel1'"
+    :debug="false"
+    :position="'bottom'"
+    :type="'bar'"
+    :disableDecline="false"
+    :transitionName="'slideFromBottom'"
+    :showPostponeButton="false"
+    @status="cookieStatus"
+    @clicked-decline="cookieClickedDecline">
+
+    <!-- Optional -->
+    <div slot="postponeContent">
+        &times;
+    </div>
+
+    <!-- Optional -->
+    <div slot="message">
+        {{$t('cookie_message')}} <a href="https://cookiesandyou.com/" target="_blank">{{$t('learn_more_cookies')}}</a>
+    </div>
+
+    <!-- Optional -->
+    <div slot="declineContent">
+        {{$t('opt_out_cookies')}}
+    </div>
+
+    <!-- Optional -->
+    <div slot="acceptContent">
+        {{$t('accept_cookies')}}
+    </div>
+</vue-cookie-accept-decline>
     
     
 
@@ -49,6 +82,11 @@ export default {
       lang = 'en'
     }
     this.$i18n.locale = lang
+  }, methods: {
+    cookieClickedDecline () {
+      console.log("Rechazo")
+      window.history.back()
+    }
   }
 }
 </script>
