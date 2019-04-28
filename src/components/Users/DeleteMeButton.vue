@@ -40,22 +40,29 @@ export default {
           .post("http://localhost:8000/api/v3/delete_me", formData, {
               headers: { Authorization: token }
           }).then((result) => {
-              if (result.success) {
+              if (result.data.success) {
                 this.$swal({
                   type: 'success',
                   title: 'Deleted!',
                   text: 'All your user information has been deleted.',
                 }
-                )
-              }
-            }).then((result) => {
-              if (result.value) {
-                window.location.href = 'http://localhost:8080';
-              }else if(result.dismiss){
-                window.location.href = 'http://localhost:8080';
+                ).then((result) => {
+                  this.setCookie("token", "", -1);
+                  if (result.value) {
+                    window.location.href = 'http://localhost:8080';
+                  }else if(result.dismiss){
+                    window.location.href = 'http://localhost:8080';
+                  }
+                  })
               }
             })
-      }
+      },    
+      setCookie: function(name, value, days) {
+      var d = new Date();
+      d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
+      document.cookie =
+        name + "=" + value + ";path=/;expires=" + d.toGMTString();
+    },
     }
 }
 

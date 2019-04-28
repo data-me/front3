@@ -98,7 +98,7 @@
         </b-form>
       </div>
     </b-modal>
-
+    <deleteMeButton/>
     <Footer/>
   </div>
 </template>
@@ -106,12 +106,14 @@
 <script>
 import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
+import DeleteMeButton from "../../components/Users/DeleteMeButton.vue";
 
 export default {
   name: "app",
   components: {
     Navbar,
-    Footer
+    Footer,
+    DeleteMeButton
   },
   data() {
     return {
