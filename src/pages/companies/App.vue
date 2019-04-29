@@ -35,29 +35,32 @@
         <b-card-text>{{item.description}}</b-card-text>
         <b-img
           style="width: 200px; height:200px; text-align: center"
-          left
           v-bind:src="item.logo"
           :alt="$t('company_logo_alt')"
         ></b-img>
+
+        <div>
+          <b-button
+            style="float: right; width: 15%; margin-right: 5px"
+            v-if="isCompany"
+            class="mt-1"
+            variant="success"
+            block
+            @click="toggleEditProfile"
+            v-b-modal.EditProfile
+          >{{$t("edit")}}</b-button>
+
+          <b-button
+            style="float: right; width: 15%; margin-right: 5px"
+            v-if="isCompany"
+            class="mt-1"
+            variant="primary"
+            block
+            v-b-modal.export
+          >{{$t("export")}}</b-button>
+        </div>
       </b-card>
     </div>
-
-    <b-button
-      v-if="isCompany"
-      class="mt-1"
-      variant="success"
-      block
-      @click="toggleEditProfile"
-      v-b-modal.EditProfile
-    >{{$t("edit")}}</b-button>
-
-    <b-button
-      v-if="isCompany"
-      class="mt-1"
-      variant="primary"
-      block
-      v-b-modal.export
-    >{{$t("export")}}</b-button>
 
     <b-modal
       id="EditProfile"

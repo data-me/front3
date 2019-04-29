@@ -1,84 +1,143 @@
 <template>
   <div id="app">
     <Navbar/>
-        <!-- ////// -->
-        <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
-            <template slot="modal-header"> Please check the errors below </template>
-            <li id="messagesError" v-for="message in this.messages"> {{message}}</li>
-            <template slot="modal-footer"><button class="btn btn-primary">Save Changes</button></template>
-            <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">Close</b-button>
-        </b-modal>
-        <!-- Create an offer -->
-        <div v-if="user_type === 'com'">
-          <div class="create-offer">
-            <b-button id="create-offer" v-b-modal.modalxl variant="outline-primary"  >{{$t('new_offer')}}</b-button>
-          </div>
-        </div>
-        <div v-else-if="user_type === 'ds'">
-        <!-- Search bar -->
-          <div id="search-group">
-            <b-form @submit="onSubmit">
-              <b-input-group :prepend="$t('search')" class="mt-3">
-              <b-form-input v-on:keyup="onSubmit" id="search_title" v-model="form.search_title" :placeholder="$t('search_placeholder_title_desc')"></b-form-input>
-              <b-form-input v-on:keyup="onSubmit" id="search_price" v-model="form.search_price" :placeholder="$t('search_placeholder_price')"></b-form-input>
-              <b-form-input v-on:keyup="onSubmit" id="search_date" v-model="form.search_date" :placeholder="$t('search_placeholder_date')"></b-form-input>
-              </b-input-group>
-            </b-form>
-          </div>
-        </div>
-        <!-- ////// -->
-
-        <!-- Show offers -->
-        <div id="offers" v-bind:key="item.id" v-for="(item, index) in items">
-          <b-card no-body>
-            <b-card-header header-tag="header" class="p-3" role="tab">
-              <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
-                {{item.title}}
-              </b-button>
-            </b-card-header>
-            <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
-              <b-card-body>
-                <b-card-text><span class="font-weight-bold">{{$t('description')}}: </span> {{item.description}}</b-card-text>
-                <b-card-text><span class="font-weight-bold">{{$t('price_offered')}}: </span>{{item.price_offered + '€'}}</b-card-text>
-                <b-card-text><span class="font-weight-bold">{{$t('creation_date')}}: </span>{{item.creation_date.slice(0,10)}}</b-card-text>
-                <b-card-text><span class="font-weight-bold">{{$t('limit_date')}}: </span>{{item.limit_time.slice(0,10)}}</b-card-text>
-                <b-card-text><span class="font-weight-bold">{{$t('state')}}: </span>{{ item.finished ? $t('finished') : $t('not_finished') }}</b-card-text>
-                <b-card-text><span class="font-weight-bold">{{$t('contract')}}: {{item.contract}}</span></b-card-text>
-                <b-card-text></b-card-text>
-                <div v-if="user_type === 'ds'">
-                  <b-link href="#" v-if= "item.finished == false" class="card-link" v-b-modal.createApply variant="outline-primary" @click="saveId(item.id)">{{$t('apply')}}</b-link>
-                </div>
-
-                <div id="deleteoffer" v-if="user_type !== 'ds' && applications.length == 0">
-                  <b-button variant="danger" class="card-link" block @click="deleteOffer(item.id, $t('confirm_delete_offer'))">{{$t('delete_offer')}}</b-button>
-                </div>
-                <div id="editOffer" v-if="(user_type === 'com' && applications.length == 0)">
-                <b-button  class="card-link"  v-b-modal.EditOffer variant="outline-primary" @click="saveId(item.id)">{{$t('edit_offer')}}</b-button>
-                </div>
-              </b-card-body>
-            </b-collapse>
-          </b-card>
+    <!-- ////// -->
+    <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+      <template slot="modal-header">Please check the errors below</template>
+      <li id="messagesError" v-for="message in this.messages">{{message}}</li>
+      <template slot="modal-footer">
+        <button class="btn btn-primary">Save Changes</button>
+      </template>
+      <b-button class="mt-3" variant="outline-danger" block @click="modalShow = false">Close</b-button>
+    </b-modal>
+    <!-- Create an offer -->
+    <div v-if="user_type === 'com'">
+      <div class="create-offer">
+        <b-button id="create-offer" v-b-modal.modalxl variant="outline-primary">{{$t('new_offer')}}</b-button>
       </div>
-      <!-- ////// -->
+    </div>
+    <div v-else-if="user_type === 'ds'">
+      <!-- Search bar -->
+      <div id="search-group">
+        <b-form @submit="onSubmit">
+          <b-input-group :prepend="$t('search')" class="mt-3">
+            <b-form-input
+              v-on:keyup="onSubmit"
+              id="search_title"
+              v-model="form.search_title"
+              :placeholder="$t('search_placeholder_title_desc')"
+            ></b-form-input>
+            <b-form-input
+              v-on:keyup="onSubmit"
+              id="search_price"
+              v-model="form.search_price"
+              :placeholder="$t('search_placeholder_price')"
+            ></b-form-input>
+            <b-form-input
+              v-on:keyup="onSubmit"
+              id="search_date"
+              v-model="form.search_date"
+              :placeholder="$t('search_placeholder_date')"
+            ></b-form-input>
+          </b-input-group>
+        </b-form>
+      </div>
+    </div>
+    <!-- ////// -->
 
- <!-- Editing offer -->
+    <!-- Show offers -->
+    <div id="offers" v-bind:key="item.id" v-for="(item, index) in items">
+      <b-card no-body>
+        <b-card-header header-tag="header" class="p-3" role="tab">
+          <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">{{item.title}}</b-button>
+        </b-card-header>
+        <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
+          <b-card-body>
+            <b-card-text>
+              <span class="font-weight-bold">{{$t('description')}}:</span>
+              {{item.description}}
+            </b-card-text>
+            <b-card-text>
+              <span class="font-weight-bold">{{$t('price_offered')}}:</span>
+              {{item.price_offered + '€'}}
+            </b-card-text>
+            <b-card-text>
+              <span class="font-weight-bold">{{$t('creation_date')}}:</span>
+              {{item.creation_date.slice(0,10)}}
+            </b-card-text>
+            <b-card-text>
+              <span class="font-weight-bold">{{$t('limit_date')}}:</span>
+              {{item.limit_time.slice(0,10)}}
+            </b-card-text>
+            <b-card-text>
+              <span class="font-weight-bold">{{$t('state')}}:</span>
+              {{ item.finished ? $t('finished') : $t('not_finished') }}
+            </b-card-text>
+            <b-card-text>
+              <span class="font-weight-bold">{{$t('contract')}}: {{item.contract}}</span>
+            </b-card-text>
+            <b-card-text></b-card-text>
+            <div v-if="user_type === 'ds'">
+              <b-link
+                href="#"
+                v-if="item.finished == false"
+                class="card-link"
+                v-b-modal.createApply
+                variant="outline-primary"
+                @click="saveId(item.id)"
+              >{{$t('apply')}}</b-link>
+            </div>
+
+            <div id="deleteoffer" v-if="user_type !== 'ds' && applications.length == 0">
+              <b-button
+                style="float: right; margin: 5px; margin-right:-5px"
+                variant="danger"
+                class="card-link"
+                @click="deleteOffer(item.id, $t('confirm_delete_offer'))"
+              >{{$t('delete_offer')}}</b-button>
+            </div>
+            <div id="editOffer" v-if="(user_type === 'com' && applications.length == 0)">
+              <b-button
+                style="float: right; margin: 5px"
+                class="card-link"
+                v-b-modal.EditOffer
+                variant="outline-primary"
+                @click="saveId(item.id)"
+              >{{$t('edit_offer')}}</b-button>
+            </div>
+          </b-card-body>
+        </b-collapse>
+      </b-card>
+    </div>
+    <!-- ////// -->
+
+    <!-- Editing offer -->
     <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" title="Edit Offer">
-        <b-form  @submit.prevent>
-            <label for="title">{{$t('title')}}</label>
-            <b-input type="text" v-model="formEdit.title" id="title" :state="formEdit.title.length > 0"  :maxlength="80" aria-describedby="titleHelpBlock" />
-            <b-form-text id="titleHelpBlock">
-              {{$t('title_offer_placeholder')}}
-            </b-form-text>
-            <br/>
-            <label for="description">{{$t('description')}}</label>
-            <b-form-textarea type="text" id="description" v-model="formEdit.description" :state="formEdit.description.length > 0" aria-describedby="descriptionHelpBlock" />
-            <b-form-text id="descriptionHelpBlock">
-              {{$t('description_offer_placeholder')}}
-            </b-form-text>
-            <br/>
-            <!--No sé como pasarle la oferta a la funcion updateOffer porque offerId está vacío -->
-             <b-button class="mt-2" variant="success" block @click="updateOffer">{{$t('edit_offer')}}</b-button>
-          </b-form>
+      <b-form @submit.prevent>
+        <label for="title">{{$t('title')}}</label>
+        <b-input
+          type="text"
+          v-model="formEdit.title"
+          id="title"
+          :state="formEdit.title.length > 0"
+          :maxlength="80"
+          aria-describedby="titleHelpBlock"
+        />
+        <b-form-text id="titleHelpBlock">{{$t('title_offer_placeholder')}}</b-form-text>
+        <br>
+        <label for="description">{{$t('description')}}</label>
+        <b-form-textarea
+          type="text"
+          id="description"
+          v-model="formEdit.description"
+          :state="formEdit.description.length > 0"
+          aria-describedby="descriptionHelpBlock"
+        />
+        <b-form-text id="descriptionHelpBlock">{{$t('description_offer_placeholder')}}</b-form-text>
+        <br>
+        <!--No sé como pasarle la oferta a la funcion updateOffer porque offerId está vacío -->
+        <b-button class="mt-2" variant="success" block @click="updateOffer">{{$t('edit_offer')}}</b-button>
+      </b-form>
     </b-modal>
 
     <!-- Modal Pop up -->
@@ -104,9 +163,7 @@
             :state="form.description.length > 0"
             aria-describedby="descriptionHelpBlock"
           />
-          <b-form-text
-            id="descriptionHelpBlock"
-          >{{$t('description_offer_placeholder')}}</b-form-text>
+          <b-form-text id="descriptionHelpBlock">{{$t('description_offer_placeholder')}}</b-form-text>
           <br>
           <label for="price">{{$t('price_offered')}}:</label>
           <b-input
@@ -144,7 +201,7 @@
             id="contract"
             v-model="form.contract"
             aria-describedby="descriptionHelpBlock"
-            :state ="this.form.contract.length > 0"
+            :state="this.form.contract.length > 0"
           />
           <b-form-text id="descriptionHelpBlock">{{$t('contract_offer_placeholder')}}</b-form-text>
           <br>
@@ -178,12 +235,17 @@
             :state="descriptionApply"
             aria-describedby="descriptionHelpBlock"
           />
-          <b-form-text
-            id="descriptionHelpBlock"
-          >{{$t('description_apply_placeholder')}}</b-form-text>
-          <b-form-invalid-feedback id="apply-description-feedback">{{$t('description_apply_feedback')}}</b-form-invalid-feedback>
+          <b-form-text id="descriptionHelpBlock">{{$t('description_apply_placeholder')}}</b-form-text>
+          <b-form-invalid-feedback
+            id="apply-description-feedback"
+          >{{$t('description_apply_feedback')}}</b-form-invalid-feedback>
           <br>
-          <b-button class="mt-2" variant="success" block @click="toggleCreateApply($t('apply_offer'))">{{$t('create_apply')}}</b-button>
+          <b-button
+            class="mt-2"
+            variant="success"
+            block
+            @click="toggleCreateApply($t('apply_offer'))"
+          >{{$t('create_apply')}}</b-button>
         </b-form>
       </b-modal>
     </div>
@@ -211,45 +273,45 @@ export default {
   data() {
     return {
       items: [],
-      applications:[],
+      applications: [],
       form: {
-          title: '',
-          description: '',
-          price_offered: null,
-          files: '',
-          contract: '',
-          limit_time:'',
-        },
-        formApply: {
-            title: '',
-            description: '',
-            offerId: null,
-        },
-        formEdit: {
-            title: '',
-            description: '',
-        },
-        offerId: '',
-        messages: [],
-        modalShow: 'false',
-        user_type: this.$cookies.get('user_type')
-    }
-  }, mounted: function () {
+        title: "",
+        description: "",
+        price_offered: null,
+        files: "",
+        contract: "",
+        limit_time: ""
+      },
+      formApply: {
+        title: "",
+        description: "",
+        offerId: null
+      },
+      formEdit: {
+        title: "",
+        description: ""
+      },
+      offerId: "",
+      messages: [],
+      modalShow: "false",
+      user_type: this.$cookies.get("user_type")
+    };
+  },
+  mounted: function() {
+    var lang;
 
-    var lang
-
-    if (this.$cookies.get('lang')) {
-      lang = this.$cookies.get('lang')
+    if (this.$cookies.get("lang")) {
+      lang = this.$cookies.get("lang");
     } else {
-      lang = 'en'
+      lang = "en";
     }
-    this.$i18n.locale = lang
+    this.$i18n.locale = lang;
 
-    var token = 'JWT ' + this.$cookies.get('token')
+    var token = "JWT " + this.$cookies.get("token");
 
     // Para los pagos
     if (this.$cookies.get("user_type") == "com") {
-     if(window.location.search){
+      if (window.location.search) {
         if (window.location.search.split("?")[1].split("&")) {
           var respuesta_paypal = window.location.search
             .split("?")[1]
@@ -264,103 +326,115 @@ export default {
               // El pago se ha guardado
               alert(result.data.message);
               // Hago la llamada para obtener las offers con la nueva offer dentro
-              var token = 'JWT ' + this.$cookies.get('token')
-              this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
-                { Authorization: token }
-                }).then((result) => {
-                  this.items = result.data
-              })
+              var token = "JWT " + this.$cookies.get("token");
+              this.$http
+                .get("http://localhost:8000/api/v1/offer", {
+                  headers: { Authorization: token }
+                })
+                .then(result => {
+                  this.items = result.data;
+                });
             });
         }
-      }else{
+      } else {
         // Hago una llamada normal para que me las de
-        var token = 'JWT ' + this.$cookies.get('token')
-        this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
-          { Authorization: token }
-          }).then((result) => {
-            this.items = result.data
-        })
+        var token = "JWT " + this.$cookies.get("token");
+        this.$http
+          .get("http://localhost:8000/api/v1/offer", {
+            headers: { Authorization: token }
+          })
+          .then(result => {
+            this.items = result.data;
+          });
       }
-    }else{
+    } else {
       // Hago una llamada para que me las de siendo DS. Porque no soy company
-      var token = 'JWT ' + this.$cookies.get('token')
-      this.$http.get('http://localhost:8000/api/v1/offer',{ headers:
-        { Authorization: token }
-        }).then((result) => {
-          this.items = result.data
-      })
+      var token = "JWT " + this.$cookies.get("token");
+      this.$http
+        .get("http://localhost:8000/api/v1/offer", {
+          headers: { Authorization: token }
+        })
+        .then(result => {
+          this.items = result.data;
+        });
     }
-
-
 
     //este es el endpoint que devuelve las applications que tiene una oferta pero tengo el mismo problema
     //que para el edit, que no consigo pasarle la oferta. offerId está vacía
-    this.$http.get('http://localhost:8000/api/v2/applicationsOfOffer/'+ offerId,{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.applications = result.data
+    this.$http
+      .get("http://localhost:8000/api/v2/applicationsOfOffer/" + offerId, {
+        headers: { Authorization: token }
       })
-
-  }, methods: {
-      toggleCreateApply(text) {
-        if(confirm(text)){
-          var token = 'JWT ' + this.$cookies.get('token')
-          const formApply = new FormData();
-          if (this.formApply.title.length < 5 || this.formApply.description.length < 10){
-            alert("Please correct the errors")
-          } else{
+      .then(result => {
+        this.applications = result.data;
+      });
+  },
+  methods: {
+    toggleCreateApply(text) {
+      if (confirm(text)) {
+        var token = "JWT " + this.$cookies.get("token");
+        const formApply = new FormData();
+        if (
+          this.formApply.title.length < 5 ||
+          this.formApply.description.length < 10
+        ) {
+          alert("Please correct the errors");
+        } else {
           formApply.append("title", this.formApply.title);
           formApply.append("description", this.formApply.description);
           formApply.append("offerId", this.offerId);
-          this.$http.post('http://localhost:8000/api/v1/apply', formApply,{ headers:
-          { Authorization: token }
-          }).then((result) => {
-              alert(result.data.message)
-              location.reload()
-          })
-          }
+          this.$http
+            .post("http://localhost:8000/api/v1/apply", formApply, {
+              headers: { Authorization: token }
+            })
+            .then(result => {
+              alert(result.data.message);
+              location.reload();
+            });
         }
-     },
-    saveId: function(idOffer){
-    this.offerId = idOffer
+      }
+    },
+    saveId: function(idOffer) {
+      this.offerId = idOffer;
     },
     createOffer() {
       var token = "JWT " + this.$cookies.get("token");
       const formData = new FormData();
 
-      this.messages = []
-      if (this.form.title.length == 0){
-            this.messages.push('Title is required')
+      this.messages = [];
+      if (this.form.title.length == 0) {
+        this.messages.push("Title is required");
       }
-      if (this.form.description.length == 0){
-            this.messages.push('Description is required')
+      if (this.form.description.length == 0) {
+        this.messages.push("Description is required");
       }
-      if (this.form.price_offered == null){
-            this.messages.push('Price is required')
+      if (this.form.price_offered == null) {
+        this.messages.push("Price is required");
       }
-      if (this.form.limit_time == null){
-            this.messages.push('Limit time is required')
+      if (this.form.limit_time == null) {
+        this.messages.push("Limit time is required");
       }
-      if (this.form.files.length == null){
-            this.messages.push('File is required')
+      if (this.form.files.length == null) {
+        this.messages.push("File is required");
       }
-      if (this.form.contract.length == 0){
-            this.messages.push('Contract is required')
+      if (this.form.contract.length == 0) {
+        this.messages.push("Contract is required");
       }
-      if(this.form.limit_time == null){
-         this.messages.push('Limit date is required')
+      if (this.form.limit_time == null) {
+        this.messages.push("Limit date is required");
       } else {
-      var datePattern = new RegExp(/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/g);
-      if (!this.form.limit_time.match(datePattern)) {
-        this.messages.push("Please check the pattern of limit date");
-
-      } else{
-        let date= new Date(this.form.limit_time);
-        let now = Date.now();
-        if(date < now){
+        var datePattern = new RegExp(
+          /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/g
+        );
+        if (!this.form.limit_time.match(datePattern)) {
+          this.messages.push("Please check the pattern of limit date");
+        } else {
+          let date = new Date(this.form.limit_time);
+          let now = Date.now();
+          if (date < now) {
             this.messages.push("Date can't be past");
+          }
         }
-      }
       }
 
       var regex = new RegExp(
@@ -370,33 +444,32 @@ export default {
         this.messages.push("That is not an URL");
       }
 
-
-      if(this.messages.length > 0){
-          this.modalShow = true
-      } else{
-      formData.append("title", this.form.title);
-      formData.append("description", this.form.description);
-      formData.append("price_offered", this.form.price_offered);
-      formData.append("limit_time", this.form.limit_time);
-      formData.append("files", this.form.files);
-      formData.append("contract", this.form.contract);
-      this.$http
-        .post("http://localhost:8000/api/v1/offer", formData, {
-          headers: { Authorization: token }
-        })
-        .then(result => {
-          // alert(result.data.message)
-          var offer_created = result.data.offer_id;
-          this.$http
-            .get(
-              `http://localhost:8000/api/v1/pagos/create_papyal_payment/${offer_created}/`,
-              { headers: { Authorization: token } }
-            )
-            .then(result => {
-              window.location.href = result.data.url_pago;
-            });
-        });
-        }
+      if (this.messages.length > 0) {
+        this.modalShow = true;
+      } else {
+        formData.append("title", this.form.title);
+        formData.append("description", this.form.description);
+        formData.append("price_offered", this.form.price_offered);
+        formData.append("limit_time", this.form.limit_time);
+        formData.append("files", this.form.files);
+        formData.append("contract", this.form.contract);
+        this.$http
+          .post("http://localhost:8000/api/v1/offer", formData, {
+            headers: { Authorization: token }
+          })
+          .then(result => {
+            // alert(result.data.message)
+            var offer_created = result.data.offer_id;
+            this.$http
+              .get(
+                `http://localhost:8000/api/v1/pagos/create_papyal_payment/${offer_created}/`,
+                { headers: { Authorization: token } }
+              )
+              .then(result => {
+                window.location.href = result.data.url_pago;
+              });
+          });
+      }
     },
     deleteOffer(id, text) {
       var token = "JWT " + this.$cookies.get("token");
@@ -405,50 +478,67 @@ export default {
         this.$http
           .delete("http://localhost:8000/api/v1/company/offer/" + id, {
             headers: {
-                Authorization: token
-                }
-              }
-            ).then((result) => {
-              alert(result.data.message)
-              window.location.href = "/explore.html";
-            });
-
-          }
-      },
-        onSubmit() {
-          let token = `JWT ${this.$cookies.get('token')}`
-          let search_title = this.form.search_title
-          let search_price = this.form.search_price
-          let search_date = this.form.search_date
-
-          if((search_title == "" || search_title == undefined) && (search_price == "" || search_price == undefined) && (search_date == "" || search_date == undefined)){
-            this.$http.get(`http://localhost:8000/api/v1/offer`,{ headers:
-            { Authorization: token }}).then((result) => {
-              this.items = result.data
-            })
-          }else{
-            this.$http.get(`http://localhost:8000/api/v1/offer?search_title=${this.form.search_title}&search_price=${this.form.search_price}&search_date=${this.form.search_date}`,{ headers:
-            { Authorization: token }}).then((result) => {
-              this.items = result.data
-            })
-          }
-        },updateOffer(){
-        var token = 'JWT ' + this.$cookies.get('token')
-        const formData = new FormData();
-        formData.append("title", this.formEdit.title);
-        formData.append("description", this.formEdit.description);
-          this.$http.post('http://localhost:8000/api/v2/change_offer/' + this.offerId, formData,{ headers:
-            { Authorization: token }}).then((result) => {
-              this.items = result.data
-              alert(result.data.message)
-              window.location.href = "/explore.html";
-            });
-
-
+              Authorization: token
+            }
+          })
+          .then(result => {
+            alert(result.data.message);
+            window.location.href = "/explore.html";
+          });
       }
-      }
+    },
+    onSubmit() {
+      let token = `JWT ${this.$cookies.get("token")}`;
+      let search_title = this.form.search_title;
+      let search_price = this.form.search_price;
+      let search_date = this.form.search_date;
 
-}
+      if (
+        (search_title == "" || search_title == undefined) &&
+        (search_price == "" || search_price == undefined) &&
+        (search_date == "" || search_date == undefined)
+      ) {
+        this.$http
+          .get(`http://localhost:8000/api/v1/offer`, {
+            headers: { Authorization: token }
+          })
+          .then(result => {
+            this.items = result.data;
+          });
+      } else {
+        this.$http
+          .get(
+            `http://localhost:8000/api/v1/offer?search_title=${
+              this.form.search_title
+            }&search_price=${this.form.search_price}&search_date=${
+              this.form.search_date
+            }`,
+            { headers: { Authorization: token } }
+          )
+          .then(result => {
+            this.items = result.data;
+          });
+      }
+    },
+    updateOffer() {
+      var token = "JWT " + this.$cookies.get("token");
+      const formData = new FormData();
+      formData.append("title", this.formEdit.title);
+      formData.append("description", this.formEdit.description);
+      this.$http
+        .post(
+          "http://localhost:8000/api/v2/change_offer/" + this.offerId,
+          formData,
+          { headers: { Authorization: token } }
+        )
+        .then(result => {
+          this.items = result.data;
+          alert(result.data.message);
+          window.location.href = "/explore.html";
+        });
+    }
+  }
+};
 
 /*{
           'title': this.form.title,
