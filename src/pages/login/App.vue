@@ -61,7 +61,7 @@ export default {
       .then((result) => {
           //alert(JSON.stringify(result.data))
           this.$cookies.set('token',result.data.token)
-          this.$router.replace({path:'/helloworld'})
+          //this.$router.replace({path:'/helloworld'})
           this.showForm = false
           this.showNavbar = false
           let token = `JWT ${this.$cookies.get('token')}`
@@ -69,6 +69,7 @@ export default {
         }).then((result) => {
           this.$cookies.set('user_type', result.data.user_type)
           this.showNavbar = true
+          window.location.href = "/"
         })
       }).catch(()=>{
           alert(this.$t('login_error'))
