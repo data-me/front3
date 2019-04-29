@@ -2,7 +2,25 @@
   <div id="app">
     <Navbar/>
 
-     <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
+    <vue-particles
+      color="#22546f"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#37868a"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="1"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    ></vue-particles>
+
+    <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
       <template slot="modal-header">{{$t('error_msg')}}</template>
       <li :key="message.id" id="messagesError" v-for="message in this.messages">{{message}}</li>
       <template slot="modal-footer">
@@ -96,22 +114,26 @@
           <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
           <br>
           -->
-            <label for="receiver">Search receiver</label>
+          <label for="receiver">Search receiver</label>
 
-            <b-input type="text"
-             v-model="query"
-             placeholder = "Start typing the username"
-             v-on:keyup="changeVisibility"/>
-             <div id="options" class="options" style="display:None;">
-               <hr>
-               <ul>
-                 <li v-for="(match, index) in matches"
-                 :key="match[filterby]"
-                 :class="{'selected':(selected == index)}"
-                 @click="itemClicked(index)"
-                 v-text = "match[filterby]"></li>
-               </ul>
-             </div>
+          <b-input
+            type="text"
+            v-model="query"
+            placeholder="Start typing the username"
+            v-on:keyup="changeVisibility"
+          />
+          <div id="options" class="options" style="display:None;">
+            <hr>
+            <ul>
+              <li
+                v-for="(match, index) in matches"
+                :key="match[filterby]"
+                :class="{'selected':(selected == index)}"
+                @click="itemClicked(index)"
+                v-text="match[filterby]"
+              ></li>
+            </ul>
+          </div>
 
           <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
           <br>
@@ -136,11 +158,11 @@ export default {
   },
   data() {
     return {
-      filterby: 'username',
-      selected:0,
+      filterby: "username",
+      selected: 0,
       selectedItem: null,
       visible: false,
-      query : '',
+      query: "",
       users: [],
       items: [],
       form: {
@@ -148,10 +170,10 @@ export default {
         body: "",
         receiver: null
       },
-       messages: [],
-       modalShow : false,
-       submited: false,
-       message:''
+      messages: [],
+      modalShow: false,
+      submited: false,
+      message: ""
     };
   },
   mounted: function() {
@@ -182,14 +204,17 @@ export default {
       });
   },
   methods: {
-    itemClicked(index){
+    itemClicked(index) {
       this.selected = index;
       this.selectItem();
     },
-    selectItem(){
+    selectItem() {
       this.selectedItem = this.matches[this.selected];
       //console.log(this.selectedItem[this.filterby]);
-      const cadena = JSON.stringify(this.selectedItem[this.filterby]).replace(/['"]+/g, '');
+      const cadena = JSON.stringify(this.selectedItem[this.filterby]).replace(
+        /['"]+/g,
+        ""
+      );
       this.form.receiver = cadena;
 
       console.log(this.form.receiver);
@@ -210,14 +235,14 @@ export default {
       //console.log(this.matches.filter(element => element[this.filterby]));
       this.visible = true;
     },
-    changeVisibility(){
-      if(this.query === ""){
+    changeVisibility() {
+      if (this.query === "") {
         document.getElementById("options").style.display = "None";
-      }else{
+      } else {
         document.getElementById("options").style.display = "";
       }
     },
-    toogleVisible(){
+    toogleVisible() {
       this.visible = !this.visible;
     },
     reloadPage() {
@@ -226,48 +251,48 @@ export default {
 
     createMessage: function() {},
     toggleModal() {
-     var token = "JWT " + this.$cookies.get("token");
+      var token = "JWT " + this.$cookies.get("token");
 
-     this.messages = [];
-     if(this.form.title.length < 1){
-      this.messages.push(this.$t('title_required'));
-     }
-     if(this.form.body.length < 1){
-      this.messages.push(this.$t('body_required'));
-     }
-
-     if(this.form.receiver == null){
-      this.messages.push(this.$t('receiver_required'));
-     }
-
-
-     if (this.messages.length > 0) {
-        this.modalShow = true;
-      } else {
-
-      const formData = new FormData();
-      formData.append("title", this.form.title);
-      formData.append("body", this.form.body);
-      formData.append("username", this.form.receiver);
-
-      this.$http
-        .post("http://localhost:8000/api/v1/message", formData, {
-          headers: { Authorization: token }
-        })
-        .then(result => {
-
-         this.submited = true;
-         this.message = result.data.message
-        });
-     }
-    }
-  },computed:{
-    matches(){
-      if(this.query == ''){
-        return[];
+      this.messages = [];
+      if (this.form.title.length < 1) {
+        this.messages.push(this.$t("title_required"));
+      }
+      if (this.form.body.length < 1) {
+        this.messages.push(this.$t("body_required"));
       }
 
-      return this.users.filter((user)=> user[this.filterby].toLowerCase().includes(this.query.toLowerCase()))
+      if (this.form.receiver == null) {
+        this.messages.push(this.$t("receiver_required"));
+      }
+
+      if (this.messages.length > 0) {
+        this.modalShow = true;
+      } else {
+        const formData = new FormData();
+        formData.append("title", this.form.title);
+        formData.append("body", this.form.body);
+        formData.append("username", this.form.receiver);
+
+        this.$http
+          .post("http://localhost:8000/api/v1/message", formData, {
+            headers: { Authorization: token }
+          })
+          .then(result => {
+            this.submited = true;
+            this.message = result.data.message;
+          });
+      }
+    }
+  },
+  computed: {
+    matches() {
+      if (this.query == "") {
+        return [];
+      }
+
+      return this.users.filter(user =>
+        user[this.filterby].toLowerCase().includes(this.query.toLowerCase())
+      );
     }
   }
 };
@@ -301,66 +326,75 @@ html {
   background-color: #ffffff;
 }
 
-.autocomplete{
+.autocomplete {
   width: 100%;
-  position:relative;
+  position: relative;
 }
 
-.input{
+.input {
   border-radius: 3px;
   border: 2px solid lightgray;
   box-shadow: 0 0 10pc #eceaea;
-  padding-left:10px;
-  padding-top:13px;
-  padding-bottom:13px;
-  cursor:text;
-
+  padding-left: 10px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  cursor: text;
 }
 
-.popover{
+.popover {
   min-height: 50px;
-  border:2px solid lightgray;
+  border: 2px solid lightgray;
   position: relative;
-  top:46px;
-  left:0;
-  right:0;
+  top: 46px;
+  left: 0;
+  right: 0;
   background: #fff;
   border-radius: 3px;
   text-align: center;
 }
 
-.popover input{
+.popover input {
   width: 95%;
-  margin-top:5px;
+  margin-top: 5px;
   height: 40px;
-  font-size:15px;
-  border-radius:3px;
+  font-size: 15px;
+  border-radius: 3px;
   border: 1px solid lightgray;
-  padding-left:8px;
+  padding-left: 8px;
 }
 
-.options{
+.options {
   max-height: 150px;
-  overflow-y:scroll;
-  margin-top:5px;
+  overflow-y: scroll;
+  margin-top: 5px;
 }
 
-.options ul{
+.options ul {
   list-style-type: none;
   text-align: left;
   padding-left: 0;
 }
 
-.options ul li{
+.options ul li {
   border-bottom: 1px solid lightgray;
-  padding:10px;
-  cursor:pointer;
+  padding: 10px;
+  cursor: pointer;
   background: #f1f1f1;
 }
 
-.options ul li.selected{
+.options ul li.selected {
   background: #58bd4c;
-  color:#fff;
+  color: #fff;
   font-weight: 600;
+}
+
+#particles-js {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 </style>

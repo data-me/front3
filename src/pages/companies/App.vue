@@ -2,6 +2,24 @@
   <div id="app">
     <Navbar/>
 
+    <vue-particles
+      color="#22546f"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#37868a"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="1"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    ></vue-particles>
+
     <b-modal
       class="registered"
       v-model="submited"
@@ -34,7 +52,7 @@
       <b-card :title="item.name" :sub-title="item.nif ">
         <b-card-text>{{item.description}}</b-card-text>
         <b-img
-          style="width: 200px; height:200px; text-align: center"
+          style="width: 200px; height:200px;"
           v-bind:src="item.logo"
           :alt="$t('company_logo_alt')"
         ></b-img>
@@ -347,6 +365,15 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+}
+
+#particles-js {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 #company {
