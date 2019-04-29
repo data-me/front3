@@ -155,8 +155,17 @@
   "show_ds": "Mostrar al científico de datos",
   "make_review_ds": "Haz una critica del cientifico de datos",
   "make_review_com": "Haz una critica de la empresa",
-  "score": "Puntuacion",
+  "score": "Puntuación",
   "search_placeholder_title_desc": "Título o descripción",
   "search_placeholder_price": "Precio",
-  "search_placeholder_date": "Fecha anterior a (dd-MM-yyyy hh:mm)"
+  "search_placeholder_date": "Fecha anterior a (dd-MM-yyyy hh:mm)",
+  "export": "Exportar datos",
+  "exportpdf": "Exportar como PDF",
+  "exportraw": "Exportar como texto",
+  "terms_and_condition_claim": "Acepto los términos y condiciones",
+  "terms_error": "Debe aceptar los términos y condiciones",
+  "cookie_message": "Nuestra web usa cookies para el correcto funcionamiento de la página. No usamos ninguna cookie de terceros y no la usamos para restrearte. Si rechaza no podrá usar nuestra web y será redirigido a la página anterior.",
+  "learn_more_cookies": "Saber mas...",
+  "opt_out_cookies": "Rechazar",
+  "accept_cookies": "Aceptar"
 }
