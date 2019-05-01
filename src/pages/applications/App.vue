@@ -1,6 +1,23 @@
 <template>
   <div id="app">
     <Navbar/>
+    <vue-particles
+      color="#22546f"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#37868a"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="1"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    ></vue-particles>
     <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
       <template slot="modal-header">{{$t('error_msg')}}</template>
       <li :key="message.id" id="messagesError" v-for="message in this.messages">{{message}}</li>
@@ -73,43 +90,47 @@
 
     <!-- Modal Pop up showDataScientist -->
     <div>
-     <b-modal id="showDataScientist" hide-footer ref="detailedDataScientist" size="xl" title="Data Scientist's details">
-       <div id="info">
-         <b-card-text class="card-text">
-           <label for="name">Name:</label>
-           {{this.name}}
-         </b-card-text>
-         <b-card-text class="card-text">
-           <label for="surname">Surnamez:</label>
-           {{this.surname}}
-         </b-card-text>
-         <b-card-text class="card-text">
-           <label for="phone">Phone:</label>
-           {{this.phone}}
-         </b-card-text>
-         <b-card-text class="card-text">
-           <label for="email">Email:</label>
-           {{this.email}}
-         </b-card-text>
-         <b-card-text class="card-text">
-           <label for="address">Address:</label>
-           {{this.address}}
-         </b-card-text>
-       </div>
-       <div id="cv_items_5" v-for="cvitem in dss">
-         <p class="display-3">{{cvitem.Section}}</p>
-         <div id="cv_items_sub" v-for="item2 in cvitem.Items">
-           <b-card :title="item2.name" :sub-title="item2.description">
-             <b-card-text>
-               {{item2.date_start}} - {{item2.date_finish}}
-             </b-card-text>
-           </b-card>
-         </div>
-       </div>
-     </b-modal>
+      <b-modal
+        id="showDataScientist"
+        hide-footer
+        ref="detailedDataScientist"
+        size="xl"
+        title="Data Scientist's details"
+      >
+        <div id="info">
+          <b-card-text class="card-text">
+            <label for="name">Name:</label>
+            {{this.name}}
+          </b-card-text>
+          <b-card-text class="card-text">
+            <label for="surname">Surnamez:</label>
+            {{this.surname}}
+          </b-card-text>
+          <b-card-text class="card-text">
+            <label for="phone">Phone:</label>
+            {{this.phone}}
+          </b-card-text>
+          <b-card-text class="card-text">
+            <label for="email">Email:</label>
+            {{this.email}}
+          </b-card-text>
+          <b-card-text class="card-text">
+            <label for="address">Address:</label>
+            {{this.address}}
+          </b-card-text>
+        </div>
+        <div id="cv_items_5" v-for="cvitem in dss">
+          <p class="display-3">{{cvitem.Section}}</p>
+          <div id="cv_items_sub" v-for="item2 in cvitem.Items">
+            <b-card :title="item2.name" :sub-title="item2.description">
+              <b-card-text>{{item2.date_start}} - {{item2.date_finish}}</b-card-text>
+            </b-card>
+          </div>
+        </div>
+      </b-modal>
     </div>
 
-    <Footer />
+    <Footer/>
   </div>
 </template>
 
@@ -145,7 +166,7 @@ export default {
       phone: "",
       photo: "",
       address: "",
-      dsId: '',
+      dsId: "",
       dss: [],
       idDataScientist: "",
       isCompany: null,
@@ -160,14 +181,14 @@ export default {
   },
   computed: {},
   mounted: function() {
-    var lang
+    var lang;
 
-    if (this.$cookies.get('lang')) {
-      lang = this.$cookies.get('lang')
+    if (this.$cookies.get("lang")) {
+      lang = this.$cookies.get("lang");
     } else {
-      lang = 'en'
+      lang = "en";
     }
-    this.$i18n.locale = lang
+    this.$i18n.locale = lang;
 
     var token = "JWT " + this.$cookies.get("token");
     if (this.$cookies.get("user_type") == "com") {
@@ -193,11 +214,15 @@ export default {
     },
     onClickChild2(value) {
       this.idDataScientist = value;
-      var token = 'JWT ' + this.$cookies.get('token')
+      var token = "JWT " + this.$cookies.get("token");
       this.$http
-        .get("http://localhost:8000/api/v1/dataScientist?dataScientistId=" + this.idDataScientist, {
-          headers: { Authorization: token }
-        })
+        .get(
+          "http://localhost:8000/api/v1/dataScientist?dataScientistId=" +
+            this.idDataScientist,
+          {
+            headers: { Authorization: token }
+          }
+        )
         .then(result => {
           this.user = result.data;
           this.name = this.user.name;
@@ -207,11 +232,15 @@ export default {
           this.photo = this.user.photo;
           this.address = this.user.address;
         });
-      this.$http.get('http://localhost:8000/api/v1/cv?dataScientistId=' + this.idDataScientist,{ headers:
-        { Authorization: token }
-      }).then((result) => {
-        this.dss = result.data
-      })
+      this.$http
+        .get(
+          "http://localhost:8000/api/v1/cv?dataScientistId=" +
+            this.idDataScientist,
+          { headers: { Authorization: token } }
+        )
+        .then(result => {
+          this.dss = result.data;
+        });
     },
     createSubmit() {
       var token = "JWT " + this.$cookies.get("token");
@@ -261,5 +290,14 @@ export default {
 
 html {
   background-color: #ffffff;
+}
+
+#particles-js {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

@@ -3,66 +3,98 @@
     <Navbar id="nav"/>
 
     <div class="wrap-banner">
-       <div class="main-title">
+      <div class="main-title">
         <h2 class="statement">{{$t('message')}}</h2>
         <h1 class="title">{{$t('home_message')}}</h1>
-       </div>
+      </div>
     </div>
-    <vue-particles color="#22546f"
-        :particleOpacity="0.7"
-        :particlesNumber="80"
-        shapeType="circle"
-        :particleSize="4"
-        linesColor= "#37868a"
-        :linesWidth="1"
-        :lineLinked="true"
-        :lineOpacity="0.4"
-        :linesDistance="150"
-        :moveSpeed="1"
-        :hoverEffect="true"
-        hoverMode="grab"
-        :clickEffect="true"
-        clickMode="push"
+    <vue-particles
+      color="#22546f"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#37868a"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="1"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
     ></vue-particles>
-    
-    
 
-    <Footer />
+    <vue-cookie-accept-decline
+      :ref="'myPanel1'"
+      :elementId="'myPanel1'"
+      :debug="false"
+      :position="'bottom'"
+      :type="'bar'"
+      :disableDecline="false"
+      :transitionName="'slideFromBottom'"
+      :showPostponeButton="false"
+      @status="cookieStatus"
+      @clicked-decline="cookieClickedDecline"
+    >
+      <!-- Optional -->
+      <div slot="postponeContent">&times;</div>
+
+      <!-- Optional -->
+      <div slot="message">
+        {{$t('cookie_message')}}
+        <a href="https://cookiesandyou.com/" target="_blank">{{$t('learn_more_cookies')}}</a>
+      </div>
+
+      <!-- Optional -->
+      <div slot="declineContent">{{$t('opt_out_cookies')}}</div>
+
+      <!-- Optional -->
+      <div slot="acceptContent">{{$t('accept_cookies')}}</div>
+    </vue-cookie-accept-decline>
+
+    <Footer/>
   </div>
 </template>
 
 <script>
-import Navbar from '../../components/Navbar.vue'
-import Footer from '../../components/Footer.vue'
+import Navbar from "../../components/Navbar.vue";
+import Footer from "../../components/Footer.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     Navbar,
     Footer
-  }, mounted: function () {
-    var lang
+  },
+  mounted: function() {
+    var lang;
 
-    if (this.$cookies.get('lang')) {
-      lang = this.$cookies.get('lang')
+    if (this.$cookies.get("lang")) {
+      lang = this.$cookies.get("lang");
     } else {
-      lang = 'en'
+      lang = "en";
     }
-    this.$i18n.locale = lang
+    this.$i18n.locale = lang;
+  },
+  methods: {
+    cookieClickedDecline() {
+      console.log("Rechazo");
+      window.history.back();
+    }
   }
-}
+};
 </script>
 
 <style>
-
 #app {
   height: 100%;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  
 }
 
 html {
@@ -80,37 +112,37 @@ h1.title {
 }
 
 #particles-js {
-    background-size: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .wrap-banner {
-    position: relative;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    display: -webkit-flex;
-    display: flex;
-    height: 100%;
-    justify-content: center;
+  position: relative;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+  justify-content: center;
 }
 
- .main-title {
-    margin-top: 10em; 
-    color: #000;
-    z-index: 999;
+.main-title {
+  margin-top: 10em;
+  color: #000;
+  z-index: 999;
 }
 
 h2.statement {
-    font-size: 3rem;
+  font-size: 3rem;
 }
 
-@media all and (max-width: 699px)  {
-   h2.statement {
+@media all and (max-width: 699px) {
+  h2.statement {
     font-size: 1.4rem;
   }
   h1.title {

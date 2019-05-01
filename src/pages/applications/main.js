@@ -4,6 +4,7 @@ import BootstrapVue from 'bootstrap-vue'
 import VueCookies from 'vue-cookies'
 import axios from 'axios'
 import i18n from '../../i18n'
+import VueParticles from 'vue-particles'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -13,6 +14,7 @@ Vue.use(BootstrapVue)
 Vue.use(VueCookies)
 
 Vue.prototype.$http = axios
+Vue.use(VueParticles)
 
 new Vue({
   i18n,

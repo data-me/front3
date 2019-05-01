@@ -1,13 +1,31 @@
 <template>
   <div id="app">
     <Navbar/>
-    
+
+    <vue-particles
+      color="#22546f"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#37868a"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="1"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    ></vue-particles>
+
     <br>
     <br>
     <div class="row">
       <div class="col-sm-4">
         <div class="card text-white bg-info mb-3" style="max-width: 30rem;">
-          <h1 class="card-header" >{{$t('number_offers')}}</h1>
+          <h1 class="card-header">{{$t('number_offers')}}</h1>
           <h2 class="card-body">{{ offers.length }}</h2>
         </div>
       </div>
@@ -59,7 +77,7 @@
           <h2 class="card-body">{{submitions.length}}</h2>
         </div>
       </div>
-       <br>
+      <br>
       <br>
       <div class="col-sm-4">
         <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
@@ -72,110 +90,114 @@
 </template>
 
 <script>
-import Navbar from '../../components/Navbar.vue'
-import Footer from '../../components/Footer.vue'
-
+import Navbar from "../../components/Navbar.vue";
+import Footer from "../../components/Footer.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     Navbar
   },
-  computed:{
-    
-  },
-  data () {
+  computed: {},
+  data() {
     return {
       offers: [],
-      users:[],
-      companies:[],
-      applications:[],
-      applicationsAccepted:[],
-      submitions:[],
-      messages:[],
+      users: [],
+      companies: [],
+      applications: [],
+      applicationsAccepted: [],
+      submitions: [],
+      messages: [],
 
-       
-        user_type: this.$cookies.get('user_type')
+      user_type: this.$cookies.get("user_type")
+    };
+  },
+  mounted: function() {
+    var lang;
 
-    }
-
-  }, mounted: function () {
-    var lang
-
-    if (this.$cookies.get('lang')) {
-      lang = this.$cookies.get('lang')
+    if (this.$cookies.get("lang")) {
+      lang = this.$cookies.get("lang");
     } else {
-      lang = 'en'
+      lang = "en";
     }
-    this.$i18n.locale = lang
+    this.$i18n.locale = lang;
 
-    var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get('http://localhost:8000/api/v2/admin/offers',{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.offers = result.data
+    var token = "JWT " + this.$cookies.get("token");
+    this.$http
+      .get("http://localhost:8000/api/v2/admin/offers", {
+        headers: { Authorization: token }
       })
+      .then(result => {
+        this.offers = result.data;
+      });
 
-    this.$http.get('http://localhost:8000/api/v1/users',{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.users = result.data
+    this.$http
+      .get("http://localhost:8000/api/v1/users", {
+        headers: { Authorization: token }
       })
+      .then(result => {
+        this.users = result.data;
+      });
 
-    this.$http.get('http://localhost:8000/api/v1/companies',{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.companies = result.data
+    this.$http
+      .get("http://localhost:8000/api/v1/companies", {
+        headers: { Authorization: token }
       })
+      .then(result => {
+        this.companies = result.data;
+      });
 
-    this.$http.get('http://localhost:8000/api/v1/applications',{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.applications = result.data
+    this.$http
+      .get("http://localhost:8000/api/v1/applications", {
+        headers: { Authorization: token }
       })
-    this.$http.get('http://localhost:8000/api/v1/applicationsAccepted',{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.applicationsAccepted = result.data
+      .then(result => {
+        this.applications = result.data;
+      });
+    this.$http
+      .get("http://localhost:8000/api/v1/applicationsAccepted", {
+        headers: { Authorization: token }
       })
-    this.$http.get('http://localhost:8000/api/v1/submitions',{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.submitions = result.data
+      .then(result => {
+        this.applicationsAccepted = result.data;
+      });
+    this.$http
+      .get("http://localhost:8000/api/v1/submitions", {
+        headers: { Authorization: token }
       })
-    this.$http.get('http://localhost:8000/api/v1/messages',{ headers:
-      { Authorization: token }
-      }).then((result) => {
-        this.messages = result.data
+      .then(result => {
+        this.submitions = result.data;
+      });
+    this.$http
+      .get("http://localhost:8000/api/v1/messages", {
+        headers: { Authorization: token }
       })
-    
+      .then(result => {
+        this.messages = result.data;
+      });
   }
-
-}
-
-
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-
 }
-.card-header{
+.card-header {
   text-align: center;
 }
 
-.card-body{
+.card-body {
   text-align: center;
 }
 
 .card {
-        margin: 0 auto; /* Added */
-        float: none; /* Added */
-        margin-bottom: 25px; /* Added */
+  margin: 0 auto; /* Added */
+  float: none; /* Added */
+  margin-bottom: 25px; /* Added */
 }
 
 #offers {
@@ -195,9 +217,17 @@ html {
   background-color: #ffffff;
 }
 
-#search-group{
+#search-group {
   margin-left: 15%;
   margin-right: 15%;
 }
 
+#particles-js {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 </style>

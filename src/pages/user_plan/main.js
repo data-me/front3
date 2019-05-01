@@ -5,6 +5,7 @@ import VueCookies from 'vue-cookies'
 import axios from 'axios'
 import i18n from '../../i18n'
 import VueSweetalert2 from 'vue-sweetalert2'
+import VueParticles from 'vue-particles'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -12,6 +13,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(VueCookies)
+Vue.use(VueParticles)
 
 /*vue-sweetalert2 configuration*/
 const options = {
