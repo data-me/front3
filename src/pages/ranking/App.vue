@@ -29,6 +29,11 @@
               </b-card-body>
       </div>
 
+          <!-- Empty items -->
+    <div v-if="itemsCargados1 == true && itemsCargados2 == true && (items == none || items.length == 0)">
+       <h2 id="NadaQueMostrar"> {{$t('nothing_to_show')}} </h2>
+    </div>
+
 
     <Footer/>
   </div>
@@ -47,6 +52,8 @@ export default {
     return {
       rankingData:[],
       rankingCompanies:[],
+      itemsCargados1: false,
+      itemsCargados2: false,
     }
   }, mounted: function () {
 
@@ -77,12 +84,14 @@ export default {
       { Authorization: token }
       }).then((result) => {
         this.rankingData = result.data
+        this.itemsCargados1 = true
       })
 
     this.$http.get('http://localhost:8000/api/v3/ranking_companies',{ headers:
       { Authorization: token }
       }).then((result) => {
         this.rankingCompanies = result.data
+        this.itemsCargados2 = true
       })
 
   }, 
@@ -107,6 +116,12 @@ export default {
 }
 html {
   background-color: #ffffff;
+}
+
+#NadaQueMostrar{
+    color: blue;
+    margin-top: 10%;
+    text-align: center;
 }
 
 </style>

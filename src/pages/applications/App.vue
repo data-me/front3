@@ -59,6 +59,10 @@
         v-bind:key="item.id"
       ></Apply>
     </div>
+    <!-- Empty items -->
+    <div v-if="itemsCargados == true && (items == none || items.length == 0)">
+       <h2 id="NadaQueMostrar"> {{$t('nothing_to_show')}} </h2>
+    </div>
 
     <b-modal id="modalxl" hide-footer ref="newOffer" size="xl" :title="$t('create_offer')">
       <b-form @submit.prevent>
@@ -176,7 +180,8 @@ export default {
       submited: false,
       user_type: this.$cookies.get("user_type"),
       offertodl: [],
-      url: ""
+      url: "",
+      itemsCargados: false,
     };
   },
   computed: {},
@@ -203,6 +208,7 @@ export default {
       })
       .then(result => {
         this.items = result.data;
+        this.itemsCargados = true;
       });
   },
   methods: {
@@ -299,5 +305,11 @@ html {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+#NadaQueMostrar{
+    color: blue;
+    margin-top: 10%;
+    text-align: center;
 }
 </style>

@@ -182,5 +182,6 @@
   "failed": "We are sorry, there was a problem",
   "create_notification": "Create a new notification",
   "create_message": "Create a new message",
-  "notification_tooltip": "This notification is sent via email to all users in this application and it is intended for notifying users of security breaches in our website"
+  "notification_tooltip": "This notification is sent via email to all users in this application and it is intended for notifying users of security breaches in our website",
+  "nothing_to_show": "Sorry! There's nothing to show rigth now..."
 }

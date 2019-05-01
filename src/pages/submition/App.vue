@@ -127,6 +127,10 @@
         </b-collapse>
       </b-card>
     </div>
+        <!-- Empty items -->
+    <div v-if="itemsCargados == true && (items == none || items.length == 0)">
+       <h2 id="NadaQueMostrar"> {{$t('nothing_to_show')}} </h2>
+    </div>
 
     <Footer/>
   </div>
@@ -160,7 +164,8 @@ export default {
         comments: "",
         score: "5"
       },
-      canDoAReview: true
+      canDoAReview: true,
+      itemsCargados: false,
     };
   },
   mounted: function() {
@@ -189,6 +194,7 @@ export default {
       })
       .then(result => {
         this.items = result.data;
+        this.itemsCargados = true;
       });
 
     this.$http
@@ -332,4 +338,11 @@ html {
   width: 100%;
   height: 100%;
 }
+
+#NadaQueMostrar{
+    color: blue;
+    margin-top: 10%;
+    text-align: center;
+}
+
 </style>

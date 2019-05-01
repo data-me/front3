@@ -182,6 +182,6 @@
   "failed": "Lo sentimos, ha ocurrido un problema",
   "create_notification": "Crear una nueva notificaci贸n",
   "create_message": "Crear un nuevo mensaje",
-  "notification_tooltip": "Esta notificaci贸n es enviada a todos los usuarios de la aplicaci贸n via email, su uso est谩 destinado para notificar brechas de seguridad en el sistema"
-
+  "notification_tooltip": "Esta notificaci贸n es enviada a todos los usuarios de la aplicaci贸n via email, su uso est谩 destinado para notificar brechas de seguridad en el sistema",
+   "nothing_to_show": "o sentimos! Ahora mismo no hay nada para mostrar..."
 }

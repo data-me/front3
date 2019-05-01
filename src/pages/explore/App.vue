@@ -66,7 +66,10 @@
     <div id="offers" v-bind:key="item.id" v-for="(item, index) in items">
       <b-card no-body>
         <b-card-header header-tag="header" class="p-3" role="tab">
-          <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">{{item.title}}</b-button>
+          <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
+              <div id="OfferTittle" style="Float: 'left'">{{item.title}} </div>
+              <div id="OfferPrice">{{item.price_offered + '€'}} </div>
+              </b-button>
         </b-card-header>
         <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
           <b-card-body>
@@ -127,6 +130,10 @@
       </b-card>
     </div>
     <!-- ////// -->
+    <!-- Empty items -->
+    <div v-if="itemsCargados == true && (items == none || items.length == 0)">
+       <h2 id="NadaQueMostrar"> {{$t('nothing_to_show')}} </h2>
+    </div>
 
     <!-- Editing offer -->
     <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" title="Edit Offer">
@@ -311,7 +318,8 @@ export default {
       offerId: "",
       messages: [],
       modalShow: "false",
-      user_type: this.$cookies.get("user_type")
+      user_type: this.$cookies.get("user_type"),
+      itemsCargados: false,
     };
   },
   mounted: function() {
@@ -350,6 +358,7 @@ export default {
                 })
                 .then(result => {
                   this.items = result.data;
+                  this.itemsCargados = true;
                 });
             });
         }
@@ -362,6 +371,7 @@ export default {
           })
           .then(result => {
             this.items = result.data;
+            this.itemsCargados = true;
           });
       }
     } else {
@@ -373,6 +383,7 @@ export default {
         })
         .then(result => {
           this.items = result.data;
+          this.itemsCargados = true;
         });
     }
 
@@ -601,4 +612,18 @@ html {
   width: 100%;
   height: 100%;
 }
+#OfferTittle{
+    float:left;
+}
+
+#OfferPrice{
+    float:right;
+    margin-right: 2%;
+}
+#NadaQueMostrar{
+    color: blue;
+    margin-top: 10%;
+    text-align: center;
+}
+
 </style>
