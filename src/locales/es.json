@@ -156,5 +156,17 @@
   "show_ds": "Mostrar al científico de datos",
   "make_review_ds": "Haz una critica del cientifico de datos",
   "make_review_com": "Haz una critica de la empresa",
-  "score": "Puntuacion"
+  "score": "Puntuacion",
+  "Reviewer": "Revisor",
+  "Reviewed": "Revisado",
+  "Score": "Puntuacion",
+  "Comments": "Comentarios",
+  "Reviews_of_companies": "Ranking de compañías",
+  "Reviews_of_datascientists": "Ranking de científicos",
+  "Average": "Media",
+  "Company": "Compañía",
+  "DataScientist": "Científico",
+  "LastReview": "Última Valoración"
+
+
 }

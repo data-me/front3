@@ -156,5 +156,16 @@
   "show_ds": "Show Data Scientist",
   "make_review_ds": "Review Data Scientist",
    "make_review_com": "Review company",
-  "score": "Score"
+  "score": "Score",
+  "Reviewer": "Reviewer",
+  "Reviewed": "Reviewed",
+  "Score": "Score",
+  "Comments": "Comments",
+  "Reviews_of_companies": "Ranking of companies",
+  "Reviews_of_datascientists": "Ranking of datascientists",
+  "Average": "Average",
+  "Company": "Company",
+  "DataScientist": "DataScientist",
+  "LastReview": "Last Review"
+
 }
