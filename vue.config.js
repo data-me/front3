@@ -237,6 +237,18 @@ module.exports = {
     // extracted common chunks and vendor chunks.
     chunks: ['chunk-vendors', 'chunk-common', 'manage_users']
   },
+  'ranking': {
+    // entry for the page
+    entry: 'src/pages/ranking/main.js',
+    // the source template
+    template: 'public/index.html',
+    // when using title option,
+    // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
+    title: 'Ranking',
+    // chunks to include on this page, by default includes
+    // extracted common chunks and vendor chunks.
+    chunks: ['chunk-vendors', 'chunk-common', 'ranking']
+  },
 },
 
   pluginOptions: {

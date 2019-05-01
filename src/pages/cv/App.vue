@@ -2,6 +2,24 @@
   <div id="app">
     <Navbar/>
 
+    <vue-particles
+      color="#22546f"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#37868a"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="1"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    ></vue-particles>
+
     <b-modal
       class="registered"
       v-model="submited"
@@ -529,7 +547,6 @@ export default {
         var email = "E-mail: ";
         var address = "Address: ";
         var phone = "Phone: ";
-
       } else {
         var olawenas =
           "Esta acción descargará archivos en tu terminal. ¿Estas seguro?";
@@ -549,7 +566,6 @@ export default {
 
         doc.setFontSize(20);
 
-        
         doc.text(nameSurname.toUpperCase(), 10, 10);
 
         // Adding email
@@ -707,5 +723,15 @@ html {
   margin-top: 0.25rem !important;
   width: 25%;
   max-width: 201px;
+}
+
+#particles-js {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 </style>
