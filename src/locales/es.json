@@ -177,5 +177,11 @@
   "cookie_message": "Nuestra web usa cookies para el correcto funcionamiento de la página. No usamos ninguna cookie de terceros y no la usamos para restrearte. Si rechaza no podrá usar nuestra web y será redirigido a la página anterior.",
   "learn_more_cookies": "Saber mas...",
   "opt_out_cookies": "Rechazar",
-  "accept_cookies": "Aceptar"
+  "accept_cookies": "Aceptar",
+  "notification_sent": "Tu mensaje esta siendo enviado a los usuarios del sistema, recibirán la notificación en los proximos momentos",
+  "failed": "Lo sentimos, ha ocurrido un problema",
+  "create_notification": "Crear una nueva notificación",
+  "create_message": "Crear un nuevo mensaje",
+  "notification_tooltip": "Esta notificación es enviada a todos los usuarios de la aplicación via email, su uso está destinado para notificar brechas de seguridad en el sistema"
+
 }

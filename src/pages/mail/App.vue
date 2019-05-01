@@ -34,6 +34,7 @@
       >{{$t('close')}}</b-button>
     </b-modal>
 
+    <!-- Create new message button -->
     <b-modal
       class="registered"
       v-model="submited"
@@ -49,8 +50,49 @@
     </b-modal>
 
     <div class="create-message">
-      <b-button id="create-message" v-b-modal.modalxl variant="outline-primary">Create new message</b-button>
+      <b-button id="create-message" v-b-modal.modalxl variant="outline-primary">
+        <font-awesome-icon style="color:#14AABF" :icon="['fas','envelope']"/>
+        {{$t('create_message')}}
+        </b-button>
     </div>
+    <!-- -->
+
+    <!-- Create new notification button -->
+    <b-modal
+      class="registered"
+      v-model="submited_notification"
+      ref="submited_notification"
+      id="submited_notification"
+      hide-footer
+      size="xl"
+      title="submited_notification">
+
+
+      <!-- If text given by server contains "wrong" will print a fail modal -->
+        <div v-if="textContains()">
+          <template slot="modal-header">{{$t('failed')}}</template>
+          {{this.message}}
+        </div>
+        <!-- Otherwise it will print a congrats modal -->
+        <div v-else>
+          <template slot="modal-header">{{$t('congrats')}}</template>
+          {{$t('notification_sent')}}
+        </div>
+    
+        <b-button class="mt-2" variant="success" block @click="reloadPage">{{$t('close')}}</b-button>
+    </b-modal>
+    
+    <div v-if="user_type === 'admin'" class="create-notification">
+      <b-button id="create-notification" v-b-modal.modalxl2 variant="outline-primary">
+        <font-awesome-icon style="color:#14AABF" :icon="['fas','bell']"/>
+        {{$t('create_notification')}}
+      </b-button>
+    </div>
+
+    <b-tooltip target="create-notification" placement="bottom">{{$t('notification_tooltip')}}</b-tooltip>
+
+    <!-- -->
+
 
     <div id="titlepage">
       <h1>Received Messages</h1>
@@ -77,7 +119,7 @@
         </b-card>
       </div>
     </div>
-
+    <!-- Modal for creating a new message -->
     <div>
       <b-modal id="modalxl" hide-footer ref="newMessage" size="xl" title="Create a message">
         <b-form @submit.prevent>
@@ -103,17 +145,7 @@
           />
           <b-form-text id="bodyHelpBlock">The body of your message, max 1000 characters.</b-form-text>
           <br>
-          <!--
-          <label for="receiver">Receiver</label>
-          <b-input
-            type="text"
-            id="receiver"
-            v-model="form.receiver"
-            aria-describedby="receiverHelpBlock"
-          />
-          <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
-          <br>
-          -->
+
           <label for="receiver">Search receiver</label>
 
           <b-input
@@ -138,7 +170,39 @@
           <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
           <br>
 
-          <b-button class="mt-2" variant="success" block @click="toggleModal">Create message</b-button>
+          <b-button class="mt-2" variant="success" block @click="toggleModalNotification">Create message</b-button>
+        </b-form>
+      </b-modal>
+    </div>
+    <!-- Create a new notification -->
+    <div>
+      <b-modal id="modalxl2" hide-footer ref="newNotification" size="xl" title="Create an email notification to all users">
+        <b-form @submit.prevent>
+          <label for="title">Title</label>
+          <b-input
+            type="text"
+            v-model="form.title"
+            id="title"
+            :state="form.title.length > 0"
+            :maxlength="100"
+            aria-describedby="titleHelpBlock"
+          />
+          <b-form-text id="titleHelpBlock">The main subject of your email notification, max 100 characters.</b-form-text>
+          <br>
+          <label for="body">Body</label>
+          <b-form-textarea
+            type="text"
+            id="body"
+            v-model="form.body"
+            :state="form.body.length > 0"
+            :maxlength="1000"
+            aria-describedby="bodyHelpBlock"
+          />
+          <b-form-text id="bodyHelpBlock">The body of your notification, max 1000 characters.</b-form-text>
+          <br>
+
+
+          <b-button class="mt-2" variant="success" block @click="toggleModalNotification">Create notification</b-button>
         </b-form>
       </b-modal>
     </div>
@@ -173,7 +237,9 @@ export default {
       messages: [],
       modalShow: false,
       submited: false,
-      message: ""
+      submited_notification: false,
+      message: "",
+      user_type: this.$cookies.get("user_type")
     };
   },
   mounted: function() {
@@ -204,6 +270,9 @@ export default {
       });
   },
   methods: {
+    textContains() {
+      return this.message.includes('wrong')
+    },
     itemClicked(index) {
       this.selected = index;
       this.selectItem();
@@ -220,19 +289,6 @@ export default {
       console.log(this.form.receiver);
       document.getElementById("options").style.display = "none";
       this.query = this.form.receiver;
-      //console.log(this.form.receiver.replace(/['"]+/g, ''));
-
-      /*
-      this.users.forEach(element => {
-        console.log(element[this.filterby]);
-        //this.selected
-        //console.log(element);
-        if(element[this.filterby] == this.selectedItem){
-          console.log('jaja');
-        }
-      });
-      */
-      //console.log(this.matches.filter(element => element[this.filterby]));
       this.visible = true;
     },
     changeVisibility() {
@@ -248,9 +304,7 @@ export default {
     reloadPage() {
       window.location.reload();
     },
-
-    createMessage: function() {},
-    toggleModal() {
+    toggleModalMessage() {
       var token = "JWT " + this.$cookies.get("token");
 
       this.messages = [];
@@ -282,7 +336,35 @@ export default {
             this.message = result.data.message;
           });
       }
+    },
+    toggleModalNotification() {    
+      var token = "JWT " + this.$cookies.get("token");
+
+      this.messages = [];
+      if (this.form.title.length < 1) {
+        this.messages.push(this.$t("title_required"));
+      }
+      if (this.form.body.length < 1) {
+        this.messages.push(this.$t("body_required"));
+      }
+      if (this.messages.length > 0) {
+        this.modalShow = true;
+      } else {
+        const formData = new FormData();
+        formData.append("subject", this.form.title);
+        formData.append("body", this.form.body);
+
+        this.$http
+          .post("http://localhost:8000/api/v3/notification", formData, {
+            headers: { Authorization: token }
+          })
+          .then(result => {
+            this.submited_notification = true;
+            this.message = result.data.message;
+          });
+      }
     }
+    
   },
   computed: {
     matches() {
@@ -318,6 +400,14 @@ export default {
   text-align: right;
 }
 #create-message {
+  margin-top: 2em;
+  margin-right: 2em;
+}
+
+.create-notification {
+  text-align: right;
+}
+#create-notification {
   margin-top: 2em;
   margin-right: 2em;
 }

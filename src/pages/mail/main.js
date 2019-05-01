@@ -9,10 +9,10 @@ import VueParticles from 'vue-particles'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBell, faComments} from '@fortawesome/free-solid-svg-icons'
+import { faBell, faComments, faEnvelope} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faBell, faComments)
+library.add(faBell, faComments, faEnvelope)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

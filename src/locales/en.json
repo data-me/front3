@@ -177,5 +177,10 @@
   "cookie_message": "Our website uses cookies in order to work properly. We do not use any third-party cookies nor we use it to track you. By opting out you will be redirected to the previous site.",
   "learn_more_cookies": "Learn more...",
   "opt_out_cookies": "Reject",
-  "accept_cookies": "Accept"
+  "accept_cookies": "Accept",
+  "notification_sent": "Your message is being sent to the website users they will receive the notification shortly.",
+  "failed": "We are sorry, there was a problem",
+  "create_notification": "Create a new notification",
+  "create_message": "Create a new message",
+  "notification_tooltip": "This notification is sent via email to all users in this application and it is intended for notifying users of security breaches in our website"
 }
