@@ -154,19 +154,17 @@
         <br>
       </div>
 
-      <div id="email" v-if="selected ==='DataScientist'">
-        <label for="email">{{$t('email')}}</label>
-        <b-input
-          type="email"
-          id="text"
-          v-model="form.email"
-          aria-describedby="emailHelpBlock"
-          :state="form.email.length > 0 && new RegExp(/\S+@\S+\.\S+/).test(this.form.email)"
-          :maxlength="80"
-        />
-        <b-form-text id="emailHelpBlock">{{$t('write_email')}}</b-form-text>
-        <br>
-      </div>
+      <label for="email">{{$t('email')}}</label>
+      <b-input
+        type="email"
+        id="text"
+        v-model="form.email"
+        aria-describedby="emailHelpBlock"
+        :state="form.email.length > 0 && new RegExp(/\S+@\S+\.\S+/).test(this.form.email)"
+        :maxlength="80"
+      />
+      <b-form-text id="emailHelpBlock">{{$t('write_email')}}</b-form-text>
+      <br>
 
       <div id="address" v-if="selected ==='DataScientist'">
         <label for="address">{{$t('address')}}</label>
@@ -392,6 +390,7 @@ export default {
           formData.append("type", "C");
           formData.append("nif", this.form.nif);
           formData.append("logo", this.form.logo);
+          formData.append("email", this.form.email);
           formData.append("description", this.form.description);
         } else {
           formData.append("type", "DS");
