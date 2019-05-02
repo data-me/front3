@@ -2,7 +2,7 @@
     <div class="advertisement">
         <span class="ads_disclaimer">{{$t('advertisement')}}</span>
         <a :href="ad_url" target="_blank">
-            <b-img class="advertisement-image" center :src="ad_img"/>
+            <b-img class="advertisement-image" alt="Ad image" center :src="ad_img"/>
         </a>
     </div>
 </template>

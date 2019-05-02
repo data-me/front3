@@ -2,7 +2,7 @@
   <div id="nav">
     <b-navbar class="custom-nav" toggleable="lg"  :sticky="true">
       <b-navbar-brand href="/">
-        <img id="DataMe-brand" src="https://data-me.github.io/img/branding/DataMe-brand.png">
+        <img id="DataMe-brand" alt="DataMe Logo" src="https://data-me.github.io/img/branding/DataMe-brand.png">
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
