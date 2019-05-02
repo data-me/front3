@@ -35,15 +35,13 @@
       :debug="false"
       :position="'bottom'"
       :type="'bar'"
-      :disableDecline="false"
+      :disableDecline="true"
       :transitionName="'slideFromBottom'"
       :showPostponeButton="false"
       @status="cookieStatus"
       @clicked-decline="cookieClickedDecline"
     >
-      <!-- Optional -->
-      <div slot="postponeContent">&times;</div>
-
+      
       <!-- Optional -->
       <div slot="message">
         {{$t('cookie_message')}}
