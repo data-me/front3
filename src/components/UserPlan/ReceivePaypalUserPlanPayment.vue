@@ -40,7 +40,7 @@
             var payerID = paypal_response[2].split("=")[1];
             this.wasPaymenetAccepted = true;
 
-            processPaypalUserPlanPaymentUrl = 'http://localhost:8000/api/v1/pagos/accept_paypal_userPlan_payment?paymentId=' + paymentId + 
+            processPaypalUserPlanPaymentUrl = 'https://api3-datame.herokuapp.com/api/v1/pagos/accept_paypal_userPlan_payment?paymentId=' + paymentId + 
             '&token=' + token_paypal + '&PayerID=' + payerID;
 
             this.$http.get(processPaypalUserPlanPaymentUrl, { headers: { Authorization: token } })

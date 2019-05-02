@@ -158,7 +158,7 @@ export default {
     this.$i18n.locale = lang;
 
     this.$http
-      .get("http://localhost:8000/api/v1/submit", {
+      .get("https://api3-datame.herokuapp.com/api/v1/submit", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -166,7 +166,7 @@ export default {
       });
 
     this.$http
-      .get("http://localhost:8000/api/v3/data/get_user_reviews", {
+      .get("https://api3-datame.herokuapp.com/api/v3/data/get_user_reviews", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -199,7 +199,7 @@ export default {
       formData.append("comments", this.reviewForm.comments);
       formData.append("reviewedId", this.reviewForm.reviewedId);
       this.$http
-        .post("http://localhost:8000/api/v3/data/create_review", formData, {
+        .post("https://api3-datame.herokuapp.com/api/v3/data/create_review", formData, {
           headers: { Authorization: token }
         })
         .then(result => {
@@ -239,7 +239,7 @@ export default {
       }
       formData.append("submitId", id);
       this.$http
-        .post("http://localhost:8000/api/v1/change_status", formData, {
+        .post("https://api3-datame.herokuapp.com/api/v1/change_status", formData, {
           headers: { Authorization: token }
         })
         .then(result => {
