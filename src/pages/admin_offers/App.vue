@@ -1,6 +1,23 @@
 <template>
   <div id="app">
     <Navbar/>
+    <vue-particles
+      color="#22546f"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#37868a"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="1"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    ></vue-particles>
     <div v-bind:key="offer.offer_id" id="offers" v-for="offer in offers">
       <b-card no-body>
         <b-card-header header-tag="header" class="p-3" role="tab">
@@ -47,7 +64,12 @@
             </b-card-text>
 
             <div id="deleteoffer">
-              <b-button variant="danger" class="mt-2" block @click="deleteOffer(offer.offer_id)">{{$t('delete_offer')}}</b-button>
+              <b-button
+                variant="danger"
+                class="mt-2"
+                block
+                @click="deleteOffer(offer.offer_id)"
+              >{{$t('delete_offer')}}</b-button>
             </div>
           </b-card-body>
         </b-collapse>
@@ -91,14 +113,19 @@ export default {
       );
 
       if (confirm) {
-        this.$http.delete(
-          "http://localhost:8000/api/v2/admin/delete_offer/" + offer_id,
-          {
-            headers: {
-              Authorization: token}}).then((result) => {
-              alert(result.data.message)
-              window.location.href = "/admin_offers.html";
-            });
+        this.$http
+          .delete(
+            "http://localhost:8000/api/v2/admin/delete_offer/" + offer_id,
+            {
+              headers: {
+                Authorization: token
+              }
+            }
+          )
+          .then(result => {
+            alert(result.data.message);
+            window.location.href = "/admin_offers.html";
+          });
       }
     }
   }
@@ -133,5 +160,14 @@ html {
 #search-group {
   margin-left: 15%;
   margin-right: 15%;
+}
+
+#particles-js {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

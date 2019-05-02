@@ -14,13 +14,22 @@
           <b-nav-item v-show="isLoggedIn && (isDataScientist || isCompany)" href="/explore.html">{{ $t('offers') }}</b-nav-item>
           <b-nav-item v-show="isCompany && isLoggedIn" href="/companies.html">{{ $t('profile') }}</b-nav-item>
           <!-- <b-nav-item href="#">Pricing</b-nav-item> -->
-          <b-nav-item v-show="isLoggedIn" href="/mail.html">{{ $t('mail') }}</b-nav-item>
+
+          <b-nav-item v-show="isLoggedIn" href="/mail.html">
+         {{ $t('mail') }} <span v-if="unviewedMessages != 0" id ="notification"> {{" " + unviewedMessages + " "}} </span>
+ 
+          
+          
+          </b-nav-item>
+
+
           <!--<div v-if="user_type === 'ds'">-->
           <b-nav-item v-show="isDataScientist && isLoggedIn" href="/my_cv.html">{{ $t('profile') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/dashboard.html">{{ $t('dashboard') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/admin_offers.html" >{{ $t('manage_offers') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/manage_users.html" >Manage Users</b-nav-item>
-
+          
+          <b-nav-item v-show="isLoggedIn" href="/ranking.html" >Ranking</b-nav-item>
 
           <b-nav-item href="/submition.html" v-show="isDataScientist && isLoggedIn">{{ $t('my_submitions') }}</b-nav-item>
           <b-nav-item href="/submition.html" v-show="isCompany && isLoggedIn">{{ $t('recieved_submitions') }}</b-nav-item>
@@ -66,11 +75,25 @@ export default {
       isAdmin: this.$cookies.get("user_type") === "admin",
       isLoggedIn: null,
       langs: ["English 🇬🇧", "Español 🇪🇸"],
-      language: this.$t.lang
+      language: this.$t.lang,
+      unviewedMessages: 0,
     };
   },
   mounted: function() {
     //var token = 'JWT ' + this.$cookies.get('token')
+
+       if (this.getCookie("token")) {
+        var token = 'JWT ' + this.$cookies.get('token')
+        
+        this.$http.get('http://localhost:8000/api/v3/unvieweds',{ headers:
+        { Authorization: token }
+        }).then((result) => {
+            
+            this.unviewedMessages = result.data.message
+        })
+
+
+     }
 
     if (this.getCookie("user_type") == "com") {
       this.isCompany = true;
@@ -79,6 +102,9 @@ export default {
     } else if (this.getCookie("user_type") == "admin") {
       this.isAdmin = true;
     }
+
+  
+
   },
   created: function() {
     if (this.getCookie("token")) {
@@ -148,6 +174,13 @@ export default {
     display: block !important;
     margin-top:0.5rem;
   }
+}
+#notification{
+    background: blue;
+    color: white;
+    border-radius: 60%;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 

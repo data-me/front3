@@ -2,6 +2,24 @@
   <div id="app">
     <Navbar/>
 
+    <vue-particles
+      color="#22546f"
+      :particleOpacity="0.7"
+      :particlesNumber="80"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#37868a"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="150"
+      :moveSpeed="1"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+    ></vue-particles>
+
     <br>
 
     <b-modal
@@ -14,12 +32,16 @@
       title="submited"
     >
       <template slot="modal-header">{{this.message}}</template>
-      <b-button v-if="message.length" class="mt-2" variant="outline-info" block @click="reloadPage">{{$t('close')}}</b-button>
+      <b-button
+        v-if="message.length"
+        class="mt-2"
+        variant="outline-info"
+        block
+        @click="reloadPage"
+      >{{$t('close')}}</b-button>
     </b-modal>
 
-
-
-        <b-modal
+    <b-modal
       class="registered"
       v-model="reviewPopup"
       ref="reviewMopup"
@@ -28,31 +50,22 @@
       size="xl"
       title="submited"
     >
-
-
-
-          <b-form @submit.prevent>
-              <label for="type">{{$t('score')}}</label>
-              <br>
-             <b-form-input type="number" id="score" v-model="reviewForm.score" max="5"/>
-            <label for="type">{{$t('comments')}}</label>
-              <br>
-             <b-form-textarea type="text" id="comments" v-model="reviewForm.comments" />
-              <b-button
-                type="submit"
-                class="mt-2"
-                variant="success"
-                block
-                @click="createReview()"
-              >{{$t('save_changes')}}</b-button>
-            </b-form>
-
-
+      <b-form @submit.prevent>
+        <label for="type">{{$t('score')}}</label>
+        <br>
+        <b-form-input type="number" id="score" v-model="reviewForm.score" max="5"/>
+        <label for="type">{{$t('comments')}}</label>
+        <br>
+        <b-form-textarea type="text" id="comments" v-model="reviewForm.comments"/>
+        <b-button
+          type="submit"
+          class="mt-2"
+          variant="success"
+          block
+          @click="createReview()"
+        >{{$t('save_changes')}}</b-button>
+      </b-form>
     </b-modal>
-
-
-
-
 
     <!-- Show submitions -->
     <div v-bind:key="item.id" id="applications" v-for="(item, index) in items">
@@ -79,19 +92,21 @@
               <span class="font-weight-bold">{{$t('file')}}:</span>
               {{item.file}}
             </b-card-text>
-             <b-button v-if="item.status != 'SU' && canDoAReview == true && user_type =='com' "
-                class="mt-2"
-                variant="success"
-                block
-                @click="reviewPopup = true"
-              >{{$t('make_review_ds')}}</b-button>
+            <b-button
+              v-if="item.status != 'SU' && canDoAReview == true && user_type =='com' "
+              class="mt-2"
+              variant="success"
+              block
+              @click="reviewPopup = true"
+            >{{$t('make_review_ds')}}</b-button>
 
-              <b-button v-if="item.status != 'SU' && canDoAReview == true && user_type =='ds' "
-                class="mt-2"
-                variant="success"
-                block
-                @click="reviewPopup = true"
-              >{{$t('make_review_com')}}</b-button>
+            <b-button
+              v-if="item.status != 'SU' && canDoAReview == true && user_type =='ds' "
+              class="mt-2"
+              variant="success"
+              block
+              @click="reviewPopup = true"
+            >{{$t('make_review_com')}}</b-button>
 
             <b-form v-if="user_type == 'com' && item.status == 'SU'" @submit.prevent>
               <label for="type">{{$t('change_status')}}</label>
@@ -112,6 +127,10 @@
         </b-collapse>
       </b-card>
     </div>
+        <!-- Empty items -->
+    <div v-if="itemsCargados == true && (items == none || items.length == 0)">
+       <h2 id="NadaQueMostrar"> {{$t('nothing_to_show')}} </h2>
+    </div>
 
     <Footer/>
   </div>
@@ -131,7 +150,7 @@ export default {
   data() {
     return {
       items: [],
-      usersReviewed:[],
+      usersReviewed: [],
       url: "",
       messages: [],
       modalShow: "false",
@@ -140,24 +159,24 @@ export default {
       message: "",
       selected: "Accepted",
       reviewPopup: false,
-      reviewForm:{
-          reviewedId:"",
-          comments:"",
-          score:"5",
+      reviewForm: {
+        reviewedId: "",
+        comments: "",
+        score: "5"
       },
-      canDoAReview:true
+      canDoAReview: true,
+      itemsCargados: false,
     };
   },
   mounted: function() {
+    var lang;
 
-    var lang
-
-    if (this.$cookies.get('lang')) {
-       lang = this.$cookies.get('lang')
+    if (this.$cookies.get("lang")) {
+      lang = this.$cookies.get("lang");
     } else {
-        lang = 'en'
+      lang = "en";
     }
-    this.$i18n.locale = lang
+    this.$i18n.locale = lang;
 
     var token = "JWT " + this.$cookies.get("token");
     var lang;
@@ -175,46 +194,44 @@ export default {
       })
       .then(result => {
         this.items = result.data;
+        this.itemsCargados = true;
       });
 
-     this.$http
+    this.$http
       .get("http://localhost:8000/api/v3/data/get_user_reviews", {
         headers: { Authorization: token }
       })
       .then(result => {
         this.usersReviewed = result.data;
       });
-
   },
   methods: {
     reloadPage() {
       window.location.reload();
     },
-    prepareReviewPopup(idDs, idCom){
-        this.canDoAReview = true
-        if(this.user_type == 'com'){
-        this.reviewForm.reviewedId = idDs
-        for (var i = 0; i < this.usersReviewed.length; i++){ 
-         if (this.usersReviewed[i].reviewed_id == idDs){
-             this.canDoAReview = false
-             break
-         }
+    prepareReviewPopup(idDs, idCom) {
+      this.canDoAReview = true;
+      if (this.user_type == "com") {
+        this.reviewForm.reviewedId = idDs;
+        for (var i = 0; i < this.usersReviewed.length; i++) {
+          if (this.usersReviewed[i].reviewed_id == idDs) {
+            this.canDoAReview = false;
+            break;
+          }
         }
-        } else{
-        this.reviewForm.reviewedId = idCom   
-        for (var i = 0; i < this.usersReviewed.length; i++){
-         if (this.usersReviewed[i].reviewed_id == idCom){
-             this.canDoAReview = false
-             break
-         }
+      } else {
+        this.reviewForm.reviewedId = idCom;
+        for (var i = 0; i < this.usersReviewed.length; i++) {
+          if (this.usersReviewed[i].reviewed_id == idCom) {
+            this.canDoAReview = false;
+            break;
+          }
         }
-        }
-        
-
+      }
     },
-    createReview(){
-      this.errorMessage = ""
-      this.message = ""
+    createReview() {
+      this.errorMessage = "";
+      this.message = "";
       var token = "JWT " + this.$cookies.get("token");
       const formData = new FormData();
       formData.append("score", this.reviewForm.score);
@@ -225,10 +242,9 @@ export default {
           headers: { Authorization: token }
         })
         .then(result => {
-          this.message = result.data.message
-          this.submited = true
+          this.message = result.data.message;
+          this.submited = true;
         });
-
     },
     forceFileDownload(response) {
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -250,8 +266,8 @@ export default {
         .catch(e => alert("error occured" + e));
     },
     changeStatus(id) {
-      this.errorMessage = ""
-      this.message = ""
+      this.errorMessage = "";
+      this.message = "";
       var token = "JWT " + this.$cookies.get("token");
       const formData = new FormData();
 
@@ -313,4 +329,20 @@ html {
   margin-left: 15%;
   margin-right: 15%;
 }
+
+#particles-js {
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#NadaQueMostrar{
+    color: blue;
+    margin-top: 10%;
+    text-align: center;
+}
+
 </style>
