@@ -183,5 +183,6 @@
   "create_notification": "Crear una nueva notificación",
   "create_message": "Crear un nuevo mensaje",
   "notification_tooltip": "Esta notificación es enviada a todos los usuarios de la aplicación via email, su uso está destinado para notificar brechas de seguridad en el sistema",
-   "nothing_to_show": "�Lo sentimos! Ahora mismo no hay nada para mostrar..."
+   "nothing_to_show": "�Lo sentimos! Ahora mismo no hay nada para mostrar...",
+   "num_applicantions": "Candidatos"
 }

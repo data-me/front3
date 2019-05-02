@@ -68,6 +68,7 @@
         <b-card-header header-tag="header" class="p-3" role="tab">
           <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary">
               <div id="OfferTittle" style="Float: 'left'">{{item.title}} </div>
+              <div id="OfferNOfApplications">{{item.num_applicantions}} {{$t('num_applicantions')}}</div>
               <div id="OfferPrice">{{item.price_offered + '€'}} </div>
               </b-button>
         </b-card-header>
@@ -620,6 +621,12 @@ html {
     float:right;
     margin-right: 2%;
 }
+
+#OfferNOfApplications{
+    float:right;
+    margin-right: 2%;
+}
+
 #NadaQueMostrar{
     color: blue;
     margin-top: 10%;
