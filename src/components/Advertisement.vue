@@ -1,7 +1,7 @@
 <template>
     <div>
         <a :href="ad_url">
-            <b-img class="advertisement" center :src="ad_img" alt="Advertisement"></b-img>
+            <b-img class="advertisement" center :src="ad_img" alt="Advertisement"/>
         </a>
     </div>
 </template>
@@ -46,7 +46,7 @@ export default {
         ad_selected = ads[Math.floor(random * ads.length)];
 
         ad_selected_image = ad_selected["ad_img"];
-        ad_selected_url = ad_selected_image["ad_url"];
+        ad_selected_url = ad_selected["ad_url"];
       }else{
         ad_selected_image = "https://data-me.github.io/img/branding/DataMe-brand.png";
         ad_selected_url = "https://data-me.github.io/"
@@ -54,6 +54,7 @@ export default {
 
       this.ad_img = ad_selected_image;
       this.ad_url = ad_selected_url;
+
   }
 }
 </script>
