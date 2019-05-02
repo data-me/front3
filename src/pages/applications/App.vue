@@ -218,10 +218,10 @@ export default {
           }
         )
         .then(result => {
-          this.user = result.data;
+          this.user = result.data[0]
           this.name = this.user.name;
           this.surname = this.user.surname;
-          this.email = this.user.email;
+          this.email = this.user.user__email;
           this.phone = this.user.phone;
           this.photo = this.user.photo;
           this.address = this.user.address;

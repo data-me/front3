@@ -361,10 +361,10 @@ export default {
         headers: { Authorization: token }
       })
       .then(result => {
-        this.user = result.data;
+        this.user = result.data[0];
         this.form.name = this.user.name;
         this.form.surname = this.user.surname;
-        this.form.email = this.user.email;
+        this.form.email = this.user.user__email;
         this.form.phone = this.user.phone;
         this.form.photo = this.user.photo;
         this.form.address = this.user.address;

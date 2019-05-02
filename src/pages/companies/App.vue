@@ -78,7 +78,7 @@
               type="text"
               v-model="form.name"
               id="name"
-              :state="this.form.name.length > 0"
+              :state="form.name.length > 0"
               :maxlength="200"
               aria-describedby="fileHelpBlock"
             />
@@ -89,7 +89,7 @@
               type="text"
               v-model="form.description"
               id="description"
-              :state="this.form.description.length > 0"
+              :state="form.description.length > 0"
               :maxlength="50"
               aria-describedby="fileHelpBlock"
             />
@@ -185,7 +185,7 @@ export default {
         headers: { Authorization: token }
       })
       .then(result => {
-        this.user = result.data;
+        this.user = result.data[0];
         this.form.name = this.user.name;
         this.form.description = this.user.description;
         this.form.logo = this.user.logo;
