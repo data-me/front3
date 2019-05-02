@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <a :href="ad_url">
-            <b-img class="advertisement" center :src="ad_img" alt="Advertisement"/>
+    <div class="advertisement">
+        <span class="ads_disclaimer">{{$t('advertisement')}}</span>
+        <a :href="ad_url" target="_blank">
+            <b-img class="advertisement-image" center :src="ad_img"/>
         </a>
     </div>
 </template>
@@ -60,7 +61,16 @@ export default {
 </script>
 
 <style>
-.advertisement{
-    height: 150px;
+div.advertisement{
+    position: relative;
+    z-index: 999;
+    
+}
+
+.advertisement-image{
+    height: 175px;
+}
+span.ads_disclaimer{
+    font: 10px/1 "Open Sans",Arial,sans-serif !important;
 }
 </style>
