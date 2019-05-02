@@ -8,6 +8,9 @@
         <h1 class="title">{{$t('home_message')}}</h1>
       </div>
     </div>
+
+    <advertisement/>
+    
     <vue-particles
       color="#22546f"
       :particleOpacity="0.7"
@@ -61,12 +64,14 @@
 <script>
 import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
+import Advertisement from "../../components/Advertisement.vue";
 
 export default {
   name: "app",
   components: {
     Navbar,
-    Footer
+    Footer,
+    Advertisement
   },
   mounted: function() {
     var lang;
