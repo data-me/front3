@@ -113,6 +113,10 @@
         </b-collapse>
       </b-card>
     </div>
+
+
+  <advertisement/>
+
     <!-- ////// -->
     <!-- Empty items -->
     <div v-if="itemsCargados == true && (items == none || items.length == 0)">
@@ -264,11 +268,13 @@
 <script>
 import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
+import Advertisement from "../../components/Advertisement.vue";
 export default {
   name: "app",
   components: {
     Navbar,
-    Footer
+    Footer,
+    Advertisement
   },
   computed: {
     tittleApply() {

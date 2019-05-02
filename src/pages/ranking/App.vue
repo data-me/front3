@@ -29,10 +29,15 @@
               </b-card-body>
       </div>
 
+      <advertisement/>
+
+
           <!-- Empty items -->
     <div v-if="itemsCargados1 == true && itemsCargados2 == true && (items == none || items.length == 0)">
        <h2 id="NadaQueMostrar"> {{$t('nothing_to_show')}} </h2>
     </div>
+
+
 
 
     <Footer/>
@@ -42,11 +47,14 @@
 <script>
 import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
+import Advertisement from "../../components/Advertisement.vue";
+
 export default {
   name: "app",
   components: {
     Navbar,
-    Footer
+    Footer,
+    Advertisement
   },
   data() {
     return {

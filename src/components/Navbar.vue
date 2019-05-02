@@ -126,6 +126,7 @@ export default {
     },
     logOut: function() {
       this.setCookie("token", "", -1);
+      this.setCookie("ads", "true");
       window.location.href = "/";
     },
     changeLanguage: function(lang) {
