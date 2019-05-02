@@ -160,7 +160,7 @@
         id="text"
         v-model="form.email"
         aria-describedby="emailHelpBlock"
-        :state="form.email.length > 0 && new RegExp(/\S+@\S+\.\S+/).test(this.form.email)"
+        :state="form.email.length > 0 && new RegExp(/\S+@gmail+\.\S+|\S+@hotmail+\.\S+/).test(this.form.email)"
         :maxlength="80"
       />
       <b-form-text id="emailHelpBlock">{{$t('write_email')}}</b-form-text>
