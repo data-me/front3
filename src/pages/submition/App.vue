@@ -89,8 +89,8 @@
               {{item.status}}
             </b-card-text>
             <b-card-text>
-              <span class="font-weight-bold">{{$t('file')}}:</span>
-              {{item.file}}
+              <span class="font-weight-bold">{{$t('file')}}: </span>
+              <a :href="item.file">{{item.file}}</a>
             </b-card-text>
             <b-button
               v-if="item.status != 'SU' && canDoAReview == true && user_type =='com' "
