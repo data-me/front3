@@ -92,6 +92,9 @@
       </b-form>
     </b-modal>
 
+        <advertisement/>
+
+
     <!-- Modal Pop up showDataScientist -->
     <div>
       <b-modal
@@ -142,13 +145,15 @@
 import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
 import Apply from "../../components/Apply/LoadApply.vue";
+import Advertisement from "../../components/Advertisement.vue";
 
 export default {
   name: "app",
   components: {
     Navbar,
     Footer,
-    Apply
+    Apply,
+    Advertisement
   },
   data() {
     return {

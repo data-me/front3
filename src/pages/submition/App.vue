@@ -67,6 +67,8 @@
       </b-form>
     </b-modal>
 
+    <advertisement/>
+
     <!-- Show submitions -->
     <div v-bind:key="item.id" id="applications" v-for="(item, index) in items">
       <b-card no-body>
@@ -139,12 +141,14 @@
 <script>
 import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
+import Advertisement from "../../components/Advertisement.vue";
 
 export default {
   name: "app",
   components: {
     Navbar,
-    Footer
+    Footer,
+    Advertisement
   },
   computed: {},
   data() {

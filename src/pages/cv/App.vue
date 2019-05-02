@@ -200,6 +200,8 @@
       </div>
     </div>
 
+    <advertisement/>
+
     <b-modal id="edit-wryyyy" hide-footer centered :title="$t('edit_item')">
       <div id="formDiobrando">
         <b-form @submit.prevent>
@@ -322,6 +324,7 @@ import CreateItemSection from "../../components/Curriculum/CreateItemSection.vue
 import CreateSection from "../../components/Curriculum/CreateSection.vue";
 import DeleteMeButton from "../../components/Users/DeleteMeButton.vue";
 import jsPDF from "jspdf";
+import Advertisement from "../../components/Advertisement.vue";
 
 export default {
   name: "app",
@@ -330,7 +333,8 @@ export default {
     Footer,
     CreateItemSection,
     CreateSection,
-    DeleteMeButton
+    DeleteMeButton,
+    Advertisement
   },
   data() {
     return {

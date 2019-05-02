@@ -95,6 +95,7 @@ export default {
             })
             .then(result => {
               this.$cookies.set("user_type", result.data.user_type);
+              this.$cookies.set("ads", result.data.ads);
               this.showNavbar = true;
               window.location.href = "/";
             });

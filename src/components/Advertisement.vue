@@ -1,9 +1,10 @@
 <template>
-    <div class="advertisement">
+    <div class="advertisement" v-if="this.$cookies.get('ads') == 'true'">
         <span class="ads_disclaimer">{{$t('advertisement')}}</span>
         <a :href="ad_url" target="_blank">
             <b-img class="advertisement-image" center :src="ad_img"/>
         </a>
+        <input class="close_add" type="button" onclick="document.getElementsByClassName('advertisement')[0].style.display='none';" value="Close ad" />
     </div>
 </template>
 <script>
@@ -17,17 +18,17 @@ export default {
         ad_img: "",
         ads_items: [
             {
-                ad_img: "https://cdn.technologyadvice.com/wp-content/uploads/2013/10/Google-Logo-600x150.jpg",
-                ad_url: "https://www.google.com/",
+                ad_img: "https://www.todotaladros.com/img/cms/Blog/Amazon%20fraudes/Banner-Amazon-fraudes-blog.jpg",
+                ad_url: "https://www.amazon.es/",
             },
 
             {
                 ad_img: "https://technuggets.biz/wp-content/uploads/2018/09/Tech-Nuggets-thinkpad-e580-business-laptop_banner.jpg",
-                ad_url: "https://duckduckgo.com/",
+                ad_url: "https://www.lenovo.com/es/es/laptops/thinkpad/c/THINKPAD",
             },
             {
                 ad_img: "https://searchengineland.com/figz/wp-content/seloads/2015/12/duckduckgo-logo-wordmark4-1920-800x450.png",
-                ad_url: "https://www.lenovo.com/es/es/laptops/thinkpad/c/THINKPAD",
+                ad_url: "https://duckduckgo.com/",
             },
             {
                 ad_img: "https://developers.redhat.com/blog/wp-content/uploads/2018/04/Join-me-at-Red-Hat-Summit.png",
@@ -64,6 +65,8 @@ export default {
 div.advertisement{
     position: relative;
     z-index: 999;
+    /*float:center;*/
+    text-align: center;
     
 }
 
@@ -72,5 +75,13 @@ div.advertisement{
 }
 span.ads_disclaimer{
     font: 10px/1 "Open Sans",Arial,sans-serif !important;
+}
+
+
+div.advertisement input.close_add {
+    position:relative;
+    top:0;
+    left:0%;
+
 }
 </style>
