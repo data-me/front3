@@ -73,6 +73,7 @@
           variant="success"
           block
           v-b-modal.new-new-section
+         :disabled="section_names_is_empty"
         >{{$t("add_section")}}</b-button>
         <b-button class="mt-1" variant="primary" block v-b-modal.export>{{$t('export')}}</b-button>
       </div>
@@ -357,8 +358,14 @@ export default {
       messages: [],
       updatedMessage: "",
       language: this.$cookies.get("lang"),
-      modalShow: false
+      modalShow: false,
+      section_names: [],
     };
+  },
+  computed: {
+    section_names_is_empty: function() {
+      return this.section_names == undefined || this.section_names.length <= 0;
+    }
   },
   mounted: function() {
     var token = "JWT " + this.$cookies.get("token");
@@ -376,6 +383,14 @@ export default {
         this.form.photo = this.user.photo;
         this.form.address = this.user.address;
       });
+
+    this.$http.get('http://localhost:8000/api/v3/section_names_available',{ headers:
+    { Authorization: token }
+    }).then(result => {
+        this.section_names = result.data;
+      });
+
+
     this.$http
       .get("http://localhost:8000/api/v1/cv", {
         headers: { Authorization: token }
