@@ -111,7 +111,7 @@
   "photo": "Photo",
   "photo_help": "Write a URL with a photo",
   "email": "Email",
-  "write_email": "Write your email",
+  "write_email": "Write your email (Using a Gmail or Hotmail account)",
   "address": "Address",
   "write_address": "Write your address",
   "phone": "Phone",
