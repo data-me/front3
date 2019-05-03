@@ -1,10 +1,10 @@
 <template>
   <div class="user-plan-form">
     <h4>{{$t('upgrade_to_PRO')}}</h4>
-    <b-button v-b-modal.user-plan-form>{{$t('upgrade')}}</b-button>
+    <b-button @click="modaluserPlanFormShow = !modaluserPlanFormShow">{{$t('upgrade')}}</b-button>
 
 
-    <b-modal id="user-plan-form" hide-footer size="x1" :title="$t('upgrade_user_plan')">
+    <b-modal hide-footer v-model="modaluserPlanFormShow" id="user-plan-form" size="x1" :title="$t('upgrade_user_plan')">
       <b-form  @submit.prevent @submit="onSubmit">
         <b-container fluid>
           <b-col sm="9">
@@ -22,7 +22,7 @@
               {{$t('user_plan_nmonths_warning')}}
             </b-form-invalid-feedback>
             <br/>
-            <b-button v-b-modal.user-plan-form class="send-button" type="submit" variant="primary">{{$t('send')}}</b-button>
+            <b-button @click="modaluserPlanFormShow = !modaluserPlanFormShow" class="send-button" type="submit" variant="primary">{{$t('send')}}</b-button>
           </b-col>
         </b-container>
       </b-form>
@@ -41,6 +41,7 @@
         userPlanForm: {
           nMonths:'1',
         },
+        modaluserPlanFormShow: false,
         redirect_url : '',
       }
     },
