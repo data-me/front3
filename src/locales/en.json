@@ -197,7 +197,6 @@
   "search_receiver": "Search receiver",
   "message_receiver_helpblock": "The username of the receiver of your message.",
   "message_create": "Create message",
-  "message_receiver_placeholder": "Start typing the username"
-  "advertisement": "Advertisement",
+  "message_receiver_placeholder": "Start typing the username",
   "terms": "terms and conditions"
 }
