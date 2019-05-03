@@ -356,8 +356,7 @@ export default {
   mounted: function() {
     var token = "JWT " + this.$cookies.get("token");
 
-    this.$http
-      .get("http://localhost:8000/api/v2/get_user_logged", {
+    this.$http.get("http://localhost:8000/api/v2/get_user_logged", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -576,7 +575,7 @@ export default {
 
         doc.setFontSize(15);
 
-        doc.text(email + user.email, 10, 20);
+        doc.text(email + user.user__email, 10, 20);
 
         // Adding address
 
@@ -621,7 +620,7 @@ export default {
           ",surname:" +
           user.surname +
           ",email:" +
-          user.email +
+          user.user__email +
           ",photo:" +
           user.photo +
           ",address:" +

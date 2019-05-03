@@ -253,12 +253,6 @@ export default {
 
         doc.text(items[0].name.toUpperCase(), 10, 10);
 
-        // Adding NIF of the company
-
-        doc.setFontSize(15);
-
-        doc.text("NIF: " + items[0].nif, 50, 10);
-
         // Adding description of the company
 
         doc.setFontSize(14);
@@ -276,6 +270,10 @@ export default {
 
         doc.text(lMargin, 20, lines);
 
+        // Adding NIF of the company
+
+        doc.text("NIF: " + items[0].nif, 10, 50);
+
         // Adding logo
 
         doc.setFontSize(10);
@@ -284,7 +282,7 @@ export default {
 
         var lines = doc.splitTextToSize(logo, pdfInMM - lMargin - rMargin);
 
-        doc.text(lMargin, 40, logo);
+        doc.text(lMargin, 60, logo);
 
         // Saving PDF
         doc.save(pdfName + ".pdf");
