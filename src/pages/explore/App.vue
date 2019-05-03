@@ -334,7 +334,7 @@ export default {
           var paymentId = respuesta_paypal[0].split("=")[1];
           var token_paypal = respuesta_paypal[1].split("=")[1];
           var payerID = respuesta_paypal[2].split("=")[1];
-          var url_guarda_pagos = `https://api3-datame.herokuapp.com/api/v1/pagos/accept_paypal_payment/${paymentId}/${token_paypal}/${payerID}/`;
+          var url_guarda_pagos = `http://localhost:8000/api/v1/pagos/accept_paypal_payment/${paymentId}/${token_paypal}/${payerID}/`;
           this.$http
             .get(url_guarda_pagos, { headers: { Authorization: token } })
             .then(result => {
@@ -343,7 +343,7 @@ export default {
               // Hago la llamada para obtener las offers con la nueva offer dentro
               var token = "JWT " + this.$cookies.get("token");
               this.$http
-                .get("https://api3-datame.herokuapp.com/api/v1/offer", {
+                .get("http://localhost:8000/api/v1/offer", {
                   headers: { Authorization: token }
                 })
                 .then(result => {
@@ -356,7 +356,7 @@ export default {
         // Hago una llamada normal para que me las de
         var token = "JWT " + this.$cookies.get("token");
         this.$http
-          .get("https://api3-datame.herokuapp.com/api/v1/offer", {
+          .get("http://localhost:8000/api/v1/offer", {
             headers: { Authorization: token }
           })
           .then(result => {
@@ -368,7 +368,7 @@ export default {
       // Hago una llamada para que me las de siendo DS. Porque no soy company
       var token = "JWT " + this.$cookies.get("token");
       this.$http
-        .get("https://api3-datame.herokuapp.com/api/v1/offer", {
+        .get("http://localhost:8000/api/v1/offer", {
           headers: { Authorization: token }
         })
         .then(result => {
@@ -380,7 +380,7 @@ export default {
     //este es el endpoint que devuelve las applications que tiene una oferta pero tengo el mismo problema
     //que para el edit, que no consigo pasarle la oferta. offerId está vacía
     this.$http
-      .get("https://api3-datame.herokuapp.com/api/v2/applicationsOfOffer/" + offerId, {
+      .get("http://localhost:8000/api/v2/applicationsOfOffer/" + offerId, {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -402,7 +402,7 @@ export default {
           formApply.append("description", this.formApply.description);
           formApply.append("offerId", this.offerId);
           this.$http
-            .post("https://api3-datame.herokuapp.com/api/v1/apply", formApply, {
+            .post("http://localhost:8000/api/v1/apply", formApply, {
               headers: { Authorization: token }
             })
             .then(result => {
@@ -472,7 +472,7 @@ export default {
         formData.append("files", this.form.files);
         formData.append("contract", this.form.contract);
         this.$http
-          .post("https://api3-datame.herokuapp.com/api/v1/offer", formData, {
+          .post("http://localhost:8000/api/v1/offer", formData, {
             headers: { Authorization: token }
           })
           .then(result => {
@@ -480,7 +480,7 @@ export default {
             var offer_created = result.data.offer_id;
             this.$http
               .get(
-                `https://api3-datame.herokuapp.com/api/v1/pagos/create_papyal_payment/${offer_created}/`,
+                `http://localhost:8000/api/v1/pagos/create_papyal_payment/${offer_created}/`,
                 { headers: { Authorization: token } }
               )
               .then(result => {
@@ -494,7 +494,7 @@ export default {
       var confirm = window.confirm(text);
       if (confirm) {
         this.$http
-          .delete("https://api3-datame.herokuapp.com/api/v1/company/offer/" + id, {
+          .delete("http://localhost:8000/api/v1/company/offer/" + id, {
             headers: {
               Authorization: token
             }
@@ -517,7 +517,7 @@ export default {
         (search_date == "" || search_date == undefined)
       ) {
         this.$http
-          .get(`https://api3-datame.herokuapp.com/api/v1/offer`, {
+          .get(`http://localhost:8000/api/v1/offer`, {
             headers: { Authorization: token }
           })
           .then(result => {
@@ -526,7 +526,7 @@ export default {
       } else {
         this.$http
           .get(
-            `https://api3-datame.herokuapp.com/api/v1/offer?search_title=${
+            `http://localhost:8000/api/v1/offer?search_title=${
               this.form.search_title
             }&search_price=${this.form.search_price}&search_date=${
               this.form.search_date
@@ -545,7 +545,7 @@ export default {
       formData.append("description", this.formEdit.description);
       this.$http
         .post(
-          "https://api3-datame.herokuapp.com/api/v2/change_offer/" + this.offerId,
+          "http://localhost:8000/api/v2/change_offer/" + this.offerId,
           formData,
           { headers: { Authorization: token } }
         )
