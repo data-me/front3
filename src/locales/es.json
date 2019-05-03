@@ -206,5 +206,6 @@
   "user_plan_nmonths_warning": "No es posible pagar con una antelación de más de 24 meses o menos de 1",
   "price": "Precio",
   "price_per_month": "5 EUR per month",
-  "upgrade": "Suscribir"
+  "upgrade": "Suscribir",
+  "manage_users": "Gestionar usuarios"
 }

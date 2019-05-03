@@ -206,5 +206,6 @@
   "user_plan_nmonths_warning": "You cannot pay more than 24 month in advance or less than 1",
   "price": "Price",
   "price_per_month": "5 EUR per month",
-  "upgrade": "Upgrade"
+  "upgrade": "Upgrade",
+  "manage_users": "Manage Users"
 }
