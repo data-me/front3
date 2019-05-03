@@ -226,7 +226,7 @@
               type="text"
               v-model="formDiobrando.date_start"
               id="date_start"
-              :state="this.formDiobrando.date_start.length > 0"
+              :state="this.formDiobrando.date_start.length > 0 && new Date(this.formDiobrando.date_start) < new Date() && (this.formDiobrando.date_finish.length == 0 || (this.formDiobrando.date_finish.length != 0 && new Date(this.formDiobrando.date_finish) > new Date(this.formDiobrando.date_start))) "
               :maxlength="200"
               aria-describedby="fileHelpBlock"
             />
@@ -236,6 +236,8 @@
             <b-input
               type="text"
               v-model="formDiobrando.date_finish"
+              :state="this.formDiobrando.date_start.length == 0 || (new Date(this.formDiobrando.date_finish) < new Date() && (new Date(this.formDiobrando.date_finish) > new Date(this.formDiobrando.date_start))) "
+
               id="date_finish"
               :maxlength="200"
               aria-describedby="fileHelpBlock"
@@ -440,6 +442,8 @@ export default {
       var token = "JWT " + this.$cookies.get("token");
       const formData = new FormData();
       this.messages = [];
+      var now = new Date();
+      var dateStart = new Date(this.formDiobrando.date_start)
       if (this.formDiobrando.name.length == 0) {
         if (this.language == "en") {
           this.messages.push("Name is required");
@@ -468,6 +472,35 @@ export default {
           this.messages.push("la fecha de inicio es requerida");
         }
       }
+      if (this.formDiobrando.date_finish.length != 0) {
+          var dateEnd = new Date(this.formDiobrando.date_finish)
+    
+        if (dateEnd > now){
+             if (this.language == "en") {
+          this.messages.push("The finish date must be past");
+        } else {
+          this.messages.push("la fecha de fin debe de ser en pasado");
+        }
+        }
+
+        if (dateEnd < dateStart){
+             if (this.language == "en") {
+          this.messages.push("The finish date must be after start date");
+        } else {
+          this.messages.push("la fecha de fin debe de ser despues de la fecha de inicio");
+        }
+        }
+
+      }
+
+      
+        if (dateStart > now){
+             if (this.language == "en") {
+          this.messages.push("Starting date must be past");
+        } else {
+          this.messages.push("la fecha de inicio debe de ser en pasado");
+        }
+        }
       if (!/^\d{4}[-]\d{2}[-]\d{2}/.test(this.formDiobrando.date_start)) {
         if (this.language == "en") {
           this.messages.push(
@@ -484,6 +517,8 @@ export default {
         formData.append("description", this.formDiobrando.description);
         formData.append("entity", this.formDiobrando.entity);
         formData.append("datestart", this.formDiobrando.date_start);
+        if(this.formDiobrando.date_finish.length == 0){
+        }
         formData.append("datefinish", this.formDiobrando.date_finish);
         formData.append("secid", this.formDiobrando.secid);
         formData.append("itemid", this.formDiobrando.itemid);
