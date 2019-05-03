@@ -32,10 +32,10 @@
       size="xl"
       title="submited"
     >
-      <b-form @submit.prevent>
+      <b-form @submit.prevent @submit="createReview">
         <label for="type">{{$t('score')}}</label>
         <br>
-        <b-form-input type="number" id="score" v-model="reviewForm.score" max="5"/>
+        <b-form-input type="number" id="score" v-model="reviewForm.score" max="5" min="0"/>
         <label for="type">{{$t('comments')}}</label>
         <br>
         <b-form-textarea type="text" id="comments" v-model="reviewForm.comments"/>
@@ -44,7 +44,6 @@
           class="mt-2"
           variant="success"
           block
-          @click="createReview()"
         >{{$t('save_changes')}}</b-button>
       </b-form>
     </b-modal>

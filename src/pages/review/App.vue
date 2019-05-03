@@ -58,7 +58,7 @@
             v-b-toggle="'accordion-' + index"
             variant="outline-primary"
             @click="prepareReviewPopup(item.dataScientist_id)"
-          >{{$t('submition_to')}} "{{item.offer__title}}"</b-button>
+          >{{$t('submition_to')}} </b-button>
         </b-card-header>
         <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
           <b-card-body>
