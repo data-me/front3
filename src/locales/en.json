@@ -168,7 +168,7 @@
   "score": "Score",
   "search_placeholder_title_desc": "Title or description",
   "search_placeholder_price": "Price",
-  "search_placeholder_date": "Date before (dd-MM-yyyy)",
+  "search_placeholder_date": "Date before (yyyy-mm-dd)",
   "export": "Export data",
   "exportpdf": "Export as PDF",
   "exportraw": "Export raw text",
