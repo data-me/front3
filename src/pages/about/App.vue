@@ -1,22 +1,5 @@
 <template>
   <div id="app">
-    <vue-particles
-      color="#22546f"
-      :particleOpacity="0.7"
-      :particlesNumber="80"
-      shapeType="circle"
-      :particleSize="4"
-      linesColor="#37868a"
-      :linesWidth="1"
-      :lineLinked="true"
-      :lineOpacity="0.4"
-      :linesDistance="150"
-      :moveSpeed="1"
-      :hoverEffect="true"
-      hoverMode="grab"
-      :clickEffect="true"
-      clickMode="push"
-    ></vue-particles>
     <img alt="Vue logo" src="../../assets/logo.png">
     <HelloWorld msg="This is about page"/>
     <a href="/index">Go to home</a>

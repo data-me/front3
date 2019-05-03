@@ -2,24 +2,6 @@
   <div id="app">
     <Navbar/>
 
-    <vue-particles
-      color="#22546f"
-      :particleOpacity="0.7"
-      :particlesNumber="80"
-      shapeType="circle"
-      :particleSize="4"
-      linesColor="#37868a"
-      :linesWidth="1"
-      :lineLinked="true"
-      :lineOpacity="0.4"
-      :linesDistance="150"
-      :moveSpeed="1"
-      :hoverEffect="true"
-      hoverMode="grab"
-      :clickEffect="true"
-      clickMode="push"
-    ></vue-particles>
-
     <br>
 
     <b-modal
@@ -50,10 +32,10 @@
       size="xl"
       title="submited"
     >
-      <b-form @submit.prevent>
+      <b-form @submit.prevent @submit="createReview">
         <label for="type">{{$t('score')}}</label>
         <br>
-        <b-form-input type="number" id="score" v-model="reviewForm.score" max="5"/>
+        <b-form-input type="number" id="score" v-model="reviewForm.score" max="5" min="0"/>
         <label for="type">{{$t('comments')}}</label>
         <br>
         <b-form-textarea type="text" id="comments" v-model="reviewForm.comments"/>
@@ -62,7 +44,6 @@
           class="mt-2"
           variant="success"
           block
-          @click="createReview()"
         >{{$t('save_changes')}}</b-button>
       </b-form>
     </b-modal>

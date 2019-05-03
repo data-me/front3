@@ -2,7 +2,7 @@
   <div id="app">
     <Navbar/>
 
-    
+
       <br>
       <br>
       <h1 class = 'title'>{{$t('Reviews_of_companies')}}</h1>
@@ -13,7 +13,7 @@
                     <h2 class="card-header" style ="background-color:#337DFF;">{{$t('Average')}}: {{item.average}} <br></h2>
                     <h2 class="card-header">{{$t('LastReview')}}: {{item.comments}} <br></h2>
                 </div>
-                
+
               </b-card-body>
       </div>
 
@@ -22,10 +22,10 @@
               <b-card-body>
                   <div class="card text-white bg-info mb-3">
                     <h2 class="card-header">{{$t('DataScientist')}}: {{item.reviewed_name}} <br></h2>
-                    <h2 class="card-header" style ="background-color:#337DFF;">{{$t('Average')}}: {{item.average}} <br></h2> 
-                    <h2 class="card-header">{{$t('LastReview')}}: {{item.comments}} <br></h2> 
+                    <h2 class="card-header" style ="background-color:#337DFF;">{{$t('Average')}}: {{item.average}} <br></h2>
+                    <h2 class="card-header">{{$t('LastReview')}}: {{item.comments}} <br></h2>
                 </div>
-               
+
               </b-card-body>
       </div>
 
@@ -102,7 +102,7 @@ export default {
         this.itemsCargados2 = true
       })
 
-  }, 
+  },
 
 }
 

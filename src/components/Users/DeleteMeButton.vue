@@ -1,11 +1,11 @@
 <template>
         <div style="float: center;">
-            <b-button 
+            <b-button
               variant="danger"
               class="mt-2"
               block
               @click="deleteConfirmation()">
-                Delete all my information
+                {{$t('deleteme')}}
               </b-button>
         </div>
 </template>
@@ -37,7 +37,7 @@ export default {
           var token = "JWT " + this.$cookies.get("token");
           const formData = new FormData();
           this.$http
-          .post("http://localhost:8000/api/v3/delete_me", formData, {
+          .post("https://api3-datame.herokuapp.com/api/v3/delete_me", formData, {
               headers: { Authorization: token }
           }).then((result) => {
               if (result.data.success) {
@@ -56,7 +56,7 @@ export default {
                   })
               }
             })
-      },    
+      },
       setCookie: function(name, value, days) {
       var d = new Date();
       d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);

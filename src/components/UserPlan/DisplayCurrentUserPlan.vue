@@ -24,7 +24,7 @@ export default {
                 this.userPlan = result.data
             })
 
-    }  
+    }
 }
 </script>
 
@@ -34,4 +34,3 @@ export default {
 }
 
 </style>
-

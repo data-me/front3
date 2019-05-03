@@ -1,23 +1,6 @@
 <template>
   <div id="app">
     <Navbar/>
-    <vue-particles
-      color="#22546f"
-      :particleOpacity="0.7"
-      :particlesNumber="80"
-      shapeType="circle"
-      :particleSize="4"
-      linesColor="#37868a"
-      :linesWidth="1"
-      :lineLinked="true"
-      :lineOpacity="0.4"
-      :linesDistance="150"
-      :moveSpeed="1"
-      :hoverEffect="true"
-      hoverMode="grab"
-      :clickEffect="true"
-      clickMode="push"
-    ></vue-particles>
     <!-- ////// -->
     <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
       <template slot="modal-header">Please check the errors below</template>
@@ -141,7 +124,7 @@
     </div>
 
     <!-- Editing offer -->
-    <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" title="Edit Offer">
+    <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" :title="$t('edit_offer')">
       <b-form @submit.prevent>
         <label for="title">{{$t('title')}}</label>
         <b-input

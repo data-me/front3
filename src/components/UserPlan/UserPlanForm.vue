@@ -41,7 +41,7 @@
         this.$http.post(baseURI, formData, { headers: { Authorization: token }})
         .then((result) => {
             if(result.data.userplan_pk != null){
-              this.$http.get('http://localhost:8000/api/v1/pagos/paypal_userPlan_payment?userplan_pk=' + result.data.userplan_pk, 
+              this.$http.get('http://localhost:8000/api/v1/pagos/paypal_userPlan_payment?userplan_pk=' + result.data.userplan_pk,
               { headers: { Authorization: token } })
                 .then((result) => {
                   this.redirect_url =  result.data.redirect_url
@@ -63,7 +63,7 @@
             }
           })
     },
-      } 
+      }
     }
 
 </script>
@@ -73,4 +73,3 @@
     margin: 2em;
 }
 </style>
-

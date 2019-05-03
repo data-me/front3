@@ -2,24 +2,6 @@
   <div id="app">
     <Navbar/>
 
-    <vue-particles
-      color="#22546f"
-      :particleOpacity="0.7"
-      :particlesNumber="80"
-      shapeType="circle"
-      :particleSize="4"
-      linesColor="#37868a"
-      :linesWidth="1"
-      :lineLinked="true"
-      :lineOpacity="0.4"
-      :linesDistance="150"
-      :moveSpeed="1"
-      :hoverEffect="true"
-      hoverMode="grab"
-      :clickEffect="true"
-      clickMode="push"
-    ></vue-particles>
-
     <br>
 
     <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
@@ -242,7 +224,7 @@
         name="checkbox-1"
         value="accepted"
         unchecked-value="not_accepted"
-      >{{$t('terms_and_condition_claim')}}</b-form-checkbox>
+      >{{$t('terms_and_condition_claim')}}<a href="/terms_and_conditions.html">{{$t('terms')}}</a></b-form-checkbox>
 
       <br>
 

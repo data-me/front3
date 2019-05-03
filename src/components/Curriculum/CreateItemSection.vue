@@ -10,12 +10,12 @@
             <b-button class="mt-3" variant="outline-danger" block @click="showModal = false">Close</b-button>
         </b-modal>
 
-        <b-button v-b-modal="'create-item-section-form' + secid">New section Item</b-button>
+        <b-button v-b-modal="'create-item-section-form' + secid">{{$t('newsectionitem')}}</b-button>
 
-        <b-modal :id="'create-item-section-form' + secid" hide-footer ref="newItemMessage" size="x1" title="New section item">
+        <b-modal :id="'create-item-section-form' + secid" hide-footer ref="newItemMessage" size="x1" :title="$t('newsectionitem')">
             <b-form id="item" @submit.prevent @submit="onSubmit">
-                
-                <label for="name">Name:</label>
+
+                <label for="name">{{$t('name')}}:</label>
                 <b-form-input
                     id="name"
                     v-model="item.name"
@@ -23,7 +23,7 @@
                     placeholder="Name this record"
                 ></b-form-input>
 
-                    <label for="entity">Entity:</label>
+                    <label for="entity">{{$t('entity')}}:</label>
                 <b-form-input
                     id="entity"
                     v-model="item.entity"
@@ -31,7 +31,7 @@
                     placeholder="Organization or Entity"
                 ></b-form-input>
 
-                    <label for="description">Description:</label>
+                    <label for="description">{{$t('description')}}:</label>
                 <b-form-textarea
                     id="description"
                     v-model="item.description"
@@ -41,7 +41,7 @@
                     required
                 ></b-form-textarea>
 
-                    <label for="datestart">Start date:</label>
+                    <label for="datestart">{{$t('date_start')}}:</label>
 
                 <b-form-input
                     id="datestart"
@@ -50,14 +50,14 @@
                     required
                 ></b-form-input>
 
-                    <label for="datefinish">Finalization date:</label>
+                    <label for="datefinish">{{$t('date_finish')}}:</label>
                 <b-form-input
                     id="datefinish"
                     v-model="item.datefinish"
                     placeholder="yyyy-MM-dd"
                 ></b-form-input>
                 <br/>
-                <b-button type="submit" variant="primary">Save</b-button>
+                <b-button type="submit" variant="primary">{{$t('save')}}</b-button>
             </b-form>
         </b-modal>
     </div>
@@ -94,12 +94,12 @@ export default {
         alert("Please check the pattern of the finish date");
       }
 
-      if(this.messages.length > 0){ 
+      if(this.messages.length > 0){
           this.showModal = true
       }
       else{
         var token = 'JWT ' + this.$cookies.get('token')
-      const baseURI = 'http://localhost:8000/api/v1/item'
+      const baseURI = 'https://api3-datame.herokuapp.com/api/v1/item'
       const formData = new FormData();
       formData.append('name', this.item.name);
       formData.append('secid', Number(this.secid));

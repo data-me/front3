@@ -1,23 +1,6 @@
 <template>
   <div id="app">
     <Navbar/>
-    <vue-particles
-      color="#22546f"
-      :particleOpacity="0.7"
-      :particlesNumber="80"
-      shapeType="circle"
-      :particleSize="4"
-      linesColor="#37868a"
-      :linesWidth="1"
-      :lineLinked="true"
-      :lineOpacity="0.4"
-      :linesDistance="150"
-      :moveSpeed="1"
-      :hoverEffect="true"
-      hoverMode="grab"
-      :clickEffect="true"
-      clickMode="push"
-    ></vue-particles>
     <b-modal v-model="modalShow" ref="messages" id="messages" hide-footer size="xl" title="Erros">
       <template slot="modal-header">{{$t('error_msg')}}</template>
       <li :key="message.id" id="messagesError" v-for="message in this.messages">{{message}}</li>
@@ -102,27 +85,27 @@
         hide-footer
         ref="detailedDataScientist"
         size="xl"
-        title="Data Scientist's details"
+        :title="$t('datascientistdetails')"
       >
         <div id="info">
           <b-card-text class="card-text">
-            <label for="name">Name:</label>
+            <label for="name">{{$t('name')}}:</label>
             {{this.name}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="surname">Surnamez:</label>
+            <label for="surname">{{$t('surname')}}:</label>
             {{this.surname}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="phone">Phone:</label>
+            <label for="phone">{{$t('phone')}}:</label>
             {{this.phone}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="email">Email:</label>
+            <label for="email">{{$t('email')}}:</label>
             {{this.email}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="address">Address:</label>
+            <label for="address">{{$t('address')}}:</label>
             {{this.address}}
           </b-card-text>
         </div>
@@ -235,10 +218,10 @@ export default {
           }
         )
         .then(result => {
-          this.user = result.data;
+          this.user = result.data[0]
           this.name = this.user.name;
           this.surname = this.user.surname;
-          this.email = this.user.email;
+          this.email = this.user.user__email;
           this.phone = this.user.phone;
           this.photo = this.user.photo;
           this.address = this.user.address;

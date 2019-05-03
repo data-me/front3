@@ -1,23 +1,7 @@
 <template>
   <div id="app">
     <Navbar v-if="showNavbar"/>
-    <vue-particles
-      color="#22546f"
-      :particleOpacity="0.7"
-      :particlesNumber="80"
-      shapeType="circle"
-      :particleSize="4"
-      linesColor="#37868a"
-      :linesWidth="1"
-      :lineLinked="true"
-      :lineOpacity="0.4"
-      :linesDistance="150"
-      :moveSpeed="1"
-      :hoverEffect="true"
-      hoverMode="grab"
-      :clickEffect="true"
-      clickMode="push"
-    ></vue-particles>
+
     <b-form id="form" @submit.prevent @submit="onSubmit" v-if="showForm">
       <label for="textUsername">{{$t('username')}}</label>
       <b-input type="text" v-model="form.username" id="textUsername"/>

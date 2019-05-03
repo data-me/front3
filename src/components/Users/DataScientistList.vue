@@ -30,7 +30,7 @@ export default {
       })
 
     },
-    
+
 }
 </script>
 <style>
@@ -38,5 +38,3 @@ export default {
     margin: 2em;
 }
 </style>
-
-

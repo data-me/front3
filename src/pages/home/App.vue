@@ -35,23 +35,18 @@
       :debug="false"
       :position="'bottom'"
       :type="'bar'"
-      :disableDecline="false"
+      :disableDecline="true"
       :transitionName="'slideFromBottom'"
       :showPostponeButton="false"
       @status="cookieStatus"
       @clicked-decline="cookieClickedDecline"
     >
-      <!-- Optional -->
-      <div slot="postponeContent">&times;</div>
-
+      
       <!-- Optional -->
       <div slot="message">
         {{$t('cookie_message')}}
-        <a href="https://cookiesandyou.com/" target="_blank">{{$t('learn_more_cookies')}}</a>
+        <a class="link-accent" href="https://cookiesandyou.com/" target="_blank">{{$t('learn_more_cookies')}}</a>
       </div>
-
-      <!-- Optional -->
-      <div slot="declineContent">{{$t('opt_out_cookies')}}</div>
 
       <!-- Optional -->
       <div slot="acceptContent">{{$t('accept_cookies')}}</div>
@@ -153,5 +148,9 @@ h2.statement {
   h1.title {
     font-size: 2.5rem;
   }
+}
+
+.link-accent {
+  color: #3030FF;
 }
 </style>
