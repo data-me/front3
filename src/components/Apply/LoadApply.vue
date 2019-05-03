@@ -40,7 +40,7 @@
     </b-collapse>
   </b-card>
 </div>
-  <b-modal id="modal-edit-application" v-model="showEdit" centered title="BootstrapVue">
+  <b-modal id="modal-edit-application" v-model="showEdit" centered :title="$t('edit_app')" hide-footer>
     <b-form @submit="editApplication" @reset="onReset" v-if="showEdit">
       <b-form-input v-model="applyDescription" hidden></b-form-input>
       <b-form-group
@@ -57,8 +57,7 @@
         ></b-form-textarea>
       </b-form-group>
 
-      <b-button type="submit" variant="primary" class="button">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="submit" variant="primary" class="button">{{$t('edit')}}</b-button>
     </b-form>
   </b-modal>
 </div>
@@ -203,10 +202,10 @@ Vue.use(VueRouter)
         { Authorization: token }
         }).then((result) => {
             if (result.data.code == '200') {
-              alert(this.$t('delete_app_success'))
+              alert(this.$t('edit_app_success'))
             }
             if (result.data.code == '401') {
-              alert(this.$t('delete_app_not_allowed'))
+              alert(this.$t('edit_app_not_allowed'))
             }
             location.reload()
         })
