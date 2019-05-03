@@ -25,22 +25,22 @@
           var paypal_response = window.location.search
             .split("?")[1]
             .split("&");
-          
+
           var processPaypalUserPlanPaymentUrl
-          
-          
+
+
           console.log('Are we accepting or canceling the payment?');
           console.log(window.location.href.split("?")[0]);
           console.log('What does the String comparison outputs? for accept_userplan_payment: ' + window.location.href.split("?")[0].includes("accept_userplan_payment"));
           if(window.location.href.split("?")[0].includes("accept_userplan_payment")){
             console.log('Payment Accepted!');
-            
+
             var paymentId = paypal_response[0].split("=")[1];
             var token_paypal = paypal_response[1].split("=")[1];
             var payerID = paypal_response[2].split("=")[1];
             this.wasPaymenetAccepted = true;
 
-            processPaypalUserPlanPaymentUrl = 'https://api3-datame.herokuapp.com/api/v1/pagos/accept_paypal_userPlan_payment?paymentId=' + paymentId + 
+            processPaypalUserPlanPaymentUrl = 'https://api3-datame.herokuapp.com/api/v1/pagos/accept_paypal_userPlan_payment?paymentId=' + paymentId +
             '&token=' + token_paypal + '&PayerID=' + payerID;
 
             this.$http.get(processPaypalUserPlanPaymentUrl, { headers: { Authorization: token } })
@@ -61,7 +61,7 @@
         console.trace(error);
       }
     }
-  }, 
+  },
   methods:{
     success() {
         this.$swal({
@@ -70,6 +70,7 @@
             text: 'Thank you!'
         }).then(result =>{
               window.location.href = 'http://localhost:8080/user_plan.html';
+              this.$cookies.set("ads", "false");
             });
     },
     error(message) {

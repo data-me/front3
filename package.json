@@ -17,6 +17,8 @@
     "bootstrap-vue": "^2.0.0-rc.13",
     "express": "^4.16.4",
     "i": "^0.3.6",
+    "image-to-base64": "2.0.1",
+    "jspdf": "^1.5.3",
     "jwt-decode": "^2.2.0",
     "npm": "^6.9.0",
     "particles.js": "^2.0.0",
@@ -26,9 +28,7 @@
     "vue-cookies": "^1.5.12",
     "vue-i18n": "^8.0.0",
     "vue-router": "^3.0.2",
-    "vue-sweetalert2": "^1.6.4",
-    "jspdf": "^1.5.3",
-    "image-to-base64": "2.0.1"
+    "vue-sweetalert2": "^1.6.4"
   },
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.3.0",

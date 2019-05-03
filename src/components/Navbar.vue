@@ -17,9 +17,9 @@
 
           <b-nav-item v-show="isLoggedIn" href="/mail.html">
          {{ $t('mail') }} <span v-if="unviewedMessages != 0" id ="notification"> {{" " + unviewedMessages + " "}} </span>
- 
-          
-          
+
+
+
           </b-nav-item>
 
 
@@ -28,7 +28,7 @@
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/dashboard.html">{{ $t('dashboard') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/admin_offers.html" >{{ $t('manage_offers') }}</b-nav-item>
           <b-nav-item v-show="isAdmin && isLoggedIn" href="/manage_users.html" >Manage Users</b-nav-item>
-          
+
           <b-nav-item v-show="isLoggedIn" href="/ranking.html" >Ranking</b-nav-item>
 
           <b-nav-item href="/submition.html" v-show="isDataScientist && isLoggedIn">{{ $t('my_submitions') }}</b-nav-item>
@@ -84,11 +84,11 @@ export default {
 
        if (this.getCookie("token")) {
         var token = 'JWT ' + this.$cookies.get('token')
-        
+
         this.$http.get('https://api3-datame.herokuapp.com/api/v3/unvieweds',{ headers:
         { Authorization: token }
         }).then((result) => {
-            
+
             this.unviewedMessages = result.data.message
         })
 
@@ -103,7 +103,7 @@ export default {
       this.isAdmin = true;
     }
 
-  
+
 
   },
   created: function() {
@@ -158,7 +158,7 @@ export default {
   background-color: #22546f !important;
   border-color: #22546f;
   color: #fff;
-  border: 0.5rem; 
+  border: 0.5rem;
   margin-left: 0.3rem;
 }
 

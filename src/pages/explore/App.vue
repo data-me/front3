@@ -124,7 +124,7 @@
     </div>
 
     <!-- Editing offer -->
-    <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" title="Edit Offer">
+    <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" :title="$t('edit_offer')">
       <b-form @submit.prevent>
         <label for="title">{{$t('title')}}</label>
         <b-input
@@ -161,7 +161,7 @@
             type="text"
             v-model="form.title"
             id="title"
-            :state="form.title.length > 0"
+            :state="form.title.length >= 5"
             :maxlength="80"
             aria-describedby="titleHelpBlock"
           />
@@ -172,7 +172,7 @@
             type="text"
             id="description"
             v-model="form.description"
-            :state="form.description.length > 0"
+            :state="form.description.length >= 10"
             aria-describedby="descriptionHelpBlock"
           />
           <b-form-text id="descriptionHelpBlock">{{$t('description_offer_placeholder')}}</b-form-text>

@@ -85,27 +85,27 @@
         hide-footer
         ref="detailedDataScientist"
         size="xl"
-        title="Data Scientist's details"
+        :title="$t('datascientistdetails')"
       >
         <div id="info">
           <b-card-text class="card-text">
-            <label for="name">Name:</label>
+            <label for="name">{{$t('name')}}:</label>
             {{this.name}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="surname">Surnamez:</label>
+            <label for="surname">{{$t('surname')}}:</label>
             {{this.surname}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="phone">Phone:</label>
+            <label for="phone">{{$t('phone')}}:</label>
             {{this.phone}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="email">Email:</label>
+            <label for="email">{{$t('email')}}:</label>
             {{this.email}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="address">Address:</label>
+            <label for="address">{{$t('address')}}:</label>
             {{this.address}}
           </b-card-text>
         </div>
@@ -218,10 +218,10 @@ export default {
           }
         )
         .then(result => {
-          this.user = result.data;
+          this.user = result.data[0]
           this.name = this.user.name;
           this.surname = this.user.surname;
-          this.email = this.user.email;
+          this.email = this.user.user__email;
           this.phone = this.user.phone;
           this.photo = this.user.photo;
           this.address = this.user.address;

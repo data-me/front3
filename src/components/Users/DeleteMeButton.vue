@@ -1,11 +1,11 @@
 <template>
         <div style="float: center;">
-            <b-button 
+            <b-button
               variant="danger"
               class="mt-2"
               block
               @click="deleteConfirmation()">
-                Delete all my information
+                {{$t('deleteme')}}
               </b-button>
         </div>
 </template>
@@ -56,7 +56,7 @@ export default {
                   })
               }
             })
-      },    
+      },
       setCookie: function(name, value, days) {
       var d = new Date();
       d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);

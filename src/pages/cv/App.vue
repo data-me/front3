@@ -30,26 +30,26 @@
 
       <div id="info">
         <b-card-text class="card-text">
-          <label for="name">Name:</label>
+          <label for="name">{{$t('name')}}:</label>
           {{this.form.name}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="surname">Surname:</label>
+          <label for="surname">{{$t('surname')}}:</label>
           {{this.form.surname}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="phone">Phone:</label>
+          <label for="phone">{{$t('phone')}}:</label>
           {{this.form.phone}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="email">Email:</label>
+          <label for="email">{{$t('email')}}:</label>
           {{this.form.email}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="address">Address:</label>
+          <label for="address">{{$t('address')}}:</label>
           {{this.form.address}}
         </b-card-text>
-        <b-button class="mt-1" variant="success" block @click="toffleEditProfile">Edit</b-button>
+        <b-button class="mt-1" variant="success" block @click="toffleEditProfile">{{$t('edit')}}</b-button>
         <b-button
           class="mt-1"
           variant="success"
@@ -67,7 +67,7 @@
       <div id="info">
         <b-form @submit.prevent>
           <b-card-text class="card-text">
-            <label for="name">Name:</label>
+            <label for="name">{{$t('name')}}:</label>
             <b-input
               type="text"
               v-model="form.name"
@@ -78,7 +78,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="surname">Surname:</label>
+            <label for="surname">{{$t('surname')}}:</label>
             <b-input
               type="text"
               v-model="form.surname"
@@ -89,7 +89,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="phone">Phone:</label>
+            <label for="phone">{{$t('phone')}}:</label>
             <b-input
               type="text"
               v-model="form.phone"
@@ -99,7 +99,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="email">Email:</label>
+            <label for="email">{{$t('email')}}:</label>
             <b-input
               type="text"
               v-model="form.email"
@@ -110,7 +110,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="address">Address:</label>
+            <label for="address">{{$t('address')}}:</label>
             <b-input
               type="text"
               v-model="form.address"
@@ -121,7 +121,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="address">Photo URL:</label>
+            <label for="address">{{$t('photo')}}:</label>
             <b-input
               type="text"
               v-model="form.photo"
@@ -154,8 +154,8 @@
       <div v-bind:key="item2.id" id="cv_items_sub" v-for="item2 in item.Items">
         <b-card :title="item2.name" :sub-title="item2.description">
           <b-card-text>{{item2.entity}}</b-card-text>
-          <b-card-text>Start date: {{item2.date_start}}</b-card-text>
-          <b-card-text>Finish date: {{item2.date_finish}}</b-card-text>
+          <b-card-text>{{$t('date_start')}}: {{item2.date_start}}</b-card-text>
+          <b-card-text>{{$t('date_finish')}}: {{item2.date_finish}}</b-card-text>
           <div style="float: right;" id="deleteoffer">
             <div style="float: left; margin-right: 10px">
               <b-button
@@ -226,7 +226,7 @@
               type="text"
               v-model="formDiobrando.date_start"
               id="date_start"
-              :state="this.formDiobrando.date_start.length > 0"
+              :state="this.formDiobrando.date_start.length > 0 && new Date(this.formDiobrando.date_start) < new Date() && (this.formDiobrando.date_finish.length == 0 || (this.formDiobrando.date_finish.length != 0 && new Date(this.formDiobrando.date_finish) > new Date(this.formDiobrando.date_start))) "
               :maxlength="200"
               aria-describedby="fileHelpBlock"
             />
@@ -236,6 +236,8 @@
             <b-input
               type="text"
               v-model="formDiobrando.date_finish"
+              :state="this.formDiobrando.date_start.length == 0 || (new Date(this.formDiobrando.date_finish) < new Date() && (new Date(this.formDiobrando.date_finish) > new Date(this.formDiobrando.date_start))) "
+
               id="date_finish"
               :maxlength="200"
               aria-describedby="fileHelpBlock"
@@ -356,15 +358,14 @@ export default {
   mounted: function() {
     var token = "JWT " + this.$cookies.get("token");
 
-    this.$http
-      .get("https://api3-datame.herokuapp.com/api/v2/get_user_logged", {
+    this.$http.get("https://api3-datame.herokuapp.com/api/v2/get_user_logged", {
         headers: { Authorization: token }
       })
       .then(result => {
-        this.user = result.data;
+        this.user = result.data[0];
         this.form.name = this.user.name;
         this.form.surname = this.user.surname;
-        this.form.email = this.user.email;
+        this.form.email = this.user.user__email;
         this.form.phone = this.user.phone;
         this.form.photo = this.user.photo;
         this.form.address = this.user.address;
@@ -441,6 +442,8 @@ export default {
       var token = "JWT " + this.$cookies.get("token");
       const formData = new FormData();
       this.messages = [];
+      var now = new Date();
+      var dateStart = new Date(this.formDiobrando.date_start)
       if (this.formDiobrando.name.length == 0) {
         if (this.language == "en") {
           this.messages.push("Name is required");
@@ -469,6 +472,35 @@ export default {
           this.messages.push("la fecha de inicio es requerida");
         }
       }
+      if (this.formDiobrando.date_finish.length != 0) {
+          var dateEnd = new Date(this.formDiobrando.date_finish)
+    
+        if (dateEnd > now){
+             if (this.language == "en") {
+          this.messages.push("The finish date must be past");
+        } else {
+          this.messages.push("la fecha de fin debe de ser en pasado");
+        }
+        }
+
+        if (dateEnd < dateStart){
+             if (this.language == "en") {
+          this.messages.push("The finish date must be after start date");
+        } else {
+          this.messages.push("la fecha de fin debe de ser despues de la fecha de inicio");
+        }
+        }
+
+      }
+
+      
+        if (dateStart > now){
+             if (this.language == "en") {
+          this.messages.push("Starting date must be past");
+        } else {
+          this.messages.push("la fecha de inicio debe de ser en pasado");
+        }
+        }
       if (!/^\d{4}[-]\d{2}[-]\d{2}/.test(this.formDiobrando.date_start)) {
         if (this.language == "en") {
           this.messages.push(
@@ -485,6 +517,8 @@ export default {
         formData.append("description", this.formDiobrando.description);
         formData.append("entity", this.formDiobrando.entity);
         formData.append("datestart", this.formDiobrando.date_start);
+        if(this.formDiobrando.date_finish.length == 0){
+        }
         formData.append("datefinish", this.formDiobrando.date_finish);
         formData.append("secid", this.formDiobrando.secid);
         formData.append("itemid", this.formDiobrando.itemid);
@@ -576,7 +610,7 @@ export default {
 
         doc.setFontSize(15);
 
-        doc.text(email + user.email, 10, 20);
+        doc.text(email + user.user__email, 10, 20);
 
         // Adding address
 
@@ -621,7 +655,7 @@ export default {
           ",surname:" +
           user.surname +
           ",email:" +
-          user.email +
+          user.user__email +
           ",photo:" +
           user.photo +
           ",address:" +

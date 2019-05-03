@@ -224,7 +224,7 @@
         name="checkbox-1"
         value="accepted"
         unchecked-value="not_accepted"
-      >{{$t('terms_and_condition_claim')}}</b-form-checkbox>
+      >{{$t('terms_and_condition_claim')}}<a href="/terms_and_conditions.html">{{$t('terms')}}</a></b-form-checkbox>
 
       <br>
 

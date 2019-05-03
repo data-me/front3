@@ -17,7 +17,7 @@
           {{user.phone}}
         </b-card-text>
         <div style="float: right;">
-            <b-button 
+            <b-button
               variant="danger"
               class="mt-2"
               block

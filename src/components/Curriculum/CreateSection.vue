@@ -4,13 +4,13 @@
             <b-form id="section" @submit="onSubmit">
 
             <b-col sm="3">
-            <label for="name">Name:</label>
+            <label for="name">{{$t('name')}}:</label>
             </b-col>
             <b-col sm="9">
             <b-form-select v-model="section.name" :options="options"></b-form-select>
             </b-col>
             <b-col sm="9">
-            <b-button type="submit" variant="primary">Save</b-button>
+            <b-button type="submit" variant="primary">{{$t('save')}}</b-button>
              </b-col>
         </b-form>
     </div>

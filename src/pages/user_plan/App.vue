@@ -2,6 +2,11 @@
   <div id="app">
     <Navbar/>
     <display-current-user-plan></display-current-user-plan>
+      <b-card :header="$t('price_per_month')" align="center" class="text-center default-margin">
+        <b-card-text>
+          {{$t('price_per_month')}}
+        </b-card-text>
+      </b-card>
     <user-plan-form></user-plan-form>
     <receive-paypal-user-plan-payment/>
     <Footer/>
@@ -14,6 +19,7 @@ import Footer from "../../components/Footer.vue";
 import DisplayCurrentUserPlan from "../../components/UserPlan/DisplayCurrentUserPlan.vue";
 import UserPlanForm from "../../components/UserPlan/UserPlanForm.vue";
 import ReceivePaypalUserPlanPayment from "../../components/UserPlan/ReceivePaypalUserPlanPayment.vue";
+import UserPlanInformation from "../../components/UserPlan/UserPlanInformation.vue";
 
 export default {
   name: "app",
@@ -22,7 +28,8 @@ export default {
     Footer,
     DisplayCurrentUserPlan,
     UserPlanForm,
-    ReceivePaypalUserPlanPayment
+    ReceivePaypalUserPlanPayment,
+    UserPlanInformation
   },
   data() {
     return {};
@@ -50,6 +57,11 @@ export default {
 
 html {
   background-color: #ffffff;
+}
+
+.default-margin{
+    margin-right : 2em;
+    margin-left : 2em;
 }
 
 #particles-js {

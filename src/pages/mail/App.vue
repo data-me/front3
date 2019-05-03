@@ -60,10 +60,10 @@
           <template slot="modal-header">{{$t('congrats')}}</template>
           {{$t('notification_sent')}}
         </div>
-    
+
         <b-button class="mt-2" variant="success" block @click="reloadPage">{{$t('close')}}</b-button>
     </b-modal>
-    
+
     <div v-if="user_type === 'admin'" class="create-notification">
       <b-button id="create-notification" v-b-modal.modalxl2 variant="outline-primary">
         <font-awesome-icon style="color:#14AABF" :icon="['fas','bell']"/>
@@ -77,7 +77,7 @@
 
 
     <div id="titlepage">
-      <h1>Received Messages</h1>
+      <h1>{{$t('received_messages')}}</h1>
     </div>
     <div :key="item.id" id="messages" v-for="item in items">
       <div v-if="item.isAlert">
@@ -103,9 +103,9 @@
     </div>
     <!-- Modal for creating a new message -->
     <div>
-      <b-modal id="modalxl" hide-footer ref="newMessage" size="xl" title="Create a message">
+      <b-modal id="modalxl" hide-footer ref="newMessage" size="xl" :title="$t('create_message')">
         <b-form @submit.prevent>
-          <label for="title">Title</label>
+          <label for="title">{{$t('title')}}</label>
           <b-input
             type="text"
             v-model="form.title"
@@ -114,9 +114,9 @@
             :maxlength="100"
             aria-describedby="titleHelpBlock"
           />
-          <b-form-text id="titleHelpBlock">The main subject of your message, max 100 characters.</b-form-text>
+          <b-form-text id="titleHelpBlock">{{$t('message_title_helpblock')}}</b-form-text>
           <br>
-          <label for="body">Body</label>
+          <label for="body">{{$t('body')}}</label>
           <b-form-textarea
             type="text"
             id="body"
@@ -125,15 +125,15 @@
             :maxlength="1000"
             aria-describedby="bodyHelpBlock"
           />
-          <b-form-text id="bodyHelpBlock">The body of your message, max 1000 characters.</b-form-text>
+          <b-form-text id="bodyHelpBlock">{{$t('message_body_helpblock')}}</b-form-text>
           <br>
 
-          <label for="receiver">Search receiver</label>
+          <label for="receiver">{{$t('search_receiver')}}</label>
 
           <b-input
             type="text"
             v-model="query"
-            placeholder="Start typing the username"
+            :placeholder="$t('message_receiver_placeholder')"
             v-on:keyup="changeVisibility"
           />
           <div id="options" class="options" style="display:None;">
@@ -149,45 +149,14 @@
             </ul>
           </div>
 
-          <b-form-text id="receiverHelpBlock">The username of the receiver of your message.</b-form-text>
+          <b-form-text id="receiverHelpBlock">{{$t('message_receiver_helpblock')}}</b-form-text>
           <br>
 
-          <b-button class="mt-2" variant="success" block @click="toggleModalNotification">Create message</b-button>
+          <b-button class="mt-2" variant="success" block @click="toggleModalMessage">{{$t('message_create')}}</b-button>
         </b-form>
       </b-modal>
     </div>
-    <!-- Create a new notification -->
-    <div>
-      <b-modal id="modalxl2" hide-footer ref="newNotification" size="xl" title="Create an email notification to all users">
-        <b-form @submit.prevent>
-          <label for="title">Title</label>
-          <b-input
-            type="text"
-            v-model="form.title"
-            id="title"
-            :state="form.title.length > 0"
-            :maxlength="100"
-            aria-describedby="titleHelpBlock"
-          />
-          <b-form-text id="titleHelpBlock">The main subject of your email notification, max 100 characters.</b-form-text>
-          <br>
-          <label for="body">Body</label>
-          <b-form-textarea
-            type="text"
-            id="body"
-            v-model="form.body"
-            :state="form.body.length > 0"
-            :maxlength="1000"
-            aria-describedby="bodyHelpBlock"
-          />
-          <b-form-text id="bodyHelpBlock">The body of your notification, max 1000 characters.</b-form-text>
-          <br>
-
-
-          <b-button class="mt-2" variant="success" block @click="toggleModalNotification">Create notification</b-button>
-        </b-form>
-      </b-modal>
-    </div>
+    
     <Footer/>
   </div>
 </template>
@@ -315,11 +284,12 @@ export default {
           })
           .then(result => {
             this.submited = true;
+            this.submited_notification = true;
             this.message = result.data.message;
           });
       }
     },
-    toggleModalNotification() {    
+    toggleModalNotification() {
       var token = "JWT " + this.$cookies.get("token");
 
       this.messages = [];
@@ -346,7 +316,7 @@ export default {
           });
       }
     }
-    
+
   },
   computed: {
     matches() {

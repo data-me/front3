@@ -6,9 +6,13 @@ import axios from 'axios'
 import i18n from '../../i18n'
 import VueSweetalert2 from 'vue-sweetalert2'
 import VueParticles from 'vue-particles'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
