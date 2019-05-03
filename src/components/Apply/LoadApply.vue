@@ -21,7 +21,7 @@
         <b-card-text><span class="font-weight-bold">{{$t('date')}}: </span>{{item.date.slice(0,10)}}</b-card-text>
         <b-card-text><span class="font-weight-bold">{{$t('offer')}}: </span>{{item.offer_id}}</b-card-text>
         <div v-if="(user_type === 'ds' && item.status == 'AC')">
-          <b-card-text><span class="font-weight-bold">{{$t('offer_file')}}: </span>{{item.offer__files}}</b-card-text>
+          <b-card-text><span class="font-weight-bold">{{$t('offer_file')}}: </span><a :href="item.offer__files" target="_blank">{{item.offer__files}}</a></b-card-text>
           <br/>
           <b-link href="#" v-b-modal.modalxl v-show="this.permissions == 'true'">{{$t('make_submition')}}</b-link>
           <br/>
