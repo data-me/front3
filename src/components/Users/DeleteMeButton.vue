@@ -37,7 +37,7 @@ export default {
           var token = "JWT " + this.$cookies.get("token");
           const formData = new FormData();
           this.$http
-          .post("https://api3-datame.herokuapp.com/api/v3/delete_me", formData, {
+          .post("http://localhost:8000/api/v3/delete_me", formData, {
               headers: { Authorization: token }
           }).then((result) => {
               if (result.data.success) {
@@ -49,9 +49,9 @@ export default {
                 ).then((result) => {
                   this.setCookie("token", "", -1);
                   if (result.value) {
-                    window.location.href = 'https://front3-datame.herokuapp.com';
+                    window.location.href = 'http://localhost:8080';
                   }else if(result.dismiss){
-                    window.location.href = 'https://front3-datame.herokuapp.com';
+                    window.location.href = 'http://localhost:8080';
                   }
                   })
               }

@@ -12,13 +12,13 @@ The following terminology applies to these Terms and Conditions, Privacy Stateme
     </div>
     <h1 class = 'heading'>License</h1>
     <div class="paragraph">
-    <p>Unless otherwise stated, Datame and/or it's licensors own the intellectual property rights for all material on Datame. All intellectual property rights are reserved. You may view and/or print pages from https://front3-datame.herokuapp.com for your own personal use subject to restrictions set in
+    <p>Unless otherwise stated, Datame and/or it's licensors own the intellectual property rights for all material on Datame. All intellectual property rights are reserved. You may view and/or print pages from http://localhost:8080 for your own personal use subject to restrictions set in
 these terms and conditions.
 You must not:</p>
 <ul>
-<li>Republish material from <a href="https://front3-datame.herokuapp.com/">https://front3-datame.herokuapp.com</a> </li>
-<li>Sell, rent or sub-license material from <a href="https://front3-datame.herokuapp.com">https://front3-datame.herokuapp.com</a></li>
-<li>Reproduce, duplicate or copy material from <a href="https://front3-datame.herokuapp.com">https://front3-datame.herokuapp.com</a></li>
+<li>Republish material from <a href="http://localhost:8080/">http://localhost:8080</a> </li>
+<li>Sell, rent or sub-license material from <a href="http://localhost:8080">http://localhost:8080</a></li>
+<li>Reproduce, duplicate or copy material from <a href="http://localhost:8080">http://localhost:8080</a></li>
     </ul>
     </div>
     <br/>
