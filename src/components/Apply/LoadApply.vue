@@ -27,7 +27,7 @@
           <br/>
         </div>
         <div v-if="(user_type === 'ds' && item.status == 'PE')">
-          <b-link v-if="item.status == 'PE'" @click="toggleEdit(item.id)" class="button">{{$t('edit')}}</b-link>
+          <b-link v-if="item.status == 'PE'" @click="toggleEdit(item.id)" class="button">{{$t('edit')}}</b-link> </br>
           <b-link v-if="item.status == 'PE'" @click="deleteApplication(item.id, $t('apply_delete'))">{{$t('delete')}}</b-link>
         </div>
         <div v-if="user_type === 'com'">
