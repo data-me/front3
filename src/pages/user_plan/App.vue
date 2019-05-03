@@ -2,7 +2,7 @@
   <div id="app">
     <Navbar/>
     <display-current-user-plan></display-current-user-plan>
-      <b-card :header="$t('price_per_month')" align="center" class="text-center default-margin">
+      <b-card :header="$t('price')" align="center" class="text-center default-margin">
         <b-card-text>
           {{$t('price_per_month')}}
         </b-card-text>
