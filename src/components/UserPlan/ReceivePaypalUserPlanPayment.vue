@@ -70,6 +70,7 @@
             text: 'Thank you!'
         }).then(result =>{
               window.location.href = 'http://localhost:8080/user_plan.html';
+              this.$cookies.set("ads", "false");
             });
     },
     error(message) {
