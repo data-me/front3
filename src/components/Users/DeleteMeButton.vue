@@ -49,9 +49,9 @@ export default {
                 ).then((result) => {
                   this.setCookie("token", "", -1);
                   if (result.value) {
-                    window.location.href = 'http://localhost:8080';
+                    window.location.href = 'https://front3-datame.herokuapp.com';
                   }else if(result.dismiss){
-                    window.location.href = 'http://localhost:8080';
+                    window.location.href = 'https://front3-datame.herokuapp.com';
                   }
                   })
               }
