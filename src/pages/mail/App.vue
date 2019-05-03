@@ -152,42 +152,11 @@
           <b-form-text id="receiverHelpBlock">{{$t('message_receiver_helpblock')}}</b-form-text>
           <br>
 
-          <b-button class="mt-2" variant="success" block @click="toggleModalNotification">{{$t('message_create')}}</b-button>
+          <b-button class="mt-2" variant="success" block @click="toggleModalMessage">{{$t('message_create')}}</b-button>
         </b-form>
       </b-modal>
     </div>
-    <!-- Create a new notification -->
-    <div>
-      <b-modal id="modalxl2" hide-footer ref="newNotification" size="xl" title="Create an email notification to all users">
-        <b-form @submit.prevent>
-          <label for="title">Title</label>
-          <b-input
-            type="text"
-            v-model="form.title"
-            id="title"
-            :state="form.title.length > 0"
-            :maxlength="100"
-            aria-describedby="titleHelpBlock"
-          />
-          <b-form-text id="titleHelpBlock">The main subject of your email notification, max 100 characters.</b-form-text>
-          <br>
-          <label for="body">Body</label>
-          <b-form-textarea
-            type="text"
-            id="body"
-            v-model="form.body"
-            :state="form.body.length > 0"
-            :maxlength="1000"
-            aria-describedby="bodyHelpBlock"
-          />
-          <b-form-text id="bodyHelpBlock">The body of your notification, max 1000 characters.</b-form-text>
-          <br>
-
-
-          <b-button class="mt-2" variant="success" block @click="toggleModalNotification">Create notification</b-button>
-        </b-form>
-      </b-modal>
-    </div>
+    
     <Footer/>
   </div>
 </template>
@@ -315,6 +284,7 @@ export default {
           })
           .then(result => {
             this.submited = true;
+            this.submited_notification = true;
             this.message = result.data.message;
           });
       }
