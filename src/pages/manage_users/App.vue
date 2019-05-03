@@ -2,7 +2,7 @@
   <div id="app">
     <Navbar/>
     <div class="user-list">
-      <h1>Manage users</h1>
+      <h1>{{ $t('manage_users') }}</h1>
       <DataScientistList/>
       <CompanyList/>
     </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="dataScientistsList">
-        <h2>Data Scientists</h2>
+        <h2>{{ $t('data_scientists') }}</h2>
         <div :key="userItem.id" v-for="userItem in dataScientistsList">
             <User :user="userItem"/>
         </div>

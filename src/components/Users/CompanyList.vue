@@ -1,6 +1,6 @@
 <template>
     <div class="companyList">
-        <h2>Companies</h2>
+        <h2>{{ $t('companies') }}</h2>
         <div :key="companyItem.id" v-for="companyItem in companyList">
             <Company :company="companyItem"/>
         </div>

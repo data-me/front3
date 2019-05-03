@@ -1,19 +1,15 @@
 <template>
         <b-card class='user-bcard' :title="'User ID: ' + user.id">
         <b-card-text class="card-text">
-          <label for="address">Name: </label>
+          <label for="address">{{ $t('name') }}:</label>
           {{user.name}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="address">Surname: </label>
+          <label for="address">{{ $t('surname') }}:</label>
           {{user.surname}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="address">Email: </label>
-          {{user.email}}
-        </b-card-text>
-        <b-card-text class="card-text">
-          <label for="address">Phone: </label>
+          <label for="address">{{ $t('phone') }}:</label>
           {{user.phone}}
         </b-card-text>
         <div style="float: right;">

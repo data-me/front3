@@ -135,7 +135,7 @@ Nothing in this disclaimer will:</p>
 <li>Govern all liabilities arising under the disclaimer or in relation to the subject matter of this disclaimer, including liabilities arising in contract, in tort (including negligence) and for breach of statutory duty.
 To the extent that the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.</li></ul>
     </div>
-    <a href="/index">Go to home</a>
+    <a href="/index.html">Go home</a>
   </div>
 </template>
 

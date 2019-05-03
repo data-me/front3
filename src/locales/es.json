@@ -207,5 +207,7 @@
   "price": "Precio",
   "price_per_month": "5 EUR per month",
   "upgrade": "Suscribir",
-  "manage_users": "Gestionar usuarios"
+  "manage_users": "Gestionar usuarios",
+  "companies" : "Empresas",
+  "data_scientists": "Cientificos de Datos"
 }
