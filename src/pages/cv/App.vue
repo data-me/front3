@@ -30,26 +30,26 @@
 
       <div id="info">
         <b-card-text class="card-text">
-          <label for="name">Name:</label>
+          <label for="name">{{$t('name')}}:</label>
           {{this.form.name}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="surname">Surname:</label>
+          <label for="surname">{{$t('surname')}}:</label>
           {{this.form.surname}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="phone">Phone:</label>
+          <label for="phone">{{$t('phone')}}:</label>
           {{this.form.phone}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="email">Email:</label>
+          <label for="email">{{$t('email')}}:</label>
           {{this.form.email}}
         </b-card-text>
         <b-card-text class="card-text">
-          <label for="address">Address:</label>
+          <label for="address">{{$t('address')}}:</label>
           {{this.form.address}}
         </b-card-text>
-        <b-button class="mt-1" variant="success" block @click="toffleEditProfile">Edit</b-button>
+        <b-button class="mt-1" variant="success" block @click="toffleEditProfile">{{$t('edit')}}</b-button>
         <b-button
           class="mt-1"
           variant="success"
@@ -67,7 +67,7 @@
       <div id="info">
         <b-form @submit.prevent>
           <b-card-text class="card-text">
-            <label for="name">Name:</label>
+            <label for="name">{{$t('name')}}:</label>
             <b-input
               type="text"
               v-model="form.name"
@@ -78,7 +78,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="surname">Surname:</label>
+            <label for="surname">{{$t('surname')}}:</label>
             <b-input
               type="text"
               v-model="form.surname"
@@ -89,7 +89,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="phone">Phone:</label>
+            <label for="phone">{{$t('phone')}}:</label>
             <b-input
               type="text"
               v-model="form.phone"
@@ -99,7 +99,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="email">Email:</label>
+            <label for="email">{{$t('email')}}:</label>
             <b-input
               type="text"
               v-model="form.email"
@@ -110,7 +110,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="address">Address:</label>
+            <label for="address">{{$t('address')}}:</label>
             <b-input
               type="text"
               v-model="form.address"
@@ -121,7 +121,7 @@
             />
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="address">Photo URL:</label>
+            <label for="address">{{$t('photo')}}:</label>
             <b-input
               type="text"
               v-model="form.photo"
@@ -154,8 +154,8 @@
       <div v-bind:key="item2.id" id="cv_items_sub" v-for="item2 in item.Items">
         <b-card :title="item2.name" :sub-title="item2.description">
           <b-card-text>{{item2.entity}}</b-card-text>
-          <b-card-text>Start date: {{item2.date_start}}</b-card-text>
-          <b-card-text>Finish date: {{item2.date_finish}}</b-card-text>
+          <b-card-text>{{$t('date_start')}}: {{item2.date_start}}</b-card-text>
+          <b-card-text>{{$t('date_finish')}}: {{item2.date_finish}}</b-card-text>
           <div style="float: right;" id="deleteoffer">
             <div style="float: left; margin-right: 10px">
               <b-button
@@ -357,7 +357,7 @@ export default {
     var token = "JWT " + this.$cookies.get("token");
 
     this.$http
-      .get("https://api3-datame.herokuapp.com/api/v2/get_user_logged", {
+      .get("http://localhost:8000/api/v2/get_user_logged", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -370,7 +370,7 @@ export default {
         this.form.address = this.user.address;
       });
 
-    this.$http.get('https://api3-datame.herokuapp.com/api/v3/section_names_available',{ headers:
+    this.$http.get('http://localhost:8000/api/v3/section_names_available',{ headers:
     { Authorization: token }
     }).then(result => {
         this.section_names = result.data;
@@ -378,7 +378,7 @@ export default {
 
 
     this.$http
-      .get("https://api3-datame.herokuapp.com/api/v1/cv", {
+      .get("http://localhost:8000/api/v1/cv", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -427,7 +427,7 @@ export default {
         formData.append("photo", this.form.photo);
         formData.append("address", this.form.address);
         this.$http
-          .post("https://api3-datame.herokuapp.com/api/v2/change_info", formData, {
+          .post("http://localhost:8000/api/v2/change_info", formData, {
             headers: { Authorization: token }
           })
           .then(result => {
@@ -489,7 +489,7 @@ export default {
         formData.append("secid", this.formDiobrando.secid);
         formData.append("itemid", this.formDiobrando.itemid);
         this.$http
-          .post("https://api3-datame.herokuapp.com/api/v1/item", formData, {
+          .post("http://localhost:8000/api/v1/item", formData, {
             headers: { Authorization: token }
           })
           .then(result => {
@@ -505,7 +505,7 @@ export default {
 
       if (confirm) {
         this.$http.delete(
-          "https://api3-datame.herokuapp.com/api/v2/data/delete_item/" + item_id,
+          "http://localhost:8000/api/v2/data/delete_item/" + item_id,
           {
             headers: {
               Authorization: token
@@ -521,7 +521,7 @@ export default {
 
       if (confirm) {
         this.$http.delete(
-          "https://api3-datame.herokuapp.com/api/v2/data/delete_section/" + section_id,
+          "http://localhost:8000/api/v2/data/delete_section/" + section_id,
           {
             headers: {
               Authorization: token

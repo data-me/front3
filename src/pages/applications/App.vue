@@ -85,27 +85,27 @@
         hide-footer
         ref="detailedDataScientist"
         size="xl"
-        title="Data Scientist's details"
+        :title="$t('datascientistdetails')"
       >
         <div id="info">
           <b-card-text class="card-text">
-            <label for="name">Name:</label>
+            <label for="name">{{$t('name')}}:</label>
             {{this.name}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="surname">Surnamez:</label>
+            <label for="surname">{{$t('surname')}}:</label>
             {{this.surname}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="phone">Phone:</label>
+            <label for="phone">{{$t('phone')}}:</label>
             {{this.phone}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="email">Email:</label>
+            <label for="email">{{$t('email')}}:</label>
             {{this.email}}
           </b-card-text>
           <b-card-text class="card-text">
-            <label for="address">Address:</label>
+            <label for="address">{{$t('address')}}:</label>
             {{this.address}}
           </b-card-text>
         </div>
@@ -191,7 +191,7 @@ export default {
     }
 
     this.$http
-      .get("https://api3-datame.herokuapp.com/api/v1/apply", {
+      .get("http://localhost:8000/api/v1/apply", {
         headers: { Authorization: token }
       })
       .then(result => {
@@ -211,7 +211,7 @@ export default {
       var token = "JWT " + this.$cookies.get("token");
       this.$http
         .get(
-          "https://api3-datame.herokuapp.com/api/v1/dataScientist?dataScientistId=" +
+          "http://localhost:8000/api/v1/dataScientist?dataScientistId=" +
             this.idDataScientist,
           {
             headers: { Authorization: token }
@@ -228,7 +228,7 @@ export default {
         });
       this.$http
         .get(
-          "https://api3-datame.herokuapp.com/api/v1/cv?dataScientistId=" +
+          "http://localhost:8000/api/v1/cv?dataScientistId=" +
             this.idDataScientist,
           { headers: { Authorization: token } }
         )
@@ -258,7 +258,7 @@ export default {
         formData.append("file", this.submitForm.file);
         formData.append("offerId", this.idOffer);
         this.$http
-          .post("https://api3-datame.herokuapp.com/api/v1/submit", formData, {
+          .post("http://localhost:8000/api/v1/submit", formData, {
             headers: { Authorization: token }
           })
           .then(result => {

@@ -11,7 +11,7 @@
   <b-card no-body>
     <b-card-header header-tag="header" class="p-3" role="tab">
       <b-button block v-b-toggle="'accordion-' + index" variant="outline-primary" @click='onClickButton'>
-        {{item.title}} 
+        {{item.title}}
       </b-button>
     </b-card-header>
     <b-collapse :id="'accordion-'+index" accordion="my-accordion" role="tabpanel">
@@ -32,7 +32,7 @@
         </div>
         <div v-if="user_type === 'com'">
         <b-link href="#" class="card-link" v-show="isCompany" @click="toggleAcceptApply(item.id, $t('confirm_accept_application'))">{{$t('accept')}}</b-link>
-      
+
         <b-link href="#" class="card-link" v-b-modal.showDataScientist variant="outline-primary" @click="onClickButton2">{{$t('show_ds')}}</b-link>
         </div>
 
@@ -130,7 +130,7 @@ Vue.use(VueRouter)
        var token = 'JWT ' + this.$cookies.get('token')
        var formAccept = new FormData()
        formAccept.append('applyId', id)
-       this.$http.post('https://api3-datame.herokuapp.com/api/v1/check_submition', formAccept, { headers:
+       this.$http.post('http://localhost:8000/api/v1/check_submition', formAccept, { headers:
       { Authorization: token }
       }).then((result) => {
           this.permissions = String (result.data.message)
@@ -147,7 +147,7 @@ Vue.use(VueRouter)
     },
       getOffer(offerId){
     var token = 'JWT ' + this.$cookies.get('token')
-    this.$http.get('https://api3-datame.herokuapp.com/api/v1/offer?offerId=' + offerId,{ headers:
+    this.$http.get('http://localhost:8000/api/v1/offer?offerId=' + offerId,{ headers:
       { Authorization: token }
       }).then((result) => {
         this.offertodl = result.data,
@@ -165,7 +165,7 @@ Vue.use(VueRouter)
           var token = 'JWT ' + this.$cookies.get('token')
           var formAccept = new FormData()
           formAccept.append('idApply', id)
-          this.$http.post('https://api3-datame.herokuapp.com/api/v1/accept', formAccept, { headers:
+          this.$http.post('http://localhost:8000/api/v1/accept', formAccept, { headers:
           { Authorization: token }
           }).then((result) => {
               alert("Successfully accepted apply")
@@ -177,7 +177,7 @@ Vue.use(VueRouter)
      deleteApplication(applicationId, text) {
       if(confirm(text)){
         var token = 'JWT ' + this.$cookies.get('token')
-        this.$http.delete('https://api3-datame.herokuapp.com/api/v2/application/' + applicationId, { headers: { Authorization: token }}).then((result) => {
+        this.$http.delete('http://localhost:8000/api/v2/application/' + applicationId, { headers: { Authorization: token }}).then((result) => {
             if (result.data.code == '200') {
               alert(this.$t('delete_app_success'))
             }
@@ -199,7 +199,7 @@ Vue.use(VueRouter)
       var body = new FormData()
       body.append('description', this.applyDescription)
 
-       this.$http.post('https://api3-datame.herokuapp.com/api/v2/application/' + this.applicationId, body, { headers:
+       this.$http.post('http://localhost:8000/api/v2/application/' + this.applicationId, body, { headers:
         { Authorization: token }
         }).then((result) => {
             if (result.data.code == '200') {

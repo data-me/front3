@@ -183,7 +183,19 @@
   "create_notification": "Crear una nueva notificación",
   "create_message": "Crear un nuevo mensaje",
   "notification_tooltip": "Esta notificación es enviada a todos los usuarios de la aplicación via email, su uso está destinado para notificar brechas de seguridad en el sistema",
-   "nothing_to_show": "�Lo sentimos! Ahora mismo no hay nada para mostrar...",
-   "num_applicantions": "Candidatos",
-   "advertisement": "Anuncio"
+  "nothing_to_show": "�Lo sentimos! Ahora mismo no hay nada para mostrar...",
+  "num_applicantions": "Candidatos",
+  "advertisement": "Anuncio",
+  "deleteme": "Borrar todos mis datos",
+  "newsectionitem": "Nuevo item en sección",
+  "save": "Guardar",
+  "datascientistdetails": "Detalles del ciéntifico de datos",
+  "received_messages": "Mensajes recibidos",
+  "message_title_helpblock": "El asunto principal del mensaje, máximo 100 caracteres.",
+  "body": "Cuerpo",
+  "message_body_helpblock": "El cuerpo del mensaje, máximo 1000 caracteres.",
+  "search_receiver": "Buscar receptor",
+  "message_receiver_helpblock": "El nombre de usuario del receptor para tu mensaje.",
+  "message_create": "Crear mensaje",
+  "message_receiver_placeholder": "Comienza a escribir el nombre de usuario"
 }

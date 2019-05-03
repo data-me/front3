@@ -23,14 +23,14 @@ export default {
         var token = "JWT " + this.$cookies.get("token");
 
         this.$http
-        .get("https://api3-datame.herokuapp.com/api/v2/list_dataScientists", {
+        .get("http://localhost:8000/api/v2/list_dataScientists", {
         headers: { Authorization: token }
       }).then(result => {
           this.dataScientistsList = result.data;
       })
 
     },
-    
+
 }
 </script>
 <style>
@@ -38,5 +38,3 @@ export default {
     margin: 2em;
 }
 </style>
-
-

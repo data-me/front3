@@ -124,7 +124,7 @@
     </div>
 
     <!-- Editing offer -->
-    <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" title="Edit Offer">
+    <b-modal id="EditOffer" hide-footer ref="editOffer" size="xl" :title="$t('edit_offer')">
       <b-form @submit.prevent>
         <label for="title">{{$t('title')}}</label>
         <b-input

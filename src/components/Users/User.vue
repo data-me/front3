@@ -17,7 +17,7 @@
           {{user.phone}}
         </b-card-text>
         <div style="float: right;">
-            <b-button 
+            <b-button
               variant="danger"
               class="mt-2"
               block
@@ -43,7 +43,7 @@ export default {
             const formData = new FormData();
             formData.append('user_id', user_id);
             this.$http
-            .post(" https://api3-datame.herokuapp.com/api/v2/delete_user", formData, {
+            .post(" http://localhost:8000/api/v2/delete_user", formData, {
                 headers: { Authorization: token }
             }).then((result) => {
                   location.reload();
