@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>{{$t('user_plan_current')}}</h2>
-        <b-card class="display-current-user-plan" :title="userPlan.currentUserPlan" :sub-title="userPlan.expirationDate.slice(0,10)">
+        <b-card class="display-current-user-plan text-center" :header="$t('user_plan_current')" :title="userPlan.currentUserPlan" :sub-title="userPlan.expirationDate.slice(0,10)">
           <b-card-text >
           </b-card-text>
         </b-card>

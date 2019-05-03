@@ -1,21 +1,33 @@
 <template>
   <div class="user-plan-form">
     <h4>{{$t('upgrade_to_PRO')}}</h4>
-    <b-form  @submit.prevent @submit="onSubmit">
-      <b-col sm="9">
-          <label for="nMonths">{{$t('user_plan_nmonths')}}</label>
-      </b-col>
-      <b-col sm="9">
-        <b-form-input
-            id="nMonths"
-            v-model="userPlanForm.nMonths"
-            required
-            :state="this.userPlanForm.nMonths.length> 0 && this.userPlanForm.nMonths>0"
-        ></b-form-input>
-        <br/>
-        <b-button class="send-button" type="submit" variant="primary">{{$t('send')}}</b-button>
-      </b-col>
-    </b-form>
+    <b-button v-b-modal.user-plan-form>{{$t('upgrade')}}</b-button>
+
+
+    <b-modal id="user-plan-form" hide-footer size="x1" :title="$t('upgrade_user_plan')">
+      <b-form  @submit.prevent @submit="onSubmit">
+        <b-container fluid>
+          <b-col sm="9">
+              <label for="nMonths">{{$t('user_plan_nmonths')}}</label>
+          </b-col>
+          <b-col sm="9">
+            <b-form-input
+                id="nMonths"
+                v-model="userPlanForm.nMonths"
+                required
+                type="number"
+                :state="this.userPlanForm.nMonths.length> 0 && this.userPlanForm.nMonths>0 && parseInt(this.userPlanForm.nMonths) <= parseInt(this.maxMonthsToExtend)"
+            />
+            <b-form-invalid-feedback id="input-live-feedback">
+              {{$t('user_plan_nmonths_warning')}}
+            </b-form-invalid-feedback>
+            <br/>
+            <b-button v-b-modal.user-plan-form class="send-button" type="submit" variant="primary">{{$t('send')}}</b-button>
+          </b-col>
+        </b-container>
+      </b-form>
+
+    </b-modal>
 
   </div>
 </template>
@@ -25,6 +37,7 @@
     name: 'UserPlanForm',
     data () {
       return {
+        maxMonthsToExtend:'',
         userPlanForm: {
           nMonths:'1',
         },
@@ -62,8 +75,18 @@
             window.location.href = this.redirect_url;
             }
           })
+      },
     },
-      }
+    mounted: function(){
+        var token = 'JWT ' + this.$cookies.get('token')
+        this.$http.get('http://localhost:8000/api/v2/currentUserPlan',{ headers:
+        { Authorization: token }
+            }).then((result) => {
+                this.maxMonthsToExtend = result.data["maxMonthsToExtend"];
+                console.log(this.maxMonthsToExtend);
+            })
+
+    }
     }
 
 </script>

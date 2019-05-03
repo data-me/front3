@@ -201,5 +201,10 @@
   "message_receiver_helpblock": "The username of the receiver of your message.",
   "message_create": "Create message",
   "message_receiver_placeholder": "Start typing the username",
-  "terms": "terms and conditions"
+  "terms": "terms and conditions",
+  "upgrade_user_plan": "Upgrade your User Plan",
+  "user_plan_nmonths_warning": "You cannot pay more than 24 month in advance or less than 1",
+  "price": "Price",
+  "price_per_month": "5 EUR per month",
+  "upgrade": "Upgrade"
 }
