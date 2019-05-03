@@ -172,7 +172,7 @@
   "export": "Exportar datos",
   "exportpdf": "Exportar como PDF",
   "exportraw": "Exportar como texto",
-  "terms_and_condition_claim": "Acepto los términos y condiciones",
+  "terms_and_condition_claim": "Acepto los ",
   "terms_error": "Debe aceptar los términos y condiciones",
   "cookie_message": "Nuestra web usa cookies para el correcto funcionamiento de la página. Nosotros no la usamos para rastrearte. Otras cookies de terceros (Google Ad Sense) sí podrían aportar una mejor personalización de los anuncios. Si no desea tener cookies debería abandonar esta página.",
   "learn_more_cookies": "Saber mas...",
@@ -198,4 +198,6 @@
   "message_receiver_helpblock": "El nombre de usuario del receptor para tu mensaje.",
   "message_create": "Crear mensaje",
   "message_receiver_placeholder": "Comienza a escribir el nombre de usuario"
+   "terms": "términos y condiciones"
+   "advertisement": "Anuncio",
 }
