@@ -168,7 +168,7 @@
   "score": "Puntuación",
   "search_placeholder_title_desc": "Título o descripción",
   "search_placeholder_price": "Precio",
-  "search_placeholder_date": "Fecha anterior a (dd-MM-yyyy hh:mm)",
+  "search_placeholder_date": "Fecha anterior a (yyyy-mm-dd)",
   "export": "Exportar datos",
   "exportpdf": "Exportar como PDF",
   "exportraw": "Exportar como texto",
